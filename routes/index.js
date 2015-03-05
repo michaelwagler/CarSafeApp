@@ -2,14 +2,16 @@ var express = require('express');
 var router = express.Router();
 var crypto = require('crypto'),
     User = require('../model/user.js');
-    //Post = require('./post.js');
 
+/**
+ *  Main routing file. Handles routing from application route path (eg. localhost/ ),
+ *  and basic user login and registration routes.
+ */
 
 router.get('/', function (req, res) {
         res.render('index', {
-            title: 'Main Page',
+            title: 'CarSafe',
             user: req.session.user,
-            //posts: posts,
             success: req.flash('success').toString(),
             error: req.flash('error').toString()
         });
@@ -51,18 +53,19 @@ router.post('/reg', function (req, res) {
             return res.redirect('/');
         }
         if (user) {
-            req.flash('error', 'Oh No Someone already took this username!');
+            req.flash('error', 'This username has already been taken');
             return res.redirect('/reg');
         }
-        //make a new user if doesn't already exist
+
         newUser.save(function (err, user) {
             if (err) {
                 req.flash('error', err);
-                return res.redirect('/reg');//fail, back to reg
+                return res.redirect('/reg');
             }
-            req.session.user = user;//save user info to session
+            //save user info to session
+            req.session.user = user;
             req.flash('success', 'Registered!');
-            res.redirect('/');//back to main page
+            res.redirect('/');
         });
     });
 });
@@ -96,11 +99,11 @@ router.post('/login', function (req, res) {
         }
         if (user.type=="admin")
         {
-            req.flash('success', 'Login success as an admin!')
+            req.flash('success', 'Login successfully as an admin!')
         }
         else
         {
-             req.flash('success', 'Login success as an user!');}
+             req.flash('success', 'Login successfully as an user!');}
         req.session.user = user;
         res.redirect('/');//jump back to main
     });
@@ -127,29 +130,6 @@ router.get('/logout', function (req, res) {
 });
 
 
-router.get('/u/:name', function (req, res) {
-
-    User.get(req.params.name, function (err, user) {
-        if (!user) {
-            req.flash('error', 'User does not exist!');
-            return res.redirect('/');
-        }
-        //query and return only articles from that username
-        Post.getAll(user.name, function (err, posts) {
-            if (err) {
-                req.flash('error', err);
-                return res.redirect('/');
-            }
-            res.render('user', {
-                title: user.name,
-                //posts: posts,
-                user : req.session.user,
-                success : req.flash('success').toString(),
-                error : req.flash('error').toString()
-            });
-        });
-    });
-});
 
 function checkLogin(req, res, next) {
     if (!req.session.user) {
@@ -179,7 +159,35 @@ function checkNotLogin(req, res, next) {
 module.exports = router;
 
 
-/****** Post stuff, don't need this right now*******/
+/****** POST STUFF FROM OLD DEMO, IGNORE FOR NOW*******/
+
+
+/*
+ router.get('/u/:name', function (req, res) {
+
+ User.get(req.params.name, function (err, user) {
+ if (!user) {
+ req.flash('error', 'User does not exist!');
+ return res.redirect('/');
+ }
+ //query and return only articles from that username
+ Post.getAll(user.name, function (err, posts) {
+ if (err) {
+ req.flash('error', err);
+ return res.redirect('/');
+ }
+ res.render('user', {
+ title: user.name,
+ //posts: posts,
+ user : req.session.user,
+ success : req.flash('success').toString(),
+ error : req.flash('error').toString()
+ });
+ });
+ });
+ });
+
+ */
 
 /*
  router.get('/post', checkLogin);

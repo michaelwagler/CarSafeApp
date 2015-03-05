@@ -6,7 +6,6 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
-var users = require('./routes/users');
 var flash = require('connect-flash');
 var settings = require('./config/settings');
 
@@ -14,7 +13,7 @@ var settings = require('./config/settings');
 
 var app = express();
 
-//Mongodb stuff
+// user session setup
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 
@@ -28,6 +27,7 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
