@@ -41,7 +41,8 @@ router.post('/reg', function (req, res) {
     var newUser = new User({
         name: name,
         password: password,
-        email: req.body.email
+        email: req.body.email,
+        type: req.body['type']
     });
     //check username is existed in database or not
     User.get(newUser.name, function (err, user) {
@@ -93,14 +94,29 @@ router.post('/login', function (req, res) {
             req.flash('error', 'Password incorrect!');
             return res.redirect('/login');//
         }
-
+        if (user.type=="admin")
+        {
+            req.flash('success', 'Login success as an admin!')
+        }
+        else
+        {
+             req.flash('success', 'Login success as an user!');}
         req.session.user = user;
-        req.flash('success', 'Login success!');
         res.redirect('/');//jump back to main
     });
 });
 
+router.get('/admin', checkLogin);
+router.get('/admin', checkLoginAdmin);
+router.get('/admin', function (req, res) {
 
+    res.render('admin', {
+        title: 'Admin Panel Page',
+        user: req.session.user,
+        success: req.flash('success').toString(),
+        error: req.flash('error').toString()});
+
+});
 
 
 router.get('/logout', checkLogin);
@@ -138,6 +154,14 @@ router.get('/u/:name', function (req, res) {
 function checkLogin(req, res, next) {
     if (!req.session.user) {
         req.flash('error', 'Unlogged in!');
+        res.redirect('/login');
+    }
+    next();
+}
+
+function checkLoginAdmin (req, res, next) {
+    if (!req.session.user|| req.session.user.type!="admin") {
+        req.flash('error', 'Unlogged in as an admin!');
         res.redirect('/login');
     }
     next();
