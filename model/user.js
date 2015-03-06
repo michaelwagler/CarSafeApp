@@ -21,10 +21,6 @@ var userSchema = new mongoose.Schema({
 
 var userModel = mongoose.model('User', userSchema);
 
-/*
-
-        Constructor function for user
-*/
 
 function User(user) {
     this.name = user.name;
@@ -49,7 +45,6 @@ User.prototype.save = function(callback) {
         callback(null, user);
     });
 };
-
 
 User.get = function(name, callback) {
     userModel.findOne({name: name},

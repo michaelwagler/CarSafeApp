@@ -1,12 +1,17 @@
+/**
+ *  Main routing file. handles requests to '/' and passes other requests to appropriate handlers.
+ */
+
 var express = require('express');
 var router = express.Router();
-var crypto = require('crypto'),
-    User = require('../model/user.js');
 
-/**
- *  Main routing file. Handles routing from application route path (eg. localhost/ ),
- *  and basic user login and registration routes.
- */
+var reg = require('./reg');
+var login = require('./login');
+var admin = require('./admin');
+
+var crypto = require('crypto');
+
+var User = require('../model/user.js');
 
 router.get('/', function (req, res) {
         res.render('index', {
@@ -17,146 +22,42 @@ router.get('/', function (req, res) {
         });
 });
 
-router.get('/reg', checkNotLogin);
-router.get('/reg', function (req, res) {
-    res.render('reg', {
-        title: 'Register',
-        user: req.session.user,
-        success: req.flash('success').toString(),
-        error: req.flash('error').toString()
-    });
-});
+/*
+ router.get('/reg', function (req, res) {
+ res.render('reg', {
+ title: 'Register',
+ user: req.session.user,
+ success: req.flash('success').toString(),
+ error: req.flash('error').toString()
+ });
+ });
+ */
 
-router.post('/reg', checkNotLogin);
-router.post('/reg', function (req, res) {
-    var name = req.body.name,
-        password = req.body.password,
-        password_re = req.body['password-repeat'];
-    //validator
-    if (password_re != password) {
-        req.flash('error', 'Password is not the same!');
-        return res.redirect('/reg');//back to reg
-    }
-    //create md5 of the password
-    var md5 = crypto.createHash('md5'),
-        password = md5.update(req.body.password).digest('hex');
-    var newUser = new User({
-        name: name,
-        password: password,
-        email: req.body.email,
-        type: req.body['type']
-    });
-    //check username is existed in database or not
-    User.get(newUser.name, function (err, user) {
-        if (err) {
-            req.flash('error', err);
-            return res.redirect('/');
-        }
-        if (user) {
-            req.flash('error', 'This username has already been taken');
-            return res.redirect('/reg');
-        }
+router.get('/reg', login.checkNotLogin);
+router.get('/reg', reg.get);
 
-        newUser.save(function (err, user) {
-            if (err) {
-                req.flash('error', err);
-                return res.redirect('/reg');
-            }
-            //save user info to session
-            req.session.user = user;
-            req.flash('success', 'Registered!');
-            res.redirect('/');
-        });
-    });
-});
+router.post('/reg', login.checkNotLogin);
+router.post('/reg', reg.post);
 
-router.get('/login', checkNotLogin);
-router.get('/login', function (req, res) {
+router.get('/login', login.checkNotLogin);
+router.get('/login', login.get);
 
-    res.render('login', {
-        title: 'Login Page!',
-        user: req.session.user,
-        success: req.flash('success').toString(),
-        error: req.flash('error').toString()});
+router.post('/login', login.checkNotLogin);
+router.post('/login', login.post);
 
-});
+router.get('/admin', login.checkLogin);
+router.get('/admin', login.checkLoginAdmin);
+router.get('/admin', admin);
 
-router.post('/login', checkNotLogin);
-router.post('/login', function (req, res) {
-
-    var md5 = crypto.createHash('md5'),
-        password = md5.update(req.body.password).digest('hex');
-
-    User.get(req.body.name, function (err, user) {
-        if (!user) {
-            req.flash('error', 'This username is unregistered!');
-            return res.redirect('/login');
-        }
-
-        if (user.password != password) {
-            req.flash('error', 'Password incorrect!');
-            return res.redirect('/login');//
-        }
-        if (user.type=="admin")
-        {
-            req.flash('success', 'Login successfully as an admin!')
-        }
-        else
-        {
-             req.flash('success', 'Login successfully as an user!');}
-        req.session.user = user;
-        res.redirect('/');//jump back to main
-    });
-});
-
-router.get('/admin', checkLogin);
-router.get('/admin', checkLoginAdmin);
-router.get('/admin', function (req, res) {
-
-    res.render('admin', {
-        title: 'Admin Panel Page',
-        user: req.session.user,
-        success: req.flash('success').toString(),
-        error: req.flash('error').toString()});
-
-});
-
-
-router.get('/logout', checkLogin);
-router.get('/logout', function (req, res) {
-    req.session.user = null;
-    req.flash('success', 'Successfully logged out!');
-    res.redirect('/');//Back to main
-});
-
-
-
-function checkLogin(req, res, next) {
-    if (!req.session.user) {
-        req.flash('error', 'Unlogged in!');
-        res.redirect('/login');
-    }
-    next();
-}
-
-function checkLoginAdmin (req, res, next) {
-    if (!req.session.user|| req.session.user.type!="admin") {
-        req.flash('error', 'Unlogged in as an admin!');
-        res.redirect('/login');
-    }
-    next();
-}
-
-function checkNotLogin(req, res, next) {
-    if (req.session.user) {
-        req.flash('error', 'Logged in!');
-        res.redirect('back');//back to previous page
-    }
-    next();
-}
-
+router.get('/logout', login.checkLogin);
+router.get('/logout', login.logout);
 
 module.exports = router;
+
+
+
+
+
 
 
 /****** POST STUFF FROM OLD DEMO, IGNORE FOR NOW*******/
