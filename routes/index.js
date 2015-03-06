@@ -133,7 +133,7 @@ router.get('/logout', function (req, res) {
 
 function checkLogin(req, res, next) {
     if (!req.session.user) {
-        req.flash('error', 'Unlogged in!');
+        req.flash('error', 'You are not logged in!');
         res.redirect('/login');
     }
     next();
@@ -141,7 +141,7 @@ function checkLogin(req, res, next) {
 
 function checkLoginAdmin (req, res, next) {
     if (!req.session.user|| req.session.user.type!="admin") {
-        req.flash('error', 'Unlogged in as an admin!');
+        req.flash('error', 'You are not logged in as an admin!');
         res.redirect('/login');
     }
     next();
