@@ -1,5 +1,7 @@
 /**
  * Created by michaelwagler on 2015-03-05.
+ *
+ * Callback functions for handling login requests
  */
 var crypto = require('crypto');
 var User = require('../model/user.js');

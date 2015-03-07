@@ -3,9 +3,8 @@
  */
 
 /**
- * General database settings and other app-wide settings will go here.
+ * General database settings and other app-wide settings.
  *
- * @type {{cookieSecret: string, uri: string}}
  */
 
 

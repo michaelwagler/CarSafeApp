@@ -1,15 +1,14 @@
 /**
  * Created by michaelwagler on 2015-03-05.
+ *
+ * User class and mongoose model. Provides a mongoose schema, defines user properties
+ * and database CRUD operations
  */
+
 var settings = require('../config/settings');
 var crypto = require('crypto');
 var mongoose = require('mongoose');
 mongoose.connect(settings.uri);
-
-/**
- * User class and mongoose model. Provides a mongoose schema, defines user properties
- * and database accessor methods.
- */
 
 var userSchema = new mongoose.Schema({
         name: String,

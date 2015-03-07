@@ -1,5 +1,7 @@
 /**
  * Created by michaelwagler on 2015-03-05.
+ *
+ * General tests file
  */
 var assert = require('assert');
 var request = require('superagent');

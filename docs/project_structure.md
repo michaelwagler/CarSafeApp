@@ -7,6 +7,7 @@
 <p>node_modules/</p>    <i>directory for installed dependencies </i>
 <p>public/</p>          <i>location for static files: js, css, images </i>
 <p>routes/</p>          <i>code that handles http requests and provide responses </i>
+<p>test/</p>            <i>location for all test files</i>
 <p>views/</p>           <i>location of templates that route code uses to render a response </i>
 <p>app.js </p>          <i>app setup code</i>
 <p>package.json </p>    <i>project configuration and dependency management</i>
