@@ -7,7 +7,7 @@ var User = require('../model/user.js');
 
 function get(req, res) {
     res.render('login', {
-        title: 'Login Page!',
+        title: 'Login',
         user: req.session.user,
         success: req.flash('success').toString(),
         error: req.flash('error').toString()});
@@ -21,21 +21,21 @@ function post(req, res) {
 
     User.get(req.body.name, function (err, user) {
         if (!user) {
-            req.flash('error', 'This username is unregistered!');
+            req.flash('error', 'There is no user account associated with this name');
             return res.redirect('/login');
         }
 
         if (user.password != password) {
-            req.flash('error', 'Password incorrect!');
+            req.flash('error', 'Incorrect password');
             return res.redirect('/login');//
         }
         if (user.type=="admin")
         {
-            req.flash('success', 'Login successfully as an admin!')
+            req.flash('success', 'Logged in as admin')
         }
         else
         {
-            req.flash('success', 'Login successfully as an user!');}
+            req.flash('success', 'Logged in');}
         req.session.user = user;
         res.redirect('/');//jump back to main
     });
@@ -43,7 +43,7 @@ function post(req, res) {
 
 function checkLogin(req, res, next) {
     if (!req.session.user) {
-        req.flash('error', 'Unlogged in!');
+        req.flash('error', 'Not logged in');
         res.redirect('/login');
     }
     next();
@@ -51,7 +51,7 @@ function checkLogin(req, res, next) {
 
 function checkLoginAdmin (req, res, next) {
     if (!req.session.user|| req.session.user.type!="admin") {
-        req.flash('error', 'Unlogged in as an admin!');
+        req.flash('error', 'Not logged in with an admin account');
         res.redirect('/login');
     }
     next();
@@ -59,7 +59,7 @@ function checkLoginAdmin (req, res, next) {
 
 function checkNotLogin(req, res, next) {
     if (req.session.user) {
-        req.flash('error', 'Logged in!');
+        req.flash('error', 'Logged in');
         res.redirect('back');//back to previous page
     }
     next();
@@ -67,7 +67,7 @@ function checkNotLogin(req, res, next) {
 
 function logout(req, res) {
     req.session.user = null;
-    req.flash('success', 'Successfully logged out!');
+    req.flash('success', 'Logged out');
     res.redirect('/');//Back to main
 }
 
