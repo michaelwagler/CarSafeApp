@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var flash = require('connect-flash');
-var settings = require('./config/settings');
+var config = require('./config');
 
 
 
@@ -18,11 +18,11 @@ var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 
 app.use(session({
-    secret: settings.cookieSecret,
-    url:settings.uri,
+    secret: config.cookieSecret,
+    url:config.uri,
     cookie: {maxAge: 1000 * 60 * 60 * 24 * 30},//30 days
     store: new MongoStore({
-        url: settings.uri
+        url: config.uri
     }),
     resave: true,
     saveUninitialized: true

@@ -5,10 +5,10 @@
  * and database CRUD operations
  */
 
-var settings = require('../config/settings');
+var config = require('../config');
 var crypto = require('crypto');
 var mongoose = require('mongoose');
-mongoose.connect(settings.uri);
+mongoose.connect(config.uri);
 
 var userSchema = new mongoose.Schema({
         name: String,

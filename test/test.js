@@ -11,10 +11,14 @@ var expect = require('chai').expect;
 
 // require www so app is running before tests start
 var server = require('../bin/www');
+var app = require('../app');
+
 
 
 before(function() {
     // code to run before tests
+    console.log('runs!!');
+    console.log(app.get('env'));
 
 });
 
