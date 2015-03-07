@@ -3,16 +3,21 @@
  *
  * General tests file
  */
+
 var assert = require('assert');
 var request = require('superagent');
 
 var expect = require('chai').expect;
 
-/*
+// require www so app is running before tests start
+var server = require('../bin/www');
+
+
 before(function() {
-    console.log('this runs before!')
+    // code to run before tests
+
 });
-*/
+
 
 describe("Test Suite 1", function() {
     describe('#indexOf()', function() {
@@ -27,19 +32,21 @@ describe("Test Suite 1", function() {
         })
     });
 
-    /*
+
     describe("a request", function() {
         it("should work", function(done) {
-            request.get("http://localhost:3000").end(function(res) {
+            request.get("http://localhost:3000/").end(function(err, res) {
+             expect(err).to.eql(null);
               expect(res).to.exist;
               expect(res.status).to.equal(200);
-              expect(res.body).to.contain("Car");
+                expect(res.body).to.exist;
+                expect(res.text).to.contain("CarSafe");
               done();
 
             });
 
         })
-    });*/
+    });
 });
 
 
