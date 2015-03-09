@@ -22,7 +22,8 @@
     "mongoose": "*",
     "morgan": "~1.5.1",
     "serve-favicon": "~2.2.0",
-    "superagent": "*"
+    "superagent": "*",
+    "underscore": "^1.8.2"
   },
   "engines": {
     "node": "0.10.x"
