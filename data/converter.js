@@ -18,7 +18,7 @@ var _ = require("underscore");
 var Converter=require("csvtojson").core.Converter;
 var fs=require("fs");
 
-var csvFileName="./crime_2014.csv";
+var csvFileName="../download_data/temp/crime_2014.csv";
 var fileStream=fs.createReadStream(csvFileName);
 //new converter instance
 var param={};
