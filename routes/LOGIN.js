@@ -46,7 +46,7 @@ function post(req, res) {
 function checkLogin(req, res, next) {
     if (!req.session.user) {
         req.flash('error', 'Not logged in');
-        res.redirect('/login');
+        return res.redirect('/login');
     }
     next();
 }
@@ -54,15 +54,15 @@ function checkLogin(req, res, next) {
 function checkLoginAdmin (req, res, next) {
     if (!req.session.user|| req.session.user.type!="admin") {
         req.flash('error', 'Not logged in with an admin account');
-        res.redirect('/login');
+        return res.redirect('back');
     }
     next();
 }
 
 function checkNotLogin(req, res, next) {
     if (req.session.user) {
-        req.flash('error', 'Logged in');
-        res.redirect('back');//back to previous page
+        req.flash('error', 'Already logged in!');
+        return res.redirect('back');//back to previous page
     }
     next();
 }
