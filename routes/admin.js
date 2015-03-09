@@ -10,13 +10,24 @@
  *  ---- All downloaded files are temporarily stored in download_data/temp/ folder
  */
 
+var User = require('../model/user.js');
+
 function get(req, res) {
+    var users= User.getAll(function (err, users)
+    {
+        if(err)
+            console.error(err);
+        else
+            console.log(users);
+    });
 
     res.render('admin', {
         title: 'Admin Panel Page',
         user: req.session.user,
         success: req.flash('success').toString(),
-        error: req.flash('error').toString()});
+        error: req.flash('error').toString()}
+
+    );
 
 }
 
