@@ -47,7 +47,8 @@ router.post('/login', login.post);
 
 
 router.get('/admin', login.checkLoginAdmin);
-router.get('/admin', admin);
+router.get('/admin', admin.get);
+router.post('/download', admin.download);
 
 router.get('/logout', login.checkLogin);
 router.get('/logout', login.logout);

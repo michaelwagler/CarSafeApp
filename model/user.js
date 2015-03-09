@@ -54,4 +54,16 @@ User.get = function(name, callback) {
             callback(null, user);
         });
 };
+
+User.getAll = function( callback){
+    userModel.find({}, 'name type',function(err, docs) {
+        if (!err){
+            console.log(docs);
+
+            callback(null, docs);
+        } else {
+            return callback(err);}
+    });
+
+};
 module.exports = User;

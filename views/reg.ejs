@@ -3,7 +3,10 @@
     Username:  <input type="text" name="name"/><br />
     Password：    <input type="password" name="password"/><br />
     Confirm your password：<input type="password" name="password-repeat"/><br />
-    Register as an administrator<input type="checkbox" name="type" value="admin"><br>
+    Register as an <select name="type">
+        <option value="user">User</option>
+        <option value="admin">Admin</option>
+    </select><br>
     Email：    <input type="email" name="email"/><br />
     <input type="submit" value="Register now!"/>
 </form>

@@ -5,3 +5,5 @@ node_modules
 .idea/mongoSettings.xml
 .idea/runConfigurations
 .idea/jsLibraryMappings.xml
+download_data/temp/*.xls
+download_data/temp/*.csv
