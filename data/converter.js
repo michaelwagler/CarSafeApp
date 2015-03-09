@@ -14,6 +14,7 @@
 
 var _ = require("underscore");
 
+
 //Converter Class
 var Converter=require("csvtojson").core.Converter;
 var fs=require("fs");
@@ -27,7 +28,7 @@ var csvConverter=new Converter(param);
 function filtr(jArray){
     for (var i = 0; i< jArray.length; i++){
         delete jArray[i].YEAR;
-        delete jArray[i].MONTH; //comment out to keep MONTH element
+        //delete jArray[i].MONTH; //comment out to keep MONTH element
         jArray[i].HUNDRED_BLOCK = jArray[i].HUNDRED_BLOCK.replace("XX", "00");
         jArray[i].HUNDRED_BLOCK = jArray[i].HUNDRED_BLOCK.replace("/", "AND");
     }
@@ -40,7 +41,15 @@ csvConverter.on("end_parsed",function(jsonObj){
     });
     filtr(filtered);
     console.log(filtered);
+
 });
 
-//read from file
+//delete this later
 fileStream.pipe(csvConverter);
+
+//read from file
+function parseData(){
+    fileStream.pipe(csvConverter);
+}
+
+module.exports = parseData;
