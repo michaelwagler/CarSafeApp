@@ -13,21 +13,19 @@
 var User = require('../model/user.js');
 
 function get(req, res) {
-    var users= User.getAll(function (err, users)
+    var allUsers= User.getAll(function (err, allUsers)
     {
-        if(err)
-            console.error(err);
-        else
-            console.log(users);
+        res.render('admin', {
+                title: 'Admin Panel Page',
+                user: req.session.user,
+                success: req.flash('success').toString(),
+                error: req.flash('error').toString(),
+                listUser:allUsers
+            }
+        );
     });
 
-    res.render('admin', {
-        title: 'Admin Panel Page',
-        user: req.session.user,
-        success: req.flash('success').toString(),
-        error: req.flash('error').toString()}
 
-    );
 
 }
 
@@ -36,33 +34,36 @@ function download(req,res) {
 
     if(!isAFTPLink(link))
     {
-        req.flash('error', 'LINK cannot be invalid!');
+        req.flash('error', 'Link must be a valid FTP link!');
         return res.redirect('/admin');
     }
-        //console.log(getFTPFilename(link));
-        //console.log(getFTPHost(link));
-        //console.log(getFTPLink(link));
-        var JSFtp = require("jsftp");
+    else if(!isCSV(link))
+    {
+        req.flash('error', 'File Extension must be .csv!');
+        return res.redirect('/admin');
+    }
 
-        var ftp = new JSFtp({
+    var JSFtp = require("jsftp");
+
+    var ftp = new JSFtp({
             host: getFTPHost(link),
             port: 21, // defaults to 21
             user: "anonymous", // defaults to "anonymous"
             pass: "anonymous@" // defaults to "@"
         });
-        var filename = Date.now() + getFTPFilename(link);
-        var localpath = 'download_data/temp/'+filename;
-        console.log(filename);
+    var filename = "crime_data.csv";
+    var localpath = 'download_data/temp/'+filename;
+
 
     ftp.get(getFTPLink(link), localpath, function(hadErr) {
         if (hadErr){
-            //console.error('There was an error retrieving the file.');
-            req.flash('error', 'Cannot download file from provided FTP LINK!');
+
+            req.flash('error', 'Cannot download file from provided FTP LINK! File not found?');
             return res.redirect('/admin');
         }
 
         else {
-            console.log('File copied successfully!');
+
             req.flash('success', 'File copied successfully!');
             res.redirect("/admin");
         }
@@ -75,7 +76,6 @@ function getFTPLink(link)
 {
     var ftpLink;
     var startposFTPLink = 6;
-    console.log(link.length);
     for(var i=startposFTPLink; i<link.length;i++)
     {
         if(link.charAt(i)=='/')
@@ -90,7 +90,6 @@ function getFTPHost(link)
 {
     var host;
     var startposFTPLink = 6;
-    console.log(link.length);
     for(var i=startposFTPLink; i<link.length;i++)
     {
         if(link.charAt(i)=='/')
@@ -103,25 +102,32 @@ function getFTPHost(link)
     return null;
 }
 
-function getFTPFilename(link){
-    var filename;
-    for(var i=link.length-1; i>=0;i--)
-    {
-        if(link.charAt(i)=='/')
-        {
-            filename= link.substr(i+1);
-
-            return filename;
-        }
-    }
-}
+//function getFTPFilename(link){
+//    var filename;
+//    for(var i=link.length-1; i>=0;i--)
+//    {
+//        if(link.charAt(i)=='/')
+//        {
+//            filename= link.substr(i+1);
+//
+//            return filename;
+//        }
+//    }
+//    return null;
+//}
 
 function isAFTPLink(link){
     var aLink = link+"";
-    console.log(aLink.substr(0,6));
+    //console.log(aLink.substr(0,6));
     if(aLink=="") return false;
     else return aLink.substr(0, 6).toLowerCase() == "ftp://";
 
+}
+
+function isCSV(link){
+    var link = link+"";
+    link=link.substr(link.length-4).toLowerCase();
+    return link==".csv";
 }
 
 module.exports = {
