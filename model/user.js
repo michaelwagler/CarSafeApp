@@ -67,7 +67,7 @@ User.remove = function(name, callback) {
 
 
 User.getAll = function( callback){
-    userModel.find({},function(err, docs) {
+    userModel.find({},'user type',function(err, docs) {
         if (!err){
             console.log(docs);
 
