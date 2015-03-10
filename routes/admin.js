@@ -24,9 +24,6 @@ function get(req, res) {
             }
         );
     });
-
-
-
 }
 
 function download(req,res) {
