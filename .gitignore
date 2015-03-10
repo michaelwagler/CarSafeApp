@@ -1,6 +1,7 @@
 node_modules
 .idea/*.iws
 .idea/workspace.xml
+.idea/runConfigurations/bin_www.xml
 .idea/tasks.xml
 .idea/mongoSettings.xml
 .idea/runConfigurations/*

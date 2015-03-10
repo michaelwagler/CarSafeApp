@@ -67,13 +67,13 @@ User.remove = function(name, callback) {
 
 
 User.getAll = function( callback){
-    userModel.find({}, 'name type',function(err, docs) {
+    userModel.find({},function(err, docs) {
         if (!err){
             console.log(docs);
 
             callback(null, docs);
         } else {
-            return callback(err);}
+            return callback("",err);}
     });
 
 };

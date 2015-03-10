@@ -14,11 +14,12 @@
 
 var _ = require("underscore");
 
+
 //Converter Class
 var Converter=require("csvtojson").core.Converter;
 var fs=require("fs");
 
-var csvFileName="./crime_2014.csv";
+var csvFileName="../download_data/temp/crime_2014.csv";
 var fileStream=fs.createReadStream(csvFileName);
 //new converter instance
 var param={};
@@ -27,7 +28,7 @@ var csvConverter=new Converter(param);
 function filtr(jArray){
     for (var i = 0; i< jArray.length; i++){
         delete jArray[i].YEAR;
-        delete jArray[i].MONTH; //uncomment to delete MONTH element
+        //delete jArray[i].MONTH; //comment out to keep MONTH element
         jArray[i].HUNDRED_BLOCK = jArray[i].HUNDRED_BLOCK.replace("XX", "00");
         jArray[i].HUNDRED_BLOCK = jArray[i].HUNDRED_BLOCK.replace("/", "AND");
     }
@@ -35,13 +36,20 @@ function filtr(jArray){
 
 //end_parsed will be emitted once parsing finished
 csvConverter.on("end_parsed",function(jsonObj){
-    var filtered = _.where(jsonObj, {TYPE: 'Theft Of Auto Under $5000'});
-    var filtered2 = _.where(jsonObj, {TYPE: 'Theft Of Auto Over $5000'});
+    var filtered = _.filter(jsonObj, function(item){
+        return (item.TYPE == "Theft Of Auto Under $5000" || item.TYPE == "Theft Of Auto Over $5000");
+    });
     filtr(filtered);
-    filtr(filtered2);
-    console.log(filtered); //here is your result json object
-    console.log(filtered2);
+    console.log(filtered);
+
 });
 
-//read from file
+//delete this later
 fileStream.pipe(csvConverter);
+
+//read from file
+function parseData(){
+    fileStream.pipe(csvConverter);
+}
+
+module.exports = parseData;
