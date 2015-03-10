@@ -8,18 +8,17 @@
  *
  * Parser source code: https://github.com/Keyang/node-csvtojson
  * Help for filter: http://stackoverflow.com/questions/25514876/how-to-filter-json-data-in-node-js
- * String help: http://stackoverflow.com/questions/6108812/node-js-string-contains-another-string
- * Replace string help: http://stackoverflow.com/questions/21162097/node-js-string-replace-doesnt-work
  */
 
 var _ = require("underscore");
+var Crime = require('../model/crime_entry');
 
 
 //Converter Class
 var Converter=require("csvtojson").core.Converter;
 var fs=require("fs");
 
-var csvFileName="../download_data/temp/crime_2014.csv";
+var csvFileName="./download_data/temp/crime_2014.csv";
 var fileStream=fs.createReadStream(csvFileName);
 //new converter instance
 var param={};
@@ -34,6 +33,29 @@ function filtr(jArray){
     }
 }
 
+function saveCrimes(jArray){
+    Crime.removeAll(function(err){
+        if (err){
+            console.error(err);
+        }
+    });
+    for (var i = 0; i< jArray.length; i++){
+        var type = jArray[i].TYPE,
+            month = parseInt(jArray[i].MONTH),
+            address = jArray[i].HUNDRED_BLOCK;
+        var newCrime = new Crime({
+            type: type,
+            month: month,
+            address: address
+        });
+        newCrime.save(function(err, crime){
+            if(err){
+                console.error(err);
+            }
+        })
+    }
+}
+
 //end_parsed will be emitted once parsing finished
 csvConverter.on("end_parsed",function(jsonObj){
     var filtered = _.filter(jsonObj, function(item){
@@ -41,11 +63,8 @@ csvConverter.on("end_parsed",function(jsonObj){
     });
     filtr(filtered);
     console.log(filtered);
-
+    saveCrimes(filtered);
 });
-
-//delete this later
-fileStream.pipe(csvConverter);
 
 //read from file
 function parseData(){

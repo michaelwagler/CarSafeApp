@@ -4,7 +4,7 @@ node_modules
 .idea/runConfigurations/bin_www.xml
 .idea/tasks.xml
 .idea/mongoSettings.xml
-.idea/runConfigurations
+.idea/runConfigurations/*
 .idea/jsLibraryMappings.xml
 download_data/temp/*.xls
 download_data/temp/*.csv

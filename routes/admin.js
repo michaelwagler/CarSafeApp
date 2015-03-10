@@ -11,6 +11,7 @@
  */
 
 var User = require('../model/user.js');
+var converter = require('../data/converter');
 
 function get(req, res) {
     var allUsers= User.getAll(function (err, allUsers)
@@ -67,6 +68,14 @@ function download(req,res) {
     });
 
 
+}
+
+function update(req, res){
+    converter.parseData();
+    if(!res){
+        console.log(res);
+    }
+    res.redirect("/admin");
 }
 
 function getFTPLink(link)
