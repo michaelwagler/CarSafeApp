@@ -1,22 +1,32 @@
 <%- include header %>
 Admin Page
 <form method='post' action='/download' xmlns="http://www.w3.org/1999/html">
-    Download from (a link here)  <input type="url" name="link" style="width: 60%"/><br />
+    Download from: <input type="url" name="link" style="width: 70%"/>
     <button class="btnExample" type="submit" value="Submit">Download the file Now!</button>
 </form>
 
-Database Update
+<p>Database Update
 <form  method='post' action='/update'>
     <button class="btnExample" type="submit" value="Submit">Update the database now!</button>
 </form>
 
-User Management Interface (Only users are displayed)
+<p>User Management Interface (Only users are displayed)
+
+<table>
+<th>Username</th>
+<th>Operation</th>
 <%
 for (var user in listUser)
 {  if(listUser[user].type!="admin"){%>
-
-   <li><%=listUser[user].name%></li>
-
+    <tr>
+   <td><%=listUser[user].name%></td>
+   <td><form  method='post' action='/deleteUser'>
+           <button class="btnSmall" type="submit" value="Submit">Delete</button>
+       </form>
+     </td>
+    </tr>
 <%}}%>
+</table>
+
 
 <%- include footer %>

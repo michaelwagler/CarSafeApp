@@ -55,6 +55,17 @@ User.get = function(name, callback) {
         });
 };
 
+User.remove = function(name, callback) {
+    userModel.remove({name: name}, function(err) {
+        if (err) {
+            return callback(err);
+        }
+        callback(null);
+    });
+};
+
+
+
 User.getAll = function( callback){
     userModel.find({},function(err, docs) {
         if (!err){
