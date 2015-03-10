@@ -13,6 +13,9 @@ var config = require('./config');
 
 var app = express();
 
+app.appRoot = path.resolve(__dirname);
+
+
 // user session setup
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
