@@ -54,7 +54,7 @@ function checkLogin(req, res, next) {
 function checkLoginAdmin (req, res, next) {
     if (!req.session.user|| req.session.user.type!="admin") {
         req.flash('error', 'Not logged in with an admin account');
-        return res.redirect('back');
+        return res.redirect('/login');
     }
     next();
 }

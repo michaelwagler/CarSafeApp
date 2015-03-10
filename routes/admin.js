@@ -14,7 +14,7 @@ var User = require('../model/user.js');
 var converter = require('../util/converter.js');
 
 function get(req, res) {
-    var allUsers= User.getAll(function (err, allUsers)
+    User.getAll(function (err, allUsers)
     {
         res.render('admin', {
                 title: 'Admin Panel Page',
