@@ -24,7 +24,7 @@
     "serve-favicon": "~2.2.0",
     "superagent": "*",
     "underscore": "^1.8.2",
-    "ftp-get":"*"
+    "jsftp":"*"
   },
   "engines": {
     "node": "0.10.x"

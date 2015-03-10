@@ -49,7 +49,7 @@ router.post('/login', login.post);
 router.get('/admin', login.checkLoginAdmin);
 router.get('/admin', admin.get);
 router.post('/download', admin.download);
-//router.post('/update', admin.update);
+router.post('/update', admin.update);
 
 router.get('/logout', login.checkLogin);
 router.get('/logout', login.logout);
@@ -114,7 +114,7 @@ module.exports = router;
  req.flash('error', err);
  return res.redirect('/');
  }
- req.flash('success', 'Successfully posted some data!');
+ req.flash('success', 'Successfully posted some util!');
  res.redirect('/');//back to main
  });
  });
