@@ -2,13 +2,13 @@
  * Created by haihoang on 2015-03-09.
  *
  * Crime class and mongoose model. Provides a mongoose schema, defines crime properties
- * and database CRUD operations
+ * and database CRUD operations. Modeled after 'User' class
  *
  */
 
 var config = require('../config');
 var mongoose = require('mongoose');
-mongoose.connect(config.uri);
+mongoose.createConnection(config.uri);
 
 var crimeSchema = new mongoose.Schema({
         type: String,
@@ -27,7 +27,6 @@ function Crime(crime) {
 }
 
 Crime.prototype.save = function(callback) {
-
     var crime = {
         type: this.type,
         month: this.month,
@@ -42,14 +41,33 @@ Crime.prototype.save = function(callback) {
     });
 };
 
-Crime.get = function(name, callback) {
-    crimeModel.findOne({type: type},
+Crime.get = function(address, callback) {
+    crimeModel.findOne({address: address},
         function (err, crime) {
             if (err) {
                 return callback(err);
             }
             callback(null, crime);
         });
+};
+
+// Don't know if this works
+//Crime.remove = function(crime, callback){
+//    crimeModel.remove(crime, function(err){
+//        if (err){
+//            return callback(err);
+//        }
+//        callback(null, doc);
+//    });
+//};
+
+Crime.removeAll = function(callback){
+    crimeModel.remove({}, function(err){
+        if (err){
+            return callback(err);
+        }
+        callback(null);
+    })
 };
 
 Crime.getAll = function( callback){
