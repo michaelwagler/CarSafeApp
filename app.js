@@ -9,11 +9,13 @@ var index = require('./routes/index');
 var flash = require('connect-flash');
 var config = require('./config');
 
-
-
 var app = express();
 
-app.appRoot = path.resolve(__dirname);
+
+
+//console.log(path.dirname(require.main.filename));
+
+
 
 
 // user session setup

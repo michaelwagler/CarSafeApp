@@ -24,7 +24,8 @@
     "serve-favicon": "~2.2.0",
     "superagent": "*",
     "underscore": "^1.8.2",
-    "jsftp":"*"
+    "jsftp":"*",
+    "app-root-path":"*"
   },
   "engines": {
     "node": "0.10.x"
