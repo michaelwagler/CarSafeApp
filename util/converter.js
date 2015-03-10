@@ -13,13 +13,20 @@
 var _ = require("underscore");
 var Crime = require('../model/crime_entry');
 
-
 //Converter Class
 var Converter=require("csvtojson").core.Converter;
 var fs=require("fs");
 
-var csvFileName="../download_data/temp/crime_data.csv";
+var appRoot = require('app-root-path');
+
+var csvFileName= appRoot + "/download_data/temp/crime_data.csv";
+
+
+
+
 var fileStream=fs.createReadStream(csvFileName);
+
+
 //new converter instance
 var param={};
 var csvConverter=new Converter(param);
