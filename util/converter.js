@@ -18,7 +18,7 @@ var Crime = require('../model/crime_entry');
 var Converter=require("csvtojson").core.Converter;
 var fs=require("fs");
 
-var csvFileName="./download_data/temp/crime_2014.csv";
+var csvFileName="../download_data/temp/crime_data.csv";
 var fileStream=fs.createReadStream(csvFileName);
 //new converter instance
 var param={};
@@ -71,4 +71,4 @@ function parseData(){
     fileStream.pipe(csvConverter);
 }
 
-module.exports = parseData;
+module.exports = {parseData: parseData};

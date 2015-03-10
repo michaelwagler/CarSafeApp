@@ -11,7 +11,7 @@
  */
 
 var User = require('../model/user.js');
-var converter = require('../data/converter');
+var converter = require('../util/converter.js');
 
 function get(req, res) {
     var allUsers= User.getAll(function (err, allUsers)
@@ -75,6 +75,7 @@ function update(req, res){
     if(!res){
         console.log(res);
     }
+    req.flash('success', 'Data has been parsed and stored successfully!');
     res.redirect("/admin");
 }
 
@@ -138,5 +139,6 @@ function isCSV(link){
 
 module.exports = {
     get: get,
-    download: download
+    download: download,
+    update: update
 };
