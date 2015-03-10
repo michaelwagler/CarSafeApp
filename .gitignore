@@ -3,8 +3,7 @@ node_modules
 .idea/workspace.xml
 .idea/tasks.xml
 .idea/mongoSettings.xml
-.idea/runConfigurations
+.idea/runConfigurations/*
 .idea/jsLibraryMappings.xml
 download_data/temp/*.xls
 download_data/temp/*.csv
-.idea/runConfigurations/*.xmls
