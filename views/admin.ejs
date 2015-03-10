@@ -21,7 +21,7 @@ for (var user in listUser)
     <tr>
    <td><%=listUser[user].name%></td>
    <td><form  method='post' action='/deleteUser'>
-           <button class="btnSmall" type="submit" value="Submit">Delete</button>
+           <button class="btnSmall" name="userName" type="submit" value=<%=listUser[user].name%>>Delete</button>
        </form>
      </td>
     </tr>

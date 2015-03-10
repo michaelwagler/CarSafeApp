@@ -27,6 +27,27 @@ function get(req, res) {
     });
 }
 
+function deleteUser(req,res){
+    var userName = req.body['userName'];
+    User.remove(userName,function (err, result)
+    {
+       if(userName==""){
+            req.flash('error', 'username cannot be emptyl!');
+
+            return res.redirect('back');}
+       if(err)
+       {
+           req.flash('error', 'Error in deleting a user');
+
+           return res.redirect('back');
+       }
+
+        req.flash('error', 'A user is deleted');
+        res.redirect('back');
+    });
+}
+
+
 function download(req,res) {
     var link = req.body['link'];
 
@@ -50,7 +71,8 @@ function download(req,res) {
             pass: "anonymous@" // defaults to "@"
         });
     var filename = "crime_data.csv";
-    var localpath = 'download_data/temp/'+filename;
+
+    var localpath = '../download_data/temp/'+filename;
 
 
     ftp.get(getFTPLink(link), localpath, function(hadErr) {
@@ -72,6 +94,7 @@ function download(req,res) {
 
 function update(req, res){
     converter.parseData();
+
     if(!res){
         console.log(res);
     }
@@ -88,6 +111,7 @@ function getFTPLink(link)
         if(link.charAt(i)=='/')
         {
             ftpLink= link.substr(i+1);
+            console.log(ftpLink);
             return ftpLink;
         }
     }
@@ -137,8 +161,10 @@ function isCSV(link){
     return link==".csv";
 }
 
+
 module.exports = {
     get: get,
     download: download,
-    update: update
+    update: update,
+    deleteUser : deleteUser
 };
