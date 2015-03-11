@@ -23,13 +23,6 @@ var csvFileName= appRoot + "/download_data/temp/crime_data.csv";
 
 
 
-var fileStream=fs.createReadStream(csvFileName);
-
-
-//new converter instance
-var param={};
-var csvConverter=new Converter(param);
-
 function filtr(jArray){
     for (var i = 0; i< jArray.length; i++){
         delete jArray[i].YEAR;
@@ -62,19 +55,30 @@ function saveCrimes(jArray){
     }
 }
 
-//end_parsed will be emitted once parsing finished
-csvConverter.on("end_parsed",function(jsonObj){
-    var filtered = _.filter(jsonObj, function(item){
-        return (item.TYPE == "Theft Of Auto Under $5000" || item.TYPE == "Theft Of Auto Over $5000");
-    });
-    filtr(filtered);
-    console.log(filtered);
-    saveCrimes(filtered);
-});
 
 //read from file
 function parseData(){
+
+//new converter instance
+    var param={};
+
+    csvConverter=new Converter(param);
+
+    var fileStream=fs.createReadStream(csvFileName);
     fileStream.pipe(csvConverter);
+
+    //end_parsed will be emitted once parsing finished
+
+    csvConverter.on("end_parsed",function(jsonObj){
+        var filtered = _.filter(jsonObj, function(item){
+            return (item.TYPE == "Theft Of Auto Under $5000" || item.TYPE == "Theft Of Auto Over $5000");
+        });
+        filtr(filtered);
+        //console.log(filtered);
+        saveCrimes(filtered);
+        csvConverter.end();
+    });
+
 }
 
 module.exports = {parseData: parseData};

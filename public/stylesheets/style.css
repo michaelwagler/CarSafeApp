@@ -45,9 +45,9 @@ h2 {
 
     font-size: medium;
 }
-th, td {
+th, td{
     text-align: left;
-    width: 70%;
+    width: 40%;
     padding: 5px;
 }
 .btnExample:hover {

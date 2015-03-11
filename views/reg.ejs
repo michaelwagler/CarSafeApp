@@ -12,6 +12,8 @@
     <tr>
             <td>Register as an </td><td><select name="type"><option value="user">User</option><option value="admin">Admin</option>
             </select> </td>
+            <%if (this.type =="admin")
+                console.log("admin");%>
     </tr><tr>
             <td>Email：</td><td><input type="email" name="email"/></td>
         </tr>

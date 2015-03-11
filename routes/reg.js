@@ -28,6 +28,12 @@ var post = function (req, res) {
         req.flash('error', 'Password is not the same!');
         return res.redirect('/reg');//back to reg
     }
+
+    if(password||name=="")
+    {
+        req.flash('error', 'Username and Password cannot be empty');
+        return res.redirect('/reg');
+    }
     //create md5 of the password
     var md5 = crypto.createHash('md5'),
         password = md5.update(req.body.password).digest('hex');
