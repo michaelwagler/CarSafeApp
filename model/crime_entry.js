@@ -72,12 +72,6 @@ Crime.removeAll = function(callback){
     });
 };
 
-//Crime.removeAll(function(err){return});
-
-
-
-
-
 Crime.getAll = function( callback){
     crimeModel.find({}, 'type month address',function(err, docs) {
         if (!err){
