@@ -10,8 +10,6 @@ var login = require('./login');
 var admin = require('./admin');
 var crimeTable = require('./crimeTable');
 
-var crypto = require('crypto');
-
 var User = require('../model/user.js');
 
 router.get('/', function (req, res) {
