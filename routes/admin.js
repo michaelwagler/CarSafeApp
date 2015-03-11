@@ -14,8 +14,10 @@ var User = require('../model/user.js');
 var converter = require('../util/converter.js');
 
 function get(req, res) {
+
     User.getAll(function (err, allUsers)
     {
+        console.log(allUsers);
         res.render('admin', {
                 title: 'Admin Panel Page',
                 user: req.session.user,
@@ -42,11 +44,28 @@ function deleteUser(req,res){
            return res.redirect('back');
        }
 
-        req.flash('error', 'A user is deleted');
+        req.flash('success', 'A user is deleted');
         res.redirect('back');
     });
 }
 
+function becomeAdmin(req,res){
+    var userName = req.body['userName'];
+    User.setPrivilege(userName, 'admin',  function(err, result)
+    {
+        if(userName==""){
+            req.flash('error', 'username cannot be emptyl!');
+
+            return res.redirect('back');}
+        if(err){
+            req.flash('error', 'Error when changing user to admin!');
+
+            return res.redirect('back');
+        }
+        req.flash('success', 'The' + userName +' has become an admin!');
+        res.redirect('back');
+    });
+}
 
 function download(req,res) {
     var link = req.body['link'];
@@ -163,9 +182,12 @@ function isCSV(link){
 }
 
 
+
+
 module.exports = {
     get: get,
     download: download,
     update: update,
-    deleteUser : deleteUser
+    deleteUser : deleteUser,
+    becomeAdmin: becomeAdmin
 };

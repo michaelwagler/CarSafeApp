@@ -16,6 +16,8 @@ var get = function (req, res) {
         success: req.flash('success').toString(),
         error: req.flash('error').toString()
     });
+
+
 };
 
 
@@ -29,7 +31,7 @@ var post = function (req, res) {
         return res.redirect('/reg');//back to reg
     }
 
-    if(password||name=="")
+    if(password==""||name=="")
     {
         req.flash('error', 'Username and Password cannot be empty');
         return res.redirect('/reg');

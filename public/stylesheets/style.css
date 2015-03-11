@@ -27,7 +27,7 @@ h2 {
 
 .btnSmall {
     color: #5088ca;
-    height:20%;
+    height:80%;
     width: 80%;
     background: whitesmoke;
     border: whitesmoke;
@@ -39,15 +39,18 @@ h2 {
     border: whitesmoke;
     background: antiquewhite;
 }
-.tableBig {
-    width: 70%;
+table {
+    width: 100%;
     border-collapse: collapse;
+
+    border-bottom: 1px dashed grey;
+    border-top: 1px dashed grey ;
 
     font-size: medium;
 }
 th, td{
-    text-align: left;
-    width: 40%;
+    width: 25%;
+    text-align: center;
     padding: 5px;
 }
 .btnExample:hover {
