@@ -6,7 +6,6 @@
  */
 
 var config = require('../config');
-var crypto = require('crypto');
 var mongoose = require('mongoose');
 mongoose.connect(config.uri);
 
@@ -19,7 +18,6 @@ var userSchema = new mongoose.Schema({
     { collection: 'users' });
 
 var userModel = mongoose.model('User', userSchema);
-
 
 function User(user) {
     this.name = user.name;
