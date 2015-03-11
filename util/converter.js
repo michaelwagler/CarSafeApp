@@ -32,26 +32,31 @@ function filtr(jArray){
     }
 }
 
+function saveOneCrime(jArray, i) {
+    var type = jArray[i].TYPE,
+        month = parseInt(jArray[i].MONTH),
+        address = jArray[i].HUNDRED_BLOCK;
+    var newCrime = new Crime({
+        type: type,
+        month: month,
+        address: address
+    });
+    newCrime.save(function (err, crime) {
+        if (err) {
+            req.flash('error', 'Error when trying to save a crime into the database!');
+        }
+
+    });
+
+}
 function saveCrimes(jArray){
     Crime.removeAll(function(err){
         if (err){
             console.error(err);
         }
     });
-    for (var i = 0; i< jArray.length; i++){
-        var type = jArray[i].TYPE,
-            month = parseInt(jArray[i].MONTH),
-            address = jArray[i].HUNDRED_BLOCK;
-        var newCrime = new Crime({
-            type: type,
-            month: month,
-            address: address
-        });
-        newCrime.save(function(err, crime){
-            if(err){
-                console.error(err);
-            }
-        })
+    for (var i = 0; i< jArray.length; i++) {
+        saveOneCrime(jArray, i);
     }
 }
 

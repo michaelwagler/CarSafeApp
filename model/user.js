@@ -77,7 +77,7 @@ User.getAll = function( callback){
         if (!err){
             callback(null, docs);
         } else {
-            return callback("",err);}
+            return callback(null,err);}
     });
 
 };
