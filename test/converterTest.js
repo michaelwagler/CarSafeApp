@@ -11,28 +11,47 @@ var expect = require('chai').expect;
 var server = require('../bin/www');
 var app = require('../app');
 
-
+var crimeData = require('../model/crime_entry.js');
 
 before(function() {
+    var myCrime = new crimeData({
+        type: "Death Of A Salesman",
+        month: "1",
+        address: "123 Alma St"
+    });
+    var yourCrime = new crimeData({
+       type: "Speed",
+        month: "2",
+        address: "456 Boundary Rd"
+    });
+    myCrime.save(function(err){});
+    yourCrime.save(function(err){});
     // code to run before tests
     console.log('This is running!!');
     console.log(app.get('env'));
 
 });
 
-describe("Testing Parser", function() {
-    describe('#indexOf()', function() {
-        it('should return -1 when the value is not present', function() {
-            assert.equal(-1, [1, 2, 3].indexOf(5));
-            assert.equal(-1, [1, 2, 3].indexOf(0));
-
-            expect(4 + 5).to.equal(9);
-            expect(1).to.not.equal(-2);
-
+describe("Converter Tests", function() {
+    describe('Crime.getAll', function() {
+        it('should not return an error and have a length greater than 0', function() {
+            crimeData.getAll(function(err, crimes){
+                expect(err).to.equal(null);
+                expect(crimes).length.to.be.greaterThan(0);
+                expect(crimes).length.to.be.equal(2);
+            });
 
         })
     });
 
+    describe('Crime.get', function() {
+        it('should not return an error finds crime by address', function() {
+            crimeData.get("123 Alma St", function(err, crime){
+                expect(err).to.equal(null);
+                crime.address.should.equal("123 Alma St");
+            });
+        })
+    });
 
     describe("a request", function() {
         it("should work", function(done) {
@@ -48,4 +67,8 @@ describe("Testing Parser", function() {
 
         })
     });
+});
+
+after(function() {
+    crimeData.removeAll(function(err) {});
 });
