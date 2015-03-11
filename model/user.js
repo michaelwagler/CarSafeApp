@@ -70,7 +70,7 @@ User.setPrivilege= function(name, desiredPrivilege, callback){
     }
         callback(null);});
 
-}
+};
 
 User.getAll = function( callback){
     userModel.find({},'name type',function(err, docs) {
