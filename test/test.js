@@ -17,8 +17,6 @@ var app = require('../app');
 
 before(function() {
     // code to run before tests
-    console.log('runs!!');
-    console.log(app.get('env'));
 
 });
 
