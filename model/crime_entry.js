@@ -67,7 +67,7 @@ Crime.removeAll = function(callback){
             return callback(err);
         }
         callback(null);
-    })
+    });
 };
 
 Crime.getAll = function( callback){

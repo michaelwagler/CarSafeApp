@@ -53,7 +53,7 @@ function download(req,res) {
             pass: "anonymous@" // defaults to "@"
         });
     var filename = "crime_data.csv";
-    var localpath = 'download_data/temp/'+filename;
+    var localpath = '../download_data/temp/'+filename;
 
 
     ftp.get(getFTPLink(link), localpath, function(hadErr) {
