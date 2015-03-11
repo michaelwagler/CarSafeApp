@@ -12,6 +12,7 @@
 
 var User = require('../model/user.js');
 var converter = require('../util/converter.js');
+var appRoot = require('app-root-path');
 
 function get(req, res) {
 
@@ -54,7 +55,7 @@ function becomeAdmin(req,res){
     User.setPrivilege(userName, 'admin',  function(err, result)
     {
         if(userName==""){
-            req.flash('error', 'username cannot be emptyl!');
+            req.flash('error', 'username cannot be empty!');
 
             return res.redirect('back');}
         if(err){
@@ -90,10 +91,10 @@ function download(req,res) {
             pass: "anonymous@" // defaults to "@"
         });
     var filename = "crime_data.csv";
-    var localpath = '../download_data/temp/'+filename;
+    var localPath = appRoot+'/download_data/temp/'+filename;
 
 
-    ftp.get(getFTPLink(link), localpath, function(hadErr) {
+    ftp.get(getFTPLink(link), localPath, function(hadErr) {
         if (hadErr){
 
             req.flash('error', 'Cannot download file from provided FTP LINK! File not found?');
