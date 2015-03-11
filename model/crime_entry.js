@@ -62,13 +62,21 @@ Crime.get = function(address, callback) {
 //};
 
 Crime.removeAll = function(callback){
-    crimeModel.remove({}, function(err){
+    crimeModel.collection.drop(function(err){
+        console.log('called crime.removeAll()');
         if (err){
+            console.log('error');
             return callback(err);
         }
         callback(null);
     });
 };
+
+//Crime.removeAll(function(err){return});
+
+
+
+
 
 Crime.getAll = function( callback){
     crimeModel.find({}, 'type month address',function(err, docs) {

@@ -64,13 +64,19 @@ User.remove = function(name, callback) {
     });
 };
 
+User.setPrivilege= function(name, desiredPrivilege, callback){
 
+    userModel.findOneAndUpdate({name:name}, {$set: {type:desiredPrivilege}}, function(err){
+        if (err) {
+        return callback(err);
+    }
+        callback(null);});
+
+}
 
 User.getAll = function( callback){
-    userModel.find({},function(err, docs) {
+    userModel.find({},'name type',function(err, docs) {
         if (!err){
-            console.log(docs);
-
             callback(null, docs);
         } else {
             return callback("",err);}

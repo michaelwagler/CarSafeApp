@@ -14,8 +14,10 @@ var User = require('../model/user.js');
 var converter = require('../util/converter.js');
 
 function get(req, res) {
-    var allUsers= User.getAll(function (err, allUsers)
+
+    User.getAll(function (err, allUsers)
     {
+        console.log(allUsers);
         res.render('admin', {
                 title: 'Admin Panel Page',
                 user: req.session.user,
@@ -25,9 +27,44 @@ function get(req, res) {
             }
         );
     });
+}
 
+function deleteUser(req,res){
+    var userName = req.body['userName'];
+    User.remove(userName,function (err, result)
+    {
+       if(userName==""){
+            req.flash('error', 'username cannot be emptyl!');
 
+            return res.redirect('back');}
+       if(err)
+       {
+           req.flash('error', 'Error in deleting a user');
 
+           return res.redirect('back');
+       }
+
+        req.flash('success', 'A user is deleted');
+        res.redirect('back');
+    });
+}
+
+function becomeAdmin(req,res){
+    var userName = req.body['userName'];
+    User.setPrivilege(userName, 'admin',  function(err, result)
+    {
+        if(userName==""){
+            req.flash('error', 'username cannot be emptyl!');
+
+            return res.redirect('back');}
+        if(err){
+            req.flash('error', 'Error when changing user to admin!');
+
+            return res.redirect('back');
+        }
+        req.flash('success', 'The' + userName +' has become an admin!');
+        res.redirect('back');
+    });
 }
 
 function download(req,res) {
@@ -71,10 +108,12 @@ function download(req,res) {
     });
 
 
+
 }
 
 function update(req, res){
     converter.parseData();
+
     if(!res){
         console.log(res);
     }
@@ -91,6 +130,7 @@ function getFTPLink(link)
         if(link.charAt(i)=='/')
         {
             ftpLink= link.substr(i+1);
+            console.log(ftpLink);
             return ftpLink;
         }
     }
@@ -140,8 +180,13 @@ function isCSV(link){
     return link==".csv";
 }
 
+
+
+
 module.exports = {
     get: get,
     download: download,
-    update: update
+    update: update,
+    deleteUser : deleteUser,
+    becomeAdmin: becomeAdmin
 };

@@ -8,6 +8,7 @@ var router = express.Router();
 var reg = require('./reg');
 var login = require('./login');
 var admin = require('./admin');
+var crimeTable = require('./crimeTable');
 
 var crypto = require('crypto');
 
@@ -50,9 +51,13 @@ router.get('/admin', login.checkLoginAdmin);
 router.get('/admin', admin.get);
 router.post('/download', admin.download);
 router.post('/update', admin.update);
+router.post('/deleteUser', admin.deleteUser);
+router.post('/makeAdmin', admin.becomeAdmin);
 
 router.get('/logout', login.checkLogin);
 router.get('/logout', login.logout);
+
+router.get('/crimeTable', crimeTable.get);
 
 module.exports = router;
 

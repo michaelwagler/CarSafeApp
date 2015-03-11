@@ -1,0 +1,19 @@
+<%- include header %>
+
+<table id="tableBig">
+
+    <th>Crime Type</th>
+    <th>Month</th>
+    <th>Address</th>
+<%
+    for(var i in crimes){%>
+        <tr>
+            <td><%=crimes[i].type%></td>
+            <td><%=crimes[i].month%></td>
+            <td><%=crimes[i].address%></td>
+        </tr>
+    <%}%>
+
+</table>
+
+<%- include footer %>
