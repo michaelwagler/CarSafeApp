@@ -79,4 +79,4 @@ module.exports = {
     checkLogin: checkLogin,
     checkLoginAdmin: checkLoginAdmin,
     checkNotLogin: checkNotLogin,
-    logout:logout};
+    logout: logout};
