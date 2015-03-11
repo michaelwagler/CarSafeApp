@@ -153,32 +153,17 @@ function getFTPHost(link)
     return null;
 }
 
-//function getFTPFilename(link){
-//    var filename;
-//    for(var i=link.length-1; i>=0;i--)
-//    {
-//        if(link.charAt(i)=='/')
-//        {
-//            filename= link.substr(i+1);
-//
-//            return filename;
-//        }
-//    }
-//    return null;
-//}
 
 function isAFTPLink(link){
     var aLink = link+"";
-    //console.log(aLink.substr(0,6));
     if(aLink=="") return false;
     else return aLink.substr(0, 6).toLowerCase() == "ftp://";
 
 }
 
 function isCSV(link){
-    var link = link+"";
-    link=link.substr(link.length-4).toLowerCase();
-    return link==".csv";
+    var extension =link.substr(link.length-4).toLowerCase()+"";
+    return extension==".csv";
 }
 
 
