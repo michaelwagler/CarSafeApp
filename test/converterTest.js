@@ -49,6 +49,8 @@ describe("Converter Tests", function() {
             crimeData.get("123 Alma St", function(err, crime){
                 expect(err).to.equal(null);
                 crime.address.should.equal("123 Alma St");
+                crime.type.should.equal("Death Of A Salesman");
+                crime.month.should.equal("1");
             });
         })
     });
