@@ -64,11 +64,11 @@ User.remove = function(name, callback) {
 
 User.setPrivilege= function(name, desiredPrivilege, callback){
 
-    userModel.findOneAndUpdate({name:name}, {$set: {type:desiredPrivilege}}, function(err){
+    userModel.findOneAndUpdate({name:name}, {$set: {type:desiredPrivilege}}, function(err, doc){
         if (err) {
         return callback(err);
     }
-        callback(null);});
+        callback(null, doc);});
 
 };
 

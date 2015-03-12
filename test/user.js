@@ -10,6 +10,9 @@ var server = require('../bin/www');
 var app = require('../app');
 
 var User = require('../model/user');
+var admin = require('../routes/admin');
+
+
 before(function() {
     var user = new User({
         name: "Baber",
@@ -29,28 +32,32 @@ describe("User Tests", function() {
 
             User.getAll(function(err, users) {
                 expect(err).to.eql(null);
-                expect(users).length.to.be.greaterThan(0);
+                expect(users.length).to.be.greaterThan(0);
+            });
 
+            var user = new User({
+                name: "Hai",
+                password: "ketchup",
+                email: "purple@gmail.com",
+                type: "user"
+            });
+            user.save(function(err, hai) {
+                expect(hai.type).to.equal("user");
+                User.setPrivilege(hai, "admin", function(err, hai) {
+                    //expect(hai.type).to.equal("admin");
+
+                });
             });
 
 
-        })
-    });
-
-
-    describe("a request", function() {
-        it("should work", function(done) {
-            request.get("http://localhost:3000/").end(function(err, res) {
-                expect(err).to.eql(null);
-                expect(res).to.exist;
-                expect(res.status).to.equal(200);
-                expect(res.body).to.exist;
-                expect(res.text).to.contain("CarSafe");
-                done();
-
+            User.getAll(function(err, users) {
+                expect(users.length).to.equal(2);
             });
-
-        })
+            User.remove("Hai", function(err) {});
+            User.getAll(function(err, users) {
+                expect(users.length).to.equal(1);
+            });
+        });
     });
 });
 
