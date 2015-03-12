@@ -1,3 +1,8 @@
 <%- include header %>
+
+<% if (user) { %>
+Welcome to CarSafe, <%=user.name%>!
+<% } else { %>
 Welcome to CarSafe!
+<% } %>
 <%- include footer %>
