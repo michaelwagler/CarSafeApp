@@ -72,7 +72,7 @@ User.setPrivilege= function(name, desiredPrivilege, callback){
 };
 
 User.getAll = function( callback){
-    userModel.find({},'name type',function(err, docs) {
+    userModel.find({},'name email type',function(err, docs) {
         if (!err){
             callback(null, docs);
         } else {

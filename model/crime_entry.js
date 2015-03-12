@@ -62,9 +62,8 @@ Crime.get = function(address, callback) {
 
 Crime.removeAll = function(callback){
     crimeModel.collection.drop(function(err){
-        console.log('called crime.removeAll()');
+        //console.log('called crime.removeAll()');
         if (err){
-            console.log('error:', err);
             return callback(err);
         }
         callback(null);

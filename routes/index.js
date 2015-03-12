@@ -36,6 +36,7 @@ router.post('/login', login.post);
 
 router.get('/admin', login.checkLoginAdmin);
 router.get('/admin', admin.get);
+
 router.post('/download', admin.download);
 router.post('/update', admin.update);
 router.post('/deleteUser', admin.deleteUser);

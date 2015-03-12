@@ -12,17 +12,17 @@
 
 <p><h2>User Management Interface</h2></p>
 
-<table>
-<th>Username</th><th>User Type</th><th colspan="2">Operation</th>
+<table id="userTable">
+<th width="20%" >Username</th><th width="20%">Email</th><th width="10%">User Type</th><th width="50%" colspan="2">Operation</th>
 <%
 for (var aUser in listUser)
 {  if(listUser[aUser].name!=user.name){%>
     <tr>
-   <td><%=listUser[aUser].name%></td><td><%=listUser[aUser].type%></td>
-   <td><%if(listUser[aUser].type!="admin"){%><form  method='post' action='/deleteUser'>
+   <td width="20%"><%=listUser[aUser].name%></td><td><%=listUser[aUser].email%></td><td><%=listUser[aUser].type%></td>
+   <td width="20%"><%if(listUser[aUser].type!="admin"){%><form  method='post' action='/deleteUser'>
            <button class="btnSmall" name="userName" type="submit" value=<%=listUser[aUser].name%>>Delete</button>
        </form>
-   </td>    <td>
+   </td>    <td width="20%">
        <form  method='post' action='/makeAdmin'>
            <button class="btnSmall" name="userName" type="submit" value=<%=listUser[aUser].name%>>Make Admin</button>
        </form><%}%>

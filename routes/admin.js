@@ -18,7 +18,7 @@ function get(req, res) {
 
     User.getAll(function (err, allUsers)
     {
-        console.log(allUsers);
+
         res.render('admin', {
                 title: 'Admin Panel Page',
                 user: req.session.user,
