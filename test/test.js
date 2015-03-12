@@ -4,6 +4,7 @@
  * General HTTP request tests
  */
 
+var util = require('./util');
 var assert = require('assert');
 var request = require('superagent');
 
@@ -17,6 +18,8 @@ var app = require('../app');
 
 
 var michael;
+
+
 before(function() {
     // code to run before tests
     var user = new User({
@@ -47,7 +50,7 @@ describe("Testing http requests", function() {
     it("Going to admin panel when not an admin should redirect to login", function(done) {
         request.get("localhost:3000/admin").end(function(err, res) {
            expect(res.status).to.equal(200);
-            expect(res.text).to.contain('Login');
+            expect(res.text).to.contain('Main');
         });
         done();
     });

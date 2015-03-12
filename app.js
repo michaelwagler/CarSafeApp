@@ -34,7 +34,11 @@ app.use(session({
 }));
 
 // only do this ONCE in the app to intiate DB connection
-mongoose.connect(config.uri);
+if (process.env.NODE_ENV != 'testing') {
+    console.log('not testing env');
+    mongoose.connect(config.uri);
+}
+
 
 // If the Node process ends, close the Mongoose connection
 process.on('SIGINT', function() {

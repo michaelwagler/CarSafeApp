@@ -4,6 +4,7 @@
  * Tests for accessing and manipulating crime data.
  */
 
+var util = require('./util');
 var assert = require('assert');
 var request = require('superagent');
 
@@ -35,6 +36,9 @@ describe("Converter Tests", function() {
     describe('Crime.getAll', function() {
         it('should not return an error and have a length of 2', function(done) {
             crimeData.getAll(function(err, crimes){
+                if (err) {
+                    console.error("crime.getAll test error:", err );
+                }
                 expect(err).to.equal(null);
                 expect(crimes.length).to.be.equal(2);
             });
@@ -46,6 +50,11 @@ describe("Converter Tests", function() {
     describe('Crime.get', function() {
         it('should not return an error and find crime by address', function(done) {
             crimeData.get("123 Alma St", function(err, crime){
+
+                if (err) {
+                    console.error("Error in CrimeData.get method test");
+
+                }
                 console.log("in Crime.get, err: " + err + "\n");
                 expect(err).to.equal(null);
                 expect(crime.address).to.equal("123 Alma St");
@@ -58,5 +67,9 @@ describe("Converter Tests", function() {
 });
 
 after(function() {
-    crimeData.removeAll(function(err) {});
+    crimeData.removeAll(function(err) {
+        if (err) {
+            console.error("error in crimeData.removeAll in test/crime:", err);
+        }
+    });
 });
