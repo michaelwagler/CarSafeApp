@@ -7,7 +7,6 @@
 
 var config = require('../config');
 var mongoose = require('mongoose');
-mongoose.connect(config.uri);
 
 var userSchema = new mongoose.Schema({
         name: String,

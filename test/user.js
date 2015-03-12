@@ -21,16 +21,15 @@ before(function() {
         type: "user"
     });
     user.save(function(err){});
-    // code to run before tests
 
 });
 
 
 describe("User Tests", function() {
     describe('User.getAll', function() {
-        it('should not return an error', function() {
+        it('should not return an error', function (done) {
 
-            User.getAll(function(err, users) {
+            User.getAll(function (err, users) {
                 expect(err).to.eql(null);
                 expect(users.length).to.be.greaterThan(0);
             });
@@ -41,22 +40,26 @@ describe("User Tests", function() {
                 email: "purple@gmail.com",
                 type: "user"
             });
-            user.save(function(err, hai) {
+            user.save(function (err, hai) {
                 expect(hai.type).to.equal("user");
-                User.setPrivilege(hai, "admin", function(err, hai) {
-                    //expect(hai.type).to.equal("admin");
-
+            });
+            done();
+        });
+    });
+    describe("Async user edits", function() {
+        it('should set Hai user type to admin', function(done) {
+            User.setPrivilege('Hai', "admin", function (err, hai) {
+                expect(hai.type).to.equal("admin");
+            });
+            done();
+        });
+        it('should remove Hai from the database', function(done) {
+            User.remove("Hai", function(err) {
+                User.getAll(function(err, users) {
+                    expect(users.length).to.equal(1);
                 });
             });
-
-
-            User.getAll(function(err, users) {
-                expect(users.length).to.equal(2);
-            });
-            User.remove("Hai", function(err) {});
-            User.getAll(function(err, users) {
-                expect(users.length).to.equal(1);
-            });
+            done();
         });
     });
 });

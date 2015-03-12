@@ -8,7 +8,7 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var flash = require('connect-flash');
 var config = require('./config');
-
+var mongoose = require('mongoose');
 var app = express();
 
 
@@ -33,6 +33,16 @@ app.use(session({
     saveUninitialized: true
 }));
 
+// only do this ONCE in the app to intiate DB connection
+mongoose.connect(config.uri);
+
+// If the Node process ends, close the Mongoose connection
+process.on('SIGINT', function() {
+    mongoose.connection.close(function () {
+        console.log('Mongoose default connection disconnected through app termination');
+        process.exit(0);
+    });
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

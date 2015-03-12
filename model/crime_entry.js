@@ -8,7 +8,6 @@
 
 var config = require('../config');
 var mongoose = require('mongoose');
-mongoose.createConnection(config.uri);
 
 var crimeSchema = new mongoose.Schema({
         type: String,
@@ -65,7 +64,7 @@ Crime.removeAll = function(callback){
     crimeModel.collection.drop(function(err){
         console.log('called crime.removeAll()');
         if (err){
-            console.log('error');
+            console.log('error:', err);
             return callback(err);
         }
         callback(null);
@@ -75,7 +74,7 @@ Crime.removeAll = function(callback){
 Crime.getAll = function( callback){
     crimeModel.find({}, 'type month address',function(err, docs) {
         if (!err){
-            console.log(docs);
+            console.log('err', err + '\n');
 
             callback(null, docs);
         } else {

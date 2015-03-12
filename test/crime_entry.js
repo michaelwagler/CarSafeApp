@@ -31,18 +31,18 @@ before(function() {
 
 describe("Converter Tests", function() {
     describe('Crime.getAll', function() {
-        it('should not return an error and have a length greater than 0', function() {
+        it('should not return an error and have a length of 2', function(done) {
             crimeData.getAll(function(err, crimes){
                 expect(err).to.equal(null);
-                expect(crimes.length).to.be.greaterThan(0);
-                //expect(crimes.length).to.be.equal(2);
+                expect(crimes.length).to.be.equal(2);
             });
 
+            done();
         })
     });
 
     describe('Crime.get', function() {
-        it('should not return an error finds crime by address', function() {
+        it('should not return an error and find crime by address', function(done) {
             crimeData.get("123 Alma St", function(err, crime){
                 console.log("in Crime.get, err: " + err + "\n");
                 expect(err).to.equal(null);
@@ -50,6 +50,7 @@ describe("Converter Tests", function() {
                 expect(crime.type).to.equal("Death Of A Salesman");
                 expect(crime.month).to.equal(1);
             });
+            done();
         })
     });
 });
