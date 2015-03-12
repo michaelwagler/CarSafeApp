@@ -45,6 +45,6 @@ router.post('/makeAdmin', admin.becomeAdmin);
 router.get('/logout', login.checkLogin);
 router.get('/logout', login.logout);
 
-router.get('/crimeTable', crime.get);
+router.get('/crimeTable', crimeTable.get);
 
 module.exports = router;
