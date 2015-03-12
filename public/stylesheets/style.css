@@ -65,3 +65,11 @@ th, td{
     border: whitesmoke;
     background: antiquewhite;
 }
+
+.success {
+    color: blue;
+}
+
+.error {
+    color: red;
+}
