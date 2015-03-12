@@ -10,9 +10,11 @@
  *  ---- All downloaded files are temporarily stored in download_data/temp/ folder
  */
 
-var User = require('../model/user.js');
-var converter = require('../util/converter.js');
+
 var appRoot = require('app-root-path');
+var Converter = require(appRoot+'/util/Converter.js');
+var User = require(appRoot+'/model/user.js');
+
 
 function get(req, res) {
 
@@ -70,7 +72,6 @@ function becomeAdmin(req,res){
 
 function download(req,res) {
     var link = req.body['link'];
-
     if(!isAFTPLink(link))
     {
         req.flash('error', 'Link must be a valid FTP link!');
@@ -81,7 +82,11 @@ function download(req,res) {
         req.flash('error', 'File Extension must be .csv!');
         return res.redirect('/admin');
     }
-
+    else if(!isCrime(link))
+    {
+        req.flash('error', 'Error, you are not downloading a crime file!');
+        return res.redirect('/admin');
+    }
     var JSFtp = require("jsftp");
 
     var ftp = new JSFtp({
@@ -97,7 +102,7 @@ function download(req,res) {
     ftp.get(getFTPLink(link), localPath, function(hadErr) {
         if (hadErr){
 
-            req.flash('error', 'Cannot download file from provided FTP LINK! File not found?');
+            req.flash('error', 'Cannot download file from Data Vancouver website! File not found? Please try again later!');
             return res.redirect('/admin');
         }
 
@@ -108,15 +113,13 @@ function download(req,res) {
         }
     });
 
-
-
 }
 
 function update(req, res){
-    converter.parseData();
+    Converter.parseData();
 
     if(!res){
-        console.log(res);
+        req.flash('error', 'Data paring failed. Did u parse a crime data?');
     }
     req.flash('success', 'Data has been parsed and stored successfully!');
     res.redirect("/admin");
@@ -131,7 +134,6 @@ function getFTPLink(link)
         if(link.charAt(i)=='/')
         {
             ftpLink= link.substr(i+1);
-            console.log(ftpLink);
             return ftpLink;
         }
     }
@@ -161,6 +163,12 @@ function isAFTPLink(link){
 
 }
 
+function isCrime(link){
+    var aLink = link+"";
+    var crimeLinkPos = (aLink.length - 14);
+    return (aLink.toLowerCase().indexOf("crime")==( crimeLinkPos));
+
+}
 function isCSV(link){
     var extension =link.substr(link.length-4).toLowerCase()+"";
     return extension==".csv";

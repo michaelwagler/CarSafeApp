@@ -64,7 +64,7 @@ function saveCrimes(jArray){
 //read from file
 function parseData(){
 
-//new converter instance
+//new Converter instance
     var param={};
 
     csvConverter=new Converter(param);
