@@ -11,7 +11,7 @@ var expect = require('chai').expect;
 var server = require('../bin/www');
 var app = require('../app');
 
-var crimeData = require('../model/crime_entry.js');
+var crimeData = require('../model/crime.js');
 
 before(function() {
     var myCrime = new crimeData({

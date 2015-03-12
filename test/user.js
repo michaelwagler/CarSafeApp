@@ -24,7 +24,6 @@ before(function() {
 
 });
 
-
 describe("User Tests", function() {
     describe('User.getAll', function() {
         it('should not return an error', function (done) {

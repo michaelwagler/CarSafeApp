@@ -11,7 +11,7 @@
  */
 
 var _ = require("underscore");
-var Crime = require('../model/crime_entry');
+var Crime = require('../model/crime');
 
 //Converter Class
 var Converter=require("csvtojson").core.Converter;

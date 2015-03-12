@@ -2,7 +2,7 @@
  * Created by Baber on 3/10/2015.
  */
 
-var Crime = require('../model/crime_entry.js');
+var Crime = require('../model/crime.js');
 
 function get (req, res){
 

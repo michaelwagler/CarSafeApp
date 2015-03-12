@@ -8,7 +8,7 @@ var router = express.Router();
 var reg = require('./reg');
 var login = require('./login');
 var admin = require('./admin');
-var crimeTable = require('./crimeTable');
+var crimeTable = require('./crime');
 
 var User = require('../model/user.js');
 
@@ -45,6 +45,6 @@ router.post('/makeAdmin', admin.becomeAdmin);
 router.get('/logout', login.checkLogin);
 router.get('/logout', login.logout);
 
-router.get('/crimeTable', crimeTable.get);
+router.get('/crimeTable', crime.get);
 
 module.exports = router;

@@ -68,7 +68,6 @@ User.setPrivilege= function(name, desiredPrivilege, callback){
         return callback(err);
     }
         callback(null, doc);});
-
 };
 
 User.getAll = function( callback){
