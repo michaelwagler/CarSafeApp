@@ -12,7 +12,7 @@
 
 
 var appRoot = require('app-root-path');
-var Converter = require(appRoot+'/util/Converter.js');
+var Converter = require(appRoot+'/util/converter.js');
 var User = require(appRoot+'/model/user.js');
 
 
