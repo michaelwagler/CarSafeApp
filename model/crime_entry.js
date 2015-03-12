@@ -63,9 +63,9 @@ Crime.get = function(address, callback) {
 
 Crime.removeAll = function(callback){
     crimeModel.collection.drop(function(err){
-        console.log('called crime.removeAll()');
+        //console.log('called crime.removeAll()');
         if (err){
-            console.log('error');
+            //console.log('error');
             return callback(err);
         }
         callback(null);
@@ -75,7 +75,7 @@ Crime.removeAll = function(callback){
 Crime.getAll = function( callback){
     crimeModel.find({}, 'type month address',function(err, docs) {
         if (!err){
-            console.log(docs);
+            //console.log(docs);
 
             callback(null, docs);
         } else {

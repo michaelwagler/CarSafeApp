@@ -27,12 +27,11 @@ h2 {
 
 .btnSmall {
     color: #5088ca;
-    height:80%;
-    width: 80%;
+    width: 95%;
     background: whitesmoke;
     border: whitesmoke;
     font-weight: bold;
-    font-size: medium;
+    font-size: small;
 }
 .btnSmall:hover {
     color: #2C2C2C;
@@ -40,18 +39,26 @@ h2 {
     background: antiquewhite;
 }
 table {
-    width: 100%;
     border-collapse: collapse;
-
-    border-bottom: 1px dashed grey;
-    border-top: 1px dashed grey ;
-
     font-size: medium;
 }
+
+table#crimeTable th{
+    background: lightgrey;
+
+}
+table#crimeTable td{
+    border-bottom: 1px dashed grey;
+
+}
+table#lrTable{
+    width: 100%;
+    align:center;
+}
 th, td{
-    width: 22%;
-    text-align: center;
     padding: 5px;
+    text-align: center;
+
 }
 .btnExample:hover {
     color: #2C2C2C;
