@@ -1,4 +1,7 @@
-/* tests for the user class */
+/**
+ * tests for the user class
+ *
+ */
 
 var assert = require('assert');
 var request = require('superagent');

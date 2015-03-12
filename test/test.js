@@ -1,7 +1,7 @@
 /**
  * Created by michaelwagler on 2015-03-05.
  *
- * General tests file
+ * General HTTP request tests
  */
 
 var assert = require('assert');

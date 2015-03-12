@@ -1,5 +1,7 @@
 /**
  * Created by haihoang on 2015-03-11.
+ *
+ * Tests for accessing and manipulating crime data.
  */
 
 var assert = require('assert');
