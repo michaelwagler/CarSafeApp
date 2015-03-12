@@ -23,6 +23,7 @@ var get = function (req, res) {
 
 var post = function (req, res) {
     var name = req.body.name,
+        email= req.body.email,
         password = req.body.password,
         password_re = req.body['password-repeat'];
     //validator
@@ -31,9 +32,9 @@ var post = function (req, res) {
         return res.redirect('/reg');//back to reg
     }
 
-    if(password==""||name=="")
+    if(password==""||name==""||email=="")
     {
-        req.flash('error', 'Username and Password cannot be empty');
+        req.flash('error', 'Username, password and email cannot be empty');
         return res.redirect('/reg');
     }
     //create md5 of the password
