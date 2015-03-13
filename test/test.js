@@ -11,29 +11,6 @@ var request = require('superagent');
 var expect = require('chai').expect;
 var User = require('../model/user');
 
-// require www so app is running before tests start
-var server = require('../bin/www');
-var app = require('../app');
-
-
-
-var michael;
-
-
-before(function() {
-    // code to run before tests
-    var user = new User({
-        name: "Michael",
-        password: "safePassword",
-        email: "sons@gmail.com",
-        type: "admin"
-    });
-
-    user.save(function(err, user){
-        michael = user;
-    });
-
-});
 
 
 describe("Testing http requests", function() {
@@ -49,10 +26,13 @@ describe("Testing http requests", function() {
     });
     it("Going to admin panel when not an admin should redirect to login", function(done) {
         request.get("localhost:3000/admin").end(function(err, res) {
-           expect(res.status).to.equal(200);
-            expect(res.text).to.contain('Main');
+            if (err) {
+                assert.fail('error in http request', err);
+            }
+            expect(res.status).to.equal(200);
+            expect(res.text).to.contain("Welcome");
+            done();
         });
-        done();
     });
 
     // TODO: test that admin CAN access the above page
@@ -62,10 +42,7 @@ describe("Testing http requests", function() {
 });
 
 
-after(function() {
-    User.remove("Michael", function(err) {});
 
-});
 
 
 
