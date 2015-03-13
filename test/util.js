@@ -1,5 +1,9 @@
 /**
  * Created by michaelwagler on 2015-03-12.
+ *
+ * testing util module that starts the app, connects to mongo,
+ * and makes sure that the testing database is empty before running
+ * the tests. Also it disconnects from teh database when tests are all done.
  */
 var config = require('../config');
 var mongoose = require('mongoose');

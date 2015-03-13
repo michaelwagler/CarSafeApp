@@ -33,7 +33,7 @@ app.use(session({
     saveUninitialized: true
 }));
 
-// only do this ONCE in the app to intiate DB connection
+// only do this ONCE in the app to intiate DB connection, if the environment is not testing.
 if (process.env.NODE_ENV != 'testing') {
     console.log('not testing env');
     mongoose.connect(config.uri);
