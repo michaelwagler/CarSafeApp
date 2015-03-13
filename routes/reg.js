@@ -17,7 +17,6 @@ var get = function (req, res) {
         error: req.flash('error').toString()
     });
 
-
 };
 
 

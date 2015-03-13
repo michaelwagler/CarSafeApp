@@ -11,10 +11,7 @@
     <tr>    <td>Confirm your password</td><td><input type="password" name="password-repeat"/></td>
     </tr>
     <tr>
-            <td>Register as an </td><td><select name="type"><option value="user">User</option><option value="admin">Admin</option>
-            </select> </td>
-            <%if (this.type =="admin")
-                console.log("admin");%>
+
     </tr><tr>
             <td>Email</td><td><input type="email" name="email"/></td>
         </tr>
@@ -22,4 +19,5 @@
 <p align="center"><button class="btnExample" type="submit"> Register Now!</button>&nbsp&nbsp&nbsp<button class="btnExample" type="reset"> Reset Entry </button></p>
 
 </form>
+
 <%- include footer %>
