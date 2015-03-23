@@ -74,3 +74,8 @@ th, td{
 .error {
     color: red;
 }
+#map-canvas {
+    width: 500px;
+    height: 400px;
+    background-color: #CCC;
+}

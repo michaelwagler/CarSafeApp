@@ -1,20 +1,60 @@
-<%-include header%>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>CarSafe</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
 <script>
     var map;
+
     function initialize() {
         var mapOptions = {
             zoom: 8,
             center: new google.maps.LatLng(-34.397, 150.644)
         };
-        map = new google.maps.Map(document.getElementById('map-canvas'),
+        var mapDiv = document.getElementById('map-canvas');
+        map = new google.maps.Map(mapDiv,
                 mapOptions);
     }
 
     google.maps.event.addDomListener(window, 'load', initialize);
-initialize();
+
 </script>
+<body>
+
+
+<header>
+    <h1><%= title %></h1>
+</header>
+
+<nav>
+    <span><a title="Main" href="/">home</a></span>
+    <span><a title="Crime Data" href="/crimeTable">crime data</a></span>
+    <span><a title="Admin Page" href="/admin">admin panel</a></span>
+
+    <% if (user) { %>
+    <!-- <span><a title="Post" href="/post">post</a></span>-->
+    <span><a title="Log Out" href="/logout">logout</a></span>
+    <% } else { %>
+    <span><a title="Login" href="/login">login</a></span>
+    <span><a title="Register" href="/reg">register</a></span>
+
+    <% } %>
+</nav>
+
+<article>
+    <% if (success) { %>
+    <div class="success"><%= success %></div>
+    <% } %>
+    <% if (error) { %>
+    <div class="error"><%= error %> </div>
+    <% } %>
+
 Hello!
 
 <div id="map-canvas"></div>
-<%-include footer %>
+</article>
+</body>
+</html>
