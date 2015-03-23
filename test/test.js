@@ -25,7 +25,7 @@ describe("Testing http requests", function() {
         });
     });
     it("Going to admin panel when not an admin should redirect to login", function(done) {
-        request.get("localhost:3000/admin").end(function(err, res) {
+        request.get("http://localhost:3000/admin").end(function(err, res) {
             if (err) {
                 assert.fail('error in http request', err);
             }
