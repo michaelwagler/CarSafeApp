@@ -11,4 +11,6 @@ function initialize() {
         mapOptions);
 }
 
+//initialize();
+console.log("in map.js");
 google.maps.event.addDomListener(window, 'load', initialize);
