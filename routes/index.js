@@ -12,6 +12,8 @@ var crimeTable = require('./crime');
 
 var User = require('../model/user.js');
 
+var map= require('./map');
+
 router.get('/', function (req, res) {
         res.render('index', {
             title: 'CarSafe',
@@ -47,4 +49,5 @@ router.get('/logout', login.logout);
 
 router.get('/crimeTable', crimeTable.get);
 
+router.get('/map', map.get);
 module.exports = router;

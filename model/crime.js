@@ -73,8 +73,6 @@ Crime.removeAll = function(callback){
 Crime.getAll = function( callback){
     crimeModel.find({}, 'type month address',function(err, docs) {
         if (!err){
-            console.log('err', err + '\n');
-
             callback(null, docs);
         } else {
             return callback(err);}
