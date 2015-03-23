@@ -4,10 +4,8 @@
  * Callback functions for handling registration requests
  */
 
-
 var crypto = require('crypto');
 var User = require('../model/user.js');
-
 
 var get = function (req, res) {
     res.render('reg', {
@@ -16,7 +14,6 @@ var get = function (req, res) {
         success: req.flash('success').toString(),
         error: req.flash('error').toString()
     });
-
 };
 
 

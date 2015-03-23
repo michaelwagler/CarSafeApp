@@ -16,8 +16,6 @@ var app = express();
 //console.log(path.dirname(require.main.filename));
 
 
-
-
 // user session setup
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
