@@ -12,7 +12,9 @@ var mongoose = require('mongoose');
 var crimeSchema = new mongoose.Schema({
         type: String,
         month: Number,
-        address: String
+        address: String,
+        lat: Number,
+        long: Number
     },
     { collection: 'crimes' });
 
@@ -23,13 +25,17 @@ function Crime(crime) {
     this.type = crime.type;
     this.month = crime.month;
     this.address = crime.address;
+    this.lat = crime.lat;
+    this.long = crime.long;
 }
 
 Crime.prototype.save = function(callback) {
     var crime = {
         type: this.type,
         month: this.month,
-        address: this.address
+        address: this.address,
+        lat: this.lat,
+        long: this.long
     };
     var newCrime = new crimeModel(crime);
     newCrime.save(function (err, crime) {

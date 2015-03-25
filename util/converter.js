@@ -16,6 +16,8 @@ var Crime = require('../model/crime');
 //Converter Class
 var Converter=require("csvtojson").core.Converter;
 var fs=require("fs");
+var gm = require("googlemaps");
+var async = require('async');
 
 var appRoot = require('app-root-path');
 
@@ -36,29 +38,53 @@ function saveOneCrime(jArray, i) {
     var type = jArray[i].TYPE,
         month = parseInt(jArray[i].MONTH),
         address = jArray[i].HUNDRED_BLOCK;
-    var newCrime = new Crime({
-        type: type,
-        month: month,
-        address: address
-    });
-    newCrime.save(function (err, crime) {
-        if (err) {
-            req.flash('error', 'Error when trying to save a crime into the database!');
+
+    gm.geocode(address + ", Vancouver, BC, Canada", function(err, result) {
+        if(err) {
+            console.log("error in gm.geocode for address" + address + ": error:" + err);
         }
 
-    });
+        console.log('result: ', result);
+        var lat = result.results[0].geometry.location.lat;
+        var long = result.results[0].geometry.location.lng;
+        var newCrime = new Crime({
+            type: type,
+            month: month,
+            address: address,
+            lat: lat,
+            long: long
+        });
+        newCrime.save(function (err, crime) {
+            if (err) {
+                req.flash('error', 'Error when trying to save a crime into the database!');
+            }
 
+        });
+    });
 }
-function saveCrimes(jArray){
-    Crime.removeAll(function(err){
-        if (err){
+
+function saveCrimes(jArray) {
+    Crime.removeAll(function (err) {
+        if (err) {
             console.error(err);
         }
     });
-    for (var i = 0; i< jArray.length; i++) {
-        saveOneCrime(jArray, i);
-    }
-}
+
+        var i = 0;
+        async.whilst(
+            function () {
+                return i < jArray.length;
+            },
+            function (callback) {
+                saveOneCrime(jArray, i);
+                i++;
+                setTimeout(callback, 300);
+            },
+            function (err) {
+                console.log('execution finished');
+            }
+        );
+};
 
 
 //read from file
