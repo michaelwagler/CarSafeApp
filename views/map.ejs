@@ -1,5 +1,5 @@
 <%-include header%>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAoEGTfMYy0VAgBmvAGCTvnHVbKmbNI-IU"></script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
 
 <script>
     console.log('inside script tag');
@@ -23,6 +23,7 @@
             title:"Hello World!"
             });
             <%}%>
+
         var ctaLayer = new google.maps.KmlLayer({
             url: 'http://data.vancouver.ca/download/kml/cov_localareas.kml'
         });
