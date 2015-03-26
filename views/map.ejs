@@ -23,9 +23,12 @@
             title:"Hello World!"
             });
             <%}%>
+        var ctaLayer = new google.maps.KmlLayer({
+            url: 'http://data.vancouver.ca/download/kml/cov_localareas.kml'
+        });
+        ctaLayer.setMap(map);
+    }
 
-
-        }
 
     //initialize();
     console.log("in map.js");
