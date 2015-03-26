@@ -2,27 +2,30 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAoEGTfMYy0VAgBmvAGCTvnHVbKmbNI-IU"></script>
 
 <script>
+    console.log('inside script tag');
     var map;
 
     function initialize() {
-        var lat = <%= result.geometry.location.lat%> ;
-        var long = <%= result.geometry.location.lng%> ;
-        console.log('lat', lat);
-        console.log('long', long);
-        var myLatlng = new google.maps.LatLng(lat,long);
+        console.log('in initialize.');
 
         var mapOptions = {
-            zoom: 11,
+            zoom: 12,
             center: new google.maps.LatLng(49.246292, -123.116226)
         };
         map = new google.maps.Map(document.getElementById('map-canvas'),
                 mapOptions);
-        var marker = new google.maps.Marker({
-            position: myLatlng,
+
+        <%for(var i in crimes){%>
+            var latLng = new google.maps.LatLng(<%=crimes[i].lat%>, <%=crimes[i].long%>);
+            var marker = new google.maps.Marker({
+            position: latLng,
             map: map,
             title:"Hello World!"
-        });
-    }
+            });
+            <%}%>
+
+
+        }
 
     //initialize();
     console.log("in map.js");

@@ -77,7 +77,7 @@ Crime.removeAll = function(callback){
 };
 
 Crime.getAll = function( callback){
-    crimeModel.find({}, 'type month address',function(err, docs) {
+    crimeModel.find({}, 'type month address lat long', function(err, docs) {
         if (!err){
             callback(null, docs);
         } else {
