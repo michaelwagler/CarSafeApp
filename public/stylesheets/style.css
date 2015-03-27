@@ -85,7 +85,7 @@ th, td{
     position: absolute;
     top: 76px;
     left: 50%;
-    margin-left: -180px;
+    margin-left: 80px;
     z-index: 5;
     background-color: #fff;
     padding: 5px;

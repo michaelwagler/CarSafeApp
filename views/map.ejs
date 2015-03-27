@@ -25,7 +25,6 @@
             var latLng = new google.maps.LatLng(<%=crimes[i].lat%>, <%=crimes[i].long%>);
             var marker<%=i%> = new google.maps.Marker({
             position: latLng,
-            map: map,
             title: "<%=crimes[i].address%>"
             });
             markers.push(marker<%=i%>);
@@ -70,6 +69,32 @@
     <input onclick="clearAllMarkers();" type=button value="Hide Markers">
     <input onclick="showAllMarkers();" type=button value="Show All Markers">
 </div>
-<br><br>
+
+<div align="center">
+    <select>
+        <option value="arbutus">Arbutus</option>
+        <option value="downtown">Downtown</option>
+        <option value="dunbar">Dunbar</option>
+        <option value="fairview">Fairview</option>
+        <option value="fraserview">Fraserview</option>
+        <option value="grandview">Grandview</option>
+        <option value="hastings">Hastings</option>
+        <option value="kensington">Kensington</option>
+        <option value="kerrisdale">Kerrisdale</option>
+        <option value="killarney">Killarney</option>
+        <option value="kitsilano">Kitsilano</option>
+        <option value="marpole">Marpole</option>
+        <option value="mountpleasant">Mount Pleasant</option>
+        <option value="oakridge">Oakridge</option>
+        <option value="pointgrey">Point Grey</option>
+        <option value="renfrewcollingwood">Renfrew-Collingwood</option>
+        <option value="rileypark">Riley Park</option>
+        <option value="shaugnessy">Shaugnessy</option>
+        <option value="sunrise">Sunrise</option>
+        <option value="sunset">Sunset</option>
+        <option value="westend">West End</option>
+    </select>
+</div>
+<br>
 <div id="map-canvas"></div>
 <%-include footer%>
