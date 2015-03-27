@@ -1,4 +1,4 @@
-<%-include header%>
+<%- include header %>
 <script src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 <script src='https://sites.google.com/site/kmlcs310/home/togeojson.js'></script>
 <!--<script src = 'https://sites.google.com/site/kmlcs310/home/maps.google.polygon.containsLatLng.js'></script>-->
@@ -11,6 +11,7 @@
     var windows = [];
     var boundaryJSON;
     var region = [], opened_info;
+
     function initialize() {
         console.log('in initialize.');
 
@@ -25,7 +26,7 @@
         <%for(var i in crimes) {%>
         var contentString<%=i%> = 'Address: <%=crimes[i].address%> ';
         var window<%=i%> = new google.maps.InfoWindow({
-            content:contentString<%=i%>
+            content: contentString<%=i%>
         });
         windows = window<%=i%>;
         var latLng = new google.maps.LatLng(<%=crimes[i].lat%>, <%=crimes[i].long%>);
@@ -35,75 +36,73 @@
         });
 
 
-            markers.push(marker<%=i%>);
+        markers.push(marker<%=i%>);
 
-        google.maps.event.addListener(marker<%=i%>, 'click', function() {
+        google.maps.event.addListener(marker<%=i%>, 'click', function () {
 
-            window<%=i%>.open(map,marker<%=i%>);
+            window<%=i%>.open(map, marker<%=i%>);
             setTimeout(function () {
                 window<%=i%>.close();
             }, 2000);
         });
-        google.maps.event.addListener(map, "click", function(event) {
+        google.maps.event.addListener(map, "click", function (event) {
             window<%=i%>.close();
         });
 
         <%}%>
 
 
-
-        $.ajax('./map/boundary').done(function(xml) {
+        $.ajax('./map/boundary').done(function (xml) {
 
             boundaryJSON = toGeoJSON.kml(xml);
 
             console.log(boundaryJSON);
 
-        for( j =0;j< boundaryJSON.features.length; j++) {
-            var polygonPaths = [];
-            for (index = 0; index < boundaryJSON.features[j].geometry.coordinates[0].length; index++) {
+            for (j = 0; j < boundaryJSON.features.length; j++) {
+                var polygonPaths = [];
+                for (index = 0; index < boundaryJSON.features[j].geometry.coordinates[0].length; index++) {
 
-                var latlng = boundaryJSON.features[j].geometry.coordinates[0][index];
+                    var latlng = boundaryJSON.features[j].geometry.coordinates[0][index];
 
-                var lat = latlng[1];
+                    var lat = latlng[1];
 
-                var lng = latlng[0];
+                    var lng = latlng[0];
 
-                polygonPaths[index] = new google.maps.LatLng(lat, lng);
-            }
-
-
-           region[j] = new google.maps.Polygon({
-                paths: polygonPaths,
-                strokeColor: '#FF0000',
-                strokeOpacity: 0.8,
-                strokeWeight: 2,
-                fillColor: '#FF0000',
-                fillOpacity: 0.05,
-                title: boundaryJSON.features[j].properties.name
-            });
-           region[j].infowindow = new google.maps.InfoWindow(
-                    {
-                        content: 'Region: '+boundaryJSON.features[j].properties.name
-                    });
-           region[j].setMap(map);
-            opened_info = new google.maps.InfoWindow();
-            google.maps.event.addListener(region[j], 'click', function (event) {
+                    polygonPaths[index] = new google.maps.LatLng(lat, lng);
+                }
 
 
-                opened_info.close();
-                this.infowindow.setPosition(event.latLng);
-                this.infowindow.open(map);
-                opened_info = this.infowindow;
-                setTimeout(function () {
+                region[j] = new google.maps.Polygon({
+                    paths: polygonPaths,
+                    strokeColor: '#FF0000',
+                    strokeOpacity: 0.8,
+                    strokeWeight: 2,
+                    fillColor: '#FF0000',
+                    fillOpacity: 0.05,
+                    title: boundaryJSON.features[j].properties.name
+                });
+                region[j].infowindow = new google.maps.InfoWindow({
+                    content: 'Region: ' + boundaryJSON.features[j].properties.name
+                });
+                region[j].setMap(map);
+                opened_info = new google.maps.InfoWindow();
+                google.maps.event.addListener(region[j], 'click', function (event) {
+
+
                     opened_info.close();
-                }, 4000);
+                    this.infowindow.setPosition(event.latLng);
+                    this.infowindow.open(map);
+                    opened_info = this.infowindow;
+                    setTimeout(function () {
+                        opened_info.close();
+                    }, 4000);
 
-            });
-            google.maps.event.addListener(map, 'click', function (event) {
-                opened_info.close();
-            });
+                });
+                google.maps.event.addListener(map, 'click', function (event) {
+                    opened_info.close();
+                });
 
-        }
+            }
 
 
 //            var isWithinPolygon = region.containsLatLng(49.256194, -123.236847);
@@ -137,12 +136,20 @@
     }
 
 
-
     //initialize();
     console.log("in map.js");
     google.maps.event.addDomListener(window, 'load', initialize);
 
-
+    //region name getter
+    function getRegions()
+    {
+        regionNames=[];
+        for(r in boundaryJSON.features)
+        {
+            regionNames.push(r.properties.name);
+        }
+        return regionNames;
+    }
 
 </script>
 
@@ -154,31 +161,37 @@
 
 <div align="center">
     <select>
-        <option value="arbutus">Arbutus</option>
-        <option value="downtown">Downtown</option>
-        <option value="dunbar">Dunbar</option>
-        <option value="fairview">Fairview</option>
-        <option value="fraserview">Fraserview</option>
-        <option value="grandview">Grandview</option>
+        <option value="Arbutus-Ridge">Arbutus</option>
+        <option value="Downtown">Downtown</option>
+        <option value="Dunbar-Southlands">Dunbar</option>
+        <option value="Fairview">Fairview</option>
+        <option value="Fraserview">Fraserview</option>
+        <option value="Grandview-Woodland">Grandview-Woodland</option>
         <option value="hastings">Hastings</option>
-        <option value="kensington">Kensington</option>
-        <option value="kerrisdale">Kerrisdale</option>
-        <option value="killarney">Killarney</option>
-        <option value="kitsilano">Kitsilano</option>
-        <option value="marpole">Marpole</option>
-        <option value="mountpleasant">Mount Pleasant</option>
-        <option value="oakridge">Oakridge</option>
-        <option value="pointgrey">Point Grey</option>
-        <option value="renfrewcollingwood">Renfrew-Collingwood</option>
-        <option value="rileypark">Riley Park</option>
-        <option value="shaugnessy">Shaugnessy</option>
-        <option value="sunrise">Sunrise</option>
+        <option value="Kensington-Cedar Cottage">Kensington-Cedar Cottage</option>
+        <option value="Kerrisdale">Kerrisdale</option>
+        <option value="Killarney">Killarney</option>
+        <option value="Kitsilano">Kitsilano</option>
+        <option value="Marpole">Marpole</option>
+        <option value="Mountpleasant">Mount Pleasant</option>
+        <option value="Oakridge">Oakridge</option>
+        <option value="West Point grey">Point Grey</option>
+        <option value="Renfrew-collingwood">Renfrew-Collingwood</option>
+        <option value="Riley Park">Riley Park</option>
+        <option value="Shaughnessy">Shaugnessy</option>
+        <option value="Hastings-Sunrise">Hastings-Sunris</option>
+        <option value="Strathcona">Strathcona</option>
+        <option value="South Cambie">South Cambie</option>
         <option value="sunset">Sunset</option>
-        <option value="westend">West End</option>
+        <option value="Victoria-Fraserview">Victoria-Fraserview</option>
+        <option value="Westend">West End</option>
+
+
+
     </select>
 </div>
 <br>
 <div id="map-canvas"></div>
-<%-include footer%>
+<%- include footer %>
 
 
