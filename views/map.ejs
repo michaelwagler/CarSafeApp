@@ -18,9 +18,7 @@
         var windows = [];
 
         <%for(var i in crimes){%>
-
             var contentString<%=i%> = 'Address: <%=crimes[i].address%> ';
-
             var window<%=i%> = new google.maps.InfoWindow({
                 content:contentString<%=i%>
             });
@@ -28,7 +26,6 @@
             var marker<%=i%> = new google.maps.Marker({
             position: latLng,
             map: map,
-
             title: "<%=crimes[i].address%>"
             });
             markers.push(marker<%=i%>);
@@ -39,7 +36,6 @@
         google.maps.event.addListener(map, "click", function(event) {
             window<%=i%>.close();
         });
-
         <%}%>
 
         var ctaLayer = new google.maps.KmlLayer({
