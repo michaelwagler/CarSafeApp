@@ -4,6 +4,7 @@
 <script>
     console.log('inside script tag');
     var map;
+    var markers = [];
 
     function initialize() {
         console.log('in initialize.');
@@ -20,13 +21,31 @@
             var marker = new google.maps.Marker({
             position: latLng,
             map: map,
-            title:"Hello World!"
+            title: "<%=crimes[i].address%>"
             });
+            markers.push(marker);
             <%}%>
         var ctaLayer = new google.maps.KmlLayer({
             url: 'http://data.vancouver.ca/download/kml/cov_localareas.kml'
         });
         ctaLayer.setMap(map);
+    }
+
+    // Sets the map on all markers in the array.
+    function setMarkersOnMap(map) {
+        for (var i = 0; i < markers.length; i++) {
+            markers[i].setMap(map);
+        }
+    }
+
+    // Removes the markers from the map, but keeps them in the array.
+    function clearAllMarkers() {
+        setMarkersOnMap(null);
+    }
+
+    // Shows any markers currently in the array.
+    function showAllMarkers() {
+        setMarkersOnMap(map);
     }
 
 
@@ -36,5 +55,10 @@
 </script>
 
 
+<div id="panel">
+    <input onclick="clearAllMarkers();" type=button value="Hide Markers">
+    <input onclick="showAllMarkers();" type=button value="Show All Markers">
+</div>
+<br><br>
 <div id="map-canvas"></div>
 <%-include footer%>
