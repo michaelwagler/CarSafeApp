@@ -50,7 +50,11 @@ router.get('/logout', login.logout);
 
 router.get('/crimeTable', crimeTable.get);
 
+router.get('/comment', comment.checkLogin);
 router.get('/comment', comment.get);
+router.post('/comment', comment.checkLogin);
+router.post('/comment', comment.post);
+
 
 router.get('/map', map.get);
 module.exports = router;

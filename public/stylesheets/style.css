@@ -80,3 +80,11 @@ th, td{
     height:575px;
     background-color: #CCC;
 }
+
+#commentTable textarea {
+    width:333px;
+}
+
+#commentTable input {
+    width:333px;
+}
