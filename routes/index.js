@@ -53,4 +53,6 @@ router.get('/crimeTable', crimeTable.get);
 router.get('/comment', comment.get);
 
 router.get('/map', map.get);
+router.get('/map/boundary', map.getBoundary);
+router.get('/map/js', map.getJS);
 module.exports = router;

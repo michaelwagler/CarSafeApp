@@ -1,7 +1,7 @@
 var User = require('../model/user.js');
 var Crime = require('../model/crime');
 var gm = require('googlemaps');
-
+var appRoot = require('app-root-path');
 
 
 function get(req, res) {
@@ -9,7 +9,7 @@ function get(req, res) {
     Crime.getAll(function(err, crimes) {
 
 
-            res.render('map', {
+                res.render('map', {
                 title: 'Car Crime Map',
                 user: req.session.user,
                 crimes: crimes,
@@ -18,8 +18,21 @@ function get(req, res) {
 
 
         });
-    };
+};
+
+function getBoundary(req,res){
+
+    res.sendFile(appRoot+'/download_data/vancouverLocalBoundary.kml');
+
+}
+
+function getJS(req,res){
+
+    res.sendfile(appRoot+'/public/javascripts/togeojson.js');
+}
 
 module.exports = {
-    get: get
+    get: get,
+    getBoundary: getBoundary,
+    getJS: getJS
 };
