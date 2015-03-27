@@ -9,6 +9,7 @@ var reg = require('./reg');
 var login = require('./login');
 var admin = require('./admin');
 var crimeTable = require('./crime');
+var comment = require('./comment');
 
 var User = require('../model/user.js');
 
@@ -48,6 +49,8 @@ router.get('/logout', login.checkLogin);
 router.get('/logout', login.logout);
 
 router.get('/crimeTable', crimeTable.get);
+
+router.get('/comment', comment.get);
 
 router.get('/map', map.get);
 module.exports = router;

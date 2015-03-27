@@ -1,5 +1,5 @@
 <%-include header%>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAoEGTfMYy0VAgBmvAGCTvnHVbKmbNI-IU"></script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
 
 <script>
     console.log('inside script tag');
@@ -15,16 +15,33 @@
         };
         map = new google.maps.Map(document.getElementById('map-canvas'),
                 mapOptions);
+        var windows = [];
 
         <%for(var i in crimes){%>
+
+            var contentString<%=i%> = 'Address: <%=crimes[i].address%> ';
+
+            var window<%=i%> = new google.maps.InfoWindow({
+                content:contentString<%=i%>
+            });
             var latLng = new google.maps.LatLng(<%=crimes[i].lat%>, <%=crimes[i].long%>);
-            var marker = new google.maps.Marker({
+            var marker<%=i%> = new google.maps.Marker({
             position: latLng,
             map: map,
+
             title: "<%=crimes[i].address%>"
             });
-            markers.push(marker);
-            <%}%>
+            markers.push(marker<%=i%>);
+
+        google.maps.event.addListener(marker<%=i%>, 'click', function() {
+            window<%=i%>.open(map,marker<%=i%>);
+        });
+        google.maps.event.addListener(map, "click", function(event) {
+            window<%=i%>.close();
+        });
+
+        <%}%>
+
         var ctaLayer = new google.maps.KmlLayer({
             url: 'http://data.vancouver.ca/download/kml/cov_localareas.kml'
         });
@@ -48,9 +65,7 @@
         setMarkersOnMap(map);
     }
 
-
     //initialize();
-    console.log("in map.js");
     google.maps.event.addDomListener(window, 'load', initialize);
 </script>
 
