@@ -1,8 +1,27 @@
 <%- include header %>
-
 <% if (user) { %>
-Welcome to CarSafe, <%=user.name%>!
+Welcome to <font color="red">CarSafe</font>, <%=user.name%>!
 <% } else { %>
 Welcome to CarSafe!
 <% } %>
+
+<br>
+<br>
+Do you ever feel as though your car isn't safe where it's parked?
+Have you ever tried to prevent car theft through ridiculous means that clearly don't work?
+<br><br>
+<img src="/img/antitheftsticker.jpg" style="width:450px;height:350px">
+<br><br>
+Well, we have a solution for you! Here at <font color="red">CarSafe</font>, we have the most recently available
+theft of auto data for the City of Vancouver, available to view as a <a href="/crimeTable">table</a> or a
+<a href="/map">map</a>.
+<br><br>
+When viewing the <a href="/map">map</a>, simply select a region in the drop down menu or hover your mouse over
+a region to view the crimes in that area! You can also leave a comment about a region or view comments that
+others have left.
+<br><br>
+<img src="/img/antitheftdevice.jpg" style="width:450px;height:350px">
+<br><br>
+We are the Super Optimistic Noodle Squad: Michael, Edward, Hai, and Baber! This app was made for our CPSC310
+(Software Engineering) course at UBC Vancouver. Hope you enjoy it! :)
 <%- include footer %>
