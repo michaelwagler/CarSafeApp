@@ -28,7 +28,10 @@
     "morgan": "~1.5.1",
     "serve-favicon": "~2.2.0",
     "superagent": "*",
-    "underscore": "^1.8.2"
+    "underscore": "^1.8.2",
+    "togeojson":"~*",
+    "jsdom":"*"
+
   },
   "engines": {
     "node": "0.10.x"

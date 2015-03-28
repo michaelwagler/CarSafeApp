@@ -57,4 +57,6 @@ router.post('/comment', comment.post);
 
 
 router.get('/map', map.get);
+router.get('/map/boundary', map.getBoundary);
+router.get('/map/js', map.getJS);
 module.exports = router;
