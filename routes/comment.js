@@ -8,6 +8,8 @@ var Region = require('../model/region.js');
 
 function get(req, res) {
 
+    console.log('user:', req.session.user);
+    console.log('user.comments:', req.session.user.comments);
     Region.getAll(function(regions) {
         console.log('regions', regions);
     res.render('comment', {
@@ -25,6 +27,7 @@ function post(req, res) {
     var title = req.body.title;
     var body = req.body.body;
     var region = req.body.region;
+    var user = req.session.user;
 
     Comment.get(req.body.title, function (err, comment) {
         if (comment) {
@@ -36,7 +39,8 @@ function post(req, res) {
             var newComment = new Comment({
                 title: title,
                 body: body,
-                region: region
+                region: region,
+                creator: user._id
             });
 
             newComment.save(function (err, comment) {
@@ -45,8 +49,11 @@ function post(req, res) {
                     return res.redirect('/comment');
                 }
                 //save user info to session
-                req.flash('success', 'Your comment has been saved');
-                res.redirect('/');
+
+                User.addComment(user.name, comment._id, function(err, comment) {
+                    req.flash('success', 'Your comment has been saved');
+                    res.redirect('/');
+                });
             });
         }
 
