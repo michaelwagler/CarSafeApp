@@ -14,7 +14,8 @@ var mongoose = require('mongoose');
 var CommentSchema = new mongoose.Schema({
         title: String,
         body: String,
-        region: String
+        region: String,
+        creator : { type: Number, ref: 'User' }
     },
     { collection: 'Comments' });
 
@@ -25,13 +26,15 @@ function Comment(Comment) {
     this.title = Comment.title;
     this.body = Comment.body;
     this.region = Comment.region;
+    this.creator = Comment.creator;
 }
 
 Comment.prototype.save = function(callback) {
     var Comment = {
         title: this.title,
         body: this.body,
-        region: this.region
+        region: this.region,
+        creator: this.creator
     };
     var newComment = new commentModel(Comment);
     newComment.save(function (err, Comment) {
@@ -75,7 +78,7 @@ Comment.removeAll = function(callback){
 };
 
 Comment.getAll = function( callback){
-    commentModel.find({}, 'title, body', function(err, docs) {
+    commentModel.find({}, 'title, body creator', function(err, docs) {
         if (!err){
             callback(null, docs);
         } else {

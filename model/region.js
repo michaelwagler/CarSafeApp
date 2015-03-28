@@ -2,7 +2,7 @@
  * Created by michaelwagler on 2015-03-28.
  */
 var tj = require('togeojson'),
-    fs = require('fs'),
+    fs = require('fs');
 // node doesn't have xml parsing or a dom. use jsdom
     jsdom = require('jsdom').jsdom;
 
