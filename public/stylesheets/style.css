@@ -97,5 +97,15 @@ th, td{
     background-color: #fff;
     padding: 5px;
     border: 1px solid #999;
+}
+
+#info-box {
+    background-color: transparent;
+    border: 1px solid black;
+    bottom: 30px;
+    height: 20px;
+    padding: 10px;
+    position: absolute;
+    left: 30px;
 >>>>>>> 422e2e45afccbe51912080a07d5e46fea4816699
 }
