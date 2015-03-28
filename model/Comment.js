@@ -13,7 +13,8 @@ var mongoose = require('mongoose');
 
 var CommentSchema = new mongoose.Schema({
         title: String,
-        body: String
+        body: String,
+        region: String
     },
     { collection: 'Comments' });
 
@@ -23,12 +24,14 @@ var commentModel = mongoose.model('Comment', CommentSchema);
 function Comment(Comment) {
     this.title = Comment.title;
     this.body = Comment.body;
+    this.region = Comment.region;
 }
 
 Comment.prototype.save = function(callback) {
     var Comment = {
         title: this.title,
-        body: this.body
+        body: this.body,
+        region: this.region
     };
     var newComment = new commentModel(Comment);
     newComment.save(function (err, Comment) {
@@ -49,6 +52,18 @@ Comment.get = function(title, callback) {
             callback(null, Comment);
         });
 };
+
+Comment.getByRegion = function(region, callback) {
+    commentModel.find({region: region},
+        function (err, comments) {
+            if (err) {
+                return callback(err);
+            }
+            callback(null, comments);
+        });
+};
+
+
 
 Comment.removeAll = function(callback){
     commentModel.collection.drop(function(err){

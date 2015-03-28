@@ -3,14 +3,18 @@
 var crypto = require('crypto');
 var User = require('../model/user.js');
 var Comment = require('../model/comment.js');
+var Region = require('../model/region.js');
 
 
 function get(req, res) {
+
+    Region.getAll(function(regions) {
     res.render('comment', {
         title: 'Comment',
         user: req.session.user,
         success: req.flash('success').toString(),
         error: req.flash('error').toString()});
+    });
 };
 
 
@@ -18,6 +22,7 @@ function get(req, res) {
 function post(req, res) {
     var title = req.body.title;
     var body = req.body.body;
+    var region = req.body.region;
 
     Comment.get(req.body.title, function (err, comment) {
         if (comment) {
@@ -28,7 +33,8 @@ function post(req, res) {
         else {
             var newComment = new Comment({
                 title: title,
-                body: body
+                body: body,
+                region: region
             });
 
             newComment.save(function (err, comment) {

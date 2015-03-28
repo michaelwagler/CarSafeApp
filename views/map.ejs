@@ -23,38 +23,36 @@
 
 
         <%for(var i in crimes) {%>
-        var contentString<%=i%> = 'Address: <%=crimes[i].address%> ';
-        var window<%=i%> = new google.maps.InfoWindow({
-            content:contentString<%=i%>
-        });
-        windows = window<%=i%>;
-        var latLng = new google.maps.LatLng(<%=crimes[i].lat%>, <%=crimes[i].long%>);
-        var marker<%=i%> = new google.maps.Marker({
-            position: latLng,
-            title: "<%=crimes[i].address%>"
-        });
+            var contentString<%=i%> = 'Address: <%=crimes[i].address%> ';
+            var window<%=i%> = new google.maps.InfoWindow({
+                content:contentString<%=i%>
+            });
+            windows = window<%=i%>;
+            var latLng = new google.maps.LatLng(<%=crimes[i].lat%>, <%=crimes[i].long%>);
+            var marker<%=i%> = new google.maps.Marker({
+                position: latLng,
+                title: "<%=crimes[i].address%>"
+            });
 
 
             markers.push(marker<%=i%>);
 
-        google.maps.event.addListener(marker<%=i%>, 'click', function() {
-
-            window<%=i%>.open(map,marker<%=i%>);
-            setTimeout(function () {
+            google.maps.event.addListener(marker<%=i%>, 'click', function() {
+                window<%=i%>.open(map,marker<%=i%>);
+                setTimeout(function () {
+                    window<%=i%>.close();
+                }, 2000);
+            });
+            google.maps.event.addListener(map, "click", function(event) {
                 window<%=i%>.close();
-            }, 2000);
-        });
-        google.maps.event.addListener(map, "click", function(event) {
-            window<%=i%>.close();
-        });
-
+            });
         <%}%>
-
 
 
         $.ajax('./map/boundary').done(function(xml) {
 
             boundaryJSON = toGeoJSON.kml(xml);
+
 
             console.log(boundaryJSON);
 
