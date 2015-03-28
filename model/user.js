@@ -46,8 +46,9 @@ User.prototype.save = function(callback) {
 };
 
 User.get = function(name, callback) {
-    userModel.findOne({name: name},
-        function (err, user) {
+    userModel.findOne({name:name})
+        .populate('comments')
+        .exec(function(err, user) {
             if (err) {
                 return callback(err);
             }
@@ -63,6 +64,16 @@ User.remove = function(name, callback) {
         callback(null);
     });
 };
+
+User.addComment = function(name, comment, callback){
+
+    userModel.findOneAndUpdate({name:name}, {$push: {comments:comment}}, function(err, doc){
+        if (err) {
+            return callback(err);
+        }
+        callback(null, doc);});
+};
+
 
 User.setPrivilege= function(name, desiredPrivilege, callback){
 

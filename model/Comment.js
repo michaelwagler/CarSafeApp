@@ -15,7 +15,8 @@ var CommentSchema = new mongoose.Schema({
         title: String,
         body: String,
         region: String,
-        creator : { type: Number, ref: 'User' }
+        creator: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
+
     },
     { collection: 'Comments' });
 

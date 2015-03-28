@@ -8,6 +8,8 @@ var Region = require('../model/region.js');
 
 function get(req, res) {
 
+    console.log('user:', req.session.user);
+    console.log('user.comments:', req.session.user.comments);
     Region.getAll(function(regions) {
         console.log('regions', regions);
     res.render('comment', {
@@ -47,8 +49,11 @@ function post(req, res) {
                     return res.redirect('/comment');
                 }
                 //save user info to session
-                req.flash('success', 'Your comment has been saved');
-                res.redirect('/');
+
+                User.addComment(user.name, comment._id, function(err, comment) {
+                    req.flash('success', 'Your comment has been saved');
+                    res.redirect('/');
+                });
             });
         }
 
