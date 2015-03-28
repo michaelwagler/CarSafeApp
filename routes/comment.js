@@ -12,6 +12,7 @@ function get(req, res) {
     res.render('comment', {
         title: 'Comment',
         user: req.session.user,
+        regions: regions,
         success: req.flash('success').toString(),
         error: req.flash('error').toString()});
     });
