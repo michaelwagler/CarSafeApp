@@ -89,14 +89,11 @@ th, td{
     width: 333px;
 }
 #panel {
-    position: absolute;
-    top: 76px;
     left: 50%;
     margin-left: 80px;
     z-index: 5;
     background-color: #fff;
     padding: 5px;
-    border: 1px solid #999;
 }
 
 #info-box {
