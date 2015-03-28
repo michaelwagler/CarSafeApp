@@ -12,7 +12,8 @@ var userSchema = new mongoose.Schema({
         name: String,
         password: String,
         email: String,
-        type: String
+        type: String,
+        comments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Comment'}]
     },
     { collection: 'users' });
 
@@ -23,6 +24,7 @@ function User(user) {
     this.password = user.password;
     this.email = user.email;
     this.type = user.type;
+    this.comments = user.comments;
 }
 
 User.prototype.save = function(callback) {
@@ -31,7 +33,8 @@ User.prototype.save = function(callback) {
         name: this.name,
         password: this.password,
         email: this.email,
-        type: this.type
+        type: this.type,
+        coments: this.comments
     };
     var newUser = new userModel(user);
     newUser.save(function (err, user) {
@@ -43,8 +46,9 @@ User.prototype.save = function(callback) {
 };
 
 User.get = function(name, callback) {
-    userModel.findOne({name: name},
-        function (err, user) {
+    userModel.findOne({name:name})
+        .populate('comments')
+        .exec(function(err, user) {
             if (err) {
                 return callback(err);
             }
@@ -61,6 +65,16 @@ User.remove = function(name, callback) {
     });
 };
 
+User.addComment = function(name, comment, callback){
+
+    userModel.findOneAndUpdate({name:name}, {$push: {comments:comment}}, function(err, doc){
+        if (err) {
+            return callback(err);
+        }
+        callback(null, doc);});
+};
+
+
 User.setPrivilege= function(name, desiredPrivilege, callback){
 
     userModel.findOneAndUpdate({name:name}, {$set: {type:desiredPrivilege}}, function(err, doc){
@@ -71,7 +85,7 @@ User.setPrivilege= function(name, desiredPrivilege, callback){
 };
 
 User.getAll = function( callback){
-    userModel.find({},'name email type',function(err, docs) {
+    userModel.find({},'name email type comments',function(err, docs) {
         if (!err){
             callback(null, docs);
         } else {

@@ -3,7 +3,7 @@
  */
 var appRoot = require('app-root-path');
 var tj = require('togeojson'),
-    fs = require('fs'),
+    fs = require('fs');
 // node doesn't have xml parsing or a dom. use jsdom
     jsdom = require('jsdom-nogyp').jsdom;
 
