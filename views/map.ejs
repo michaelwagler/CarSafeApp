@@ -156,31 +156,11 @@
 <div>
     <select id="regionSelect" onchange="getRegions()">
         <option>Select Region</option>
-        <option value="Arbutus-Ridge">Arbutus</option>
-        <option value="Downtown">Downtown</option>
-        <option value="Dunbar-Southlands">Dunbar</option>
-        <option value="Fairview">Fairview</option>
-        <option value="Fraserview">Fraserview</option>
-        <option value="Grandview-Woodland">Grandview-Woodland</option>
-        <option value="Kensington-Cedar Cottage">Kensington-Cedar Cottage</option>
-        <option value="Kerrisdale">Kerrisdale</option>
-        <option value="Killarney">Killarney</option>
-        <option value="Kitsilano">Kitsilano</option>
-        <option value="Marpole">Marpole</option>
-        <option value="Mountpleasant">Mount Pleasant</option>
-        <option value="Oakridge">Oakridge</option>
-        <option value="West Point grey">Point Grey</option>
-        <option value="Renfrew-collingwood">Renfrew-Collingwood</option>
-        <option value="Riley Park">Riley Park</option>
-        <option value="Shaughnessy">Shaugnessy</option>
-        <option value="Hastings-Sunrise">Hastings-Sunris</option>
-        <option value="Strathcona">Strathcona</option>
-        <option value="South Cambie">South Cambie</option>
-        <option value="sunset">Sunset</option>
-        <option value="Victoria-Fraserview">Victoria-Fraserview</option>
-        <option value="Westend">West End</option>
-
-
+        <%
+        console.log('in view: regions:', regions);
+                for(var i in regions){%>
+        <option value="<%=regions[i].name%>"><%=regions[i].name%></option>
+        <%}%>
 
     </select>
 </div>
