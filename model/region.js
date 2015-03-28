@@ -1,10 +1,15 @@
 /**
  * Created by michaelwagler on 2015-03-28.
  */
+var appRoot = require('app-root-path');
 var tj = require('togeojson'),
     fs = require('fs'),
 // node doesn't have xml parsing or a dom. use jsdom
-    jsdom = require('jsdom').jsdom;
+    jsdom = require('jsdom-nogyp').jsdom;
+
+var kml = jsdom(fs.readFileSync(appRoot+'/download_data/vancouverLocalBoundary.kml', 'utf8'));
+
+var converted = tj.kml(kml);
 
 function Region(region) {
     this.name = user.name;
@@ -12,18 +17,15 @@ function Region(region) {
 
 Region.getAll = function( callback){
 
-    var region1 = {
-        name: "region1"
-    };
+    var regions = [];
 
-    var region2 = {
-        name: "region2"
-    };
-    var region3 = {
-        name: "region3"
-    };
-
-    var regions = [region1, region2, region3];
+    for( var i =0; i< converted.features.length;i++)
+    {
+        var region  = {
+            name: converted.features[i].properties.name
+        };
+        regions.push(region);
+    }
     return callback(regions);
 
 
