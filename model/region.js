@@ -9,8 +9,20 @@ function Region(region) {
 
 Region.getAll = function( callback){
 
-    var regions = ['region1', 'region2', 'region3'];
-    return callback(null, regions);
+    var region1 = {
+        name: "region1"
+    };
+
+    var region2 = {
+        name: "region2"
+    };
+    var region3 = {
+        name: "region3"
+    };
+
+    var regions = [region1, region2, region3];
+    return callback(regions);
+
 
 };
 module.exports = Region;

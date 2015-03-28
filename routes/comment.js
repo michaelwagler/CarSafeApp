@@ -9,6 +9,7 @@ var Region = require('../model/region.js');
 function get(req, res) {
 
     Region.getAll(function(regions) {
+        console.log('regions', regions);
     res.render('comment', {
         title: 'Comment',
         user: req.session.user,
