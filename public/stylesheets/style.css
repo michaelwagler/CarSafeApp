@@ -81,6 +81,13 @@ th, td{
     background-color: #CCC;
 }
 
+#commentTable textarea {
+    width:333px;
+}
+
+#commentTable input {
+    width: 333px;
+}
 #panel {
     position: absolute;
     top: 76px;
@@ -90,4 +97,5 @@ th, td{
     background-color: #fff;
     padding: 5px;
     border: 1px solid #999;
+>>>>>>> 422e2e45afccbe51912080a07d5e46fea4816699
 }
