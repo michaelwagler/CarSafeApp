@@ -1,11 +1,10 @@
 <%- include header %>
-<% if (user) { %>
+<h3><i><% if (user) { %>
 Welcome to <font color="red">CarSafe</font>, <%=user.name%>!
 <% } else { %>
 Welcome to CarSafe!
 <% } %>
-
-<br>
+</i></h3>
 <br>
 Do you ever feel as though your car isn't safe where it's parked?
 Have you ever tried to prevent car theft through ridiculous means that clearly don't work?
@@ -16,8 +15,8 @@ Well, we have a solution for you! Here at <font color="red">CarSafe</font>, we h
 theft of auto data for the City of Vancouver, available to view as a <a href="/crimeTable">table</a> or a
 <a href="/map">map</a>.
 <br><br>
-When viewing the <a href="/map">map</a>, simply select a region in the drop down menu or hover your mouse over
-a region to view the crimes in that area! You can also leave a comment about a region or view comments that
+When viewing the <a href="/map">map</a>, simply select a region in the drop down menu to view the crimes in
+that area! You can also leave a comment about a region (if you are logged in) or view comments that
 others have left.
 <br><br>
 <img src="/img/antitheftdevice.jpg" style="width:450px;height:350px">
