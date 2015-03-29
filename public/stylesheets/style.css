@@ -99,10 +99,10 @@ th, td{
 #info-box {
     background-color: transparent;
     border: 1px solid black;
-    bottom: 30px;
     height: 20px;
-    padding: 10px;
+    padding: 5px;
     position: absolute;
-    left: 30px;
+    top: 119px;
+    left: 710px;
 >>>>>>> 422e2e45afccbe51912080a07d5e46fea4816699
 }
