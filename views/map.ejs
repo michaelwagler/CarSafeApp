@@ -39,6 +39,8 @@
 
             google.maps.event.addListener(marker<%=i%>, 'click', function() {
                 window<%=i%>.open(map,marker<%=i%>);
+
+
                 setTimeout(function () {
                     window<%=i%>.close();
                 }, 2000);
@@ -88,8 +90,6 @@
                 region[j].setMap(map);
 
 
-                opened_info = new google.maps.InfoWindow();
-
                 google.maps.event.addListener(region[j], 'mouseover', function(event) {
 
                     for( i =0; i< region.length;i++) {
@@ -105,8 +105,16 @@
 
                 });
 
-                google.maps.event.addListener(map, 'click', function (event) {
-                    opened_info.close();
+                google.maps.event.addListener(region[j], 'click', function (event) {
+                    for( i =0; i< region.length;i++) {
+                        var isWithin = region[i].containsLatLng(event.latLng.k, event.latLng.D);
+                        if( isWithin)
+                        {
+                            document.getElementById('comments').textContent =
+                                    'Comments in Region:'+boundaryJSON.features[i].properties.name;
+                            break;
+                        }
+                    }
                 });
                 google.maps.event.addListener(map, 'mouseover', function (event) {
                     document.getElementById('info-box').textContent =
@@ -119,10 +127,35 @@
         });
     }
 
+    function getARegionByName(name){
+        for( i =0; i< region.length;i++) {
+            if(name==boundaryJSON.features[i].properties.name)
+            {
+                return region[i];
+            }
+        }
+    }
+
     // Sets the map on all markers in the array.
     function setMarkersOnMap(map) {
         for (var i = 0; i < markers.length; i++) {
             markers[i].setMap(map);
+        }
+        console.log(markers[0]);
+    }
+
+    function setRegionMarkersOnMap(map,regionName){
+        for(var i = 0; i < markers.length; i++){
+            var markerLat = markers[i].position.k;
+            var markerLng =markers[i].position.D;
+
+            var region = getARegionByName(regionName);
+
+            var isWithin = region.containsLatLng(markerLat,  markerLng);
+            if( isWithin)
+            {
+                markers[i].setMap(map);
+            }
         }
     }
 
@@ -136,18 +169,35 @@
         setMarkersOnMap(map);
     }
 
+    function changeCentre(map,regionName) {
+        var region = getARegionByName(regionName);
+        map.setZoom(14);
+        map.setCenter(region.getBounds().getCenter());
+
+    }
+
 
 
     //initialize();
     console.log("in map.js");
     google.maps.event.addDomListener(window, 'load', initialize);
 
+    function getRegions(){
+        var regionList = document.getElementById("regionSelect");
+        var selectedRegionName = regionList.options[regionList.selectedIndex].value;
+        if(selectedRegionName!="Select Region") {
+            clearAllMarkers();
+
+            setRegionMarkersOnMap(map, selectedRegionName);
+            changeCentre(map, selectedRegionName);
+        }
+    }
 
 
 
 </script>
 
-<div id="info-box">Current Region</div>
+
 
 <div id="panel" >
     <input onclick="scroll(0,600)" type=button class="btnExample" value="View Comments">
@@ -167,6 +217,7 @@
     </select>
 </div>
 <br>
+<div id="info-box">Current Region</div>
 <div id="map-canvas"></div>
 <br>
 <div id="comments"><h3>Comments:</h3><div id="back-to-top" align="right"><a href="/comment">Submit a new comment</a></div>
