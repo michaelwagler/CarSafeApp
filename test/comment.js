@@ -54,10 +54,9 @@ describe("Comment Tests", function() {
                     assert.fail('FAILED', err);
                 }
                 expect(comment.title).to.equal("myTitle");
-                done();
-
+                // NOTE: user.addComment REALLY ought to be part of comment.save....
+                User.addComment("Edward", comment._id, function(){done();});
             });
-
         });
 
         it('should now have a length of 1', function(done) {
@@ -67,6 +66,19 @@ describe("Comment Tests", function() {
             });
         });
     });
+
+    describe("User comment tests", function() {
+        it('user should have a comment', function(done) {
+            User.get("Edward", function(err, edward) {
+                if (err) {
+                    assert.fail('FAILED', err);
+                }
+                expect(edward.comments.length).to.equal(1);
+                done();
+            });
+        });
+    });
+
     describe("Async comment edits", function() {
 
 
