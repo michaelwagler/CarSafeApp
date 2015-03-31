@@ -302,12 +302,12 @@
     <%for(var i in comments){ %>
          <div class="comment <%=comments[i].region%>" id = "comment-<%=comments[i].region%>">
              <div class="comment-title">
-                 <%=comments[i].title%>
+                 <h3><%=comments[i].title%></h3>
              </div>
 
              <div class="comment-body">
                  <%=comments[i].body%>
-             </div>
+             </div><br>
          </div>
     <%}%>
 

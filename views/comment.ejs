@@ -18,12 +18,12 @@
     <p align="center"><button type="submit" class="btnExample">Submit comment</button></p>
 
 </form>
-<p>Comments:</p>
+<p><h1><u>My comments:</u></h1></p>
 <%
 for(var i in user.comments){%>
 <ul>
-    <li>Title: <%=user.comments[i].title%></li>
-    <li>Body: <%=user.comments[i].body%></li>
+    <li><h3>Title: <%=user.comments[i].title%></h3></li>
+    <li>Body: <%=user.comments[i].body%></li><br>
 </ul>
 <%}%>
 
