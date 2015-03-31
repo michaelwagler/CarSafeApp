@@ -4,7 +4,7 @@
 <script type="text/javascript" src="http://yourjavascript.com/9435251235/togeojson.js"></script>
 <script type="text/javascript" src="http://yourjavascript.com/5525392134/maps-google-polygon-containslatlng.js"></script>
 <script>
-    jQuery.noConflict();
+
 
     var map;
     var markers = [];
@@ -182,6 +182,10 @@
             setRegionMarkersOnMap(map, selectedRegionName);
             changeCentre(map, selectedRegionName);
         }
+        else if(selectedRegionName=="SHOW ALL"){
+            clearAllMarkers();
+            showAllMarkers();
+        }
     }
 
 
@@ -229,7 +233,8 @@
     }
 
     function displayByRadius(latlng,radius){
-
+        if(cityCircle!=null)
+            cityCircle.setMap(null);
         var nearCrimeOptions = {
             strokeColor: 'blue',
             strokeOpacity: 0.02,
@@ -243,8 +248,8 @@
 
         cityCircle = new google.maps.Circle(nearCrimeOptions);
         setTimeout(function () {
-            cityCircle.setMap(null);
-        }, 3500);
+            this.cityCircle.setMap(null);
+        }, 5000);
         clearAllMarkers();
         var pointIsInsideCircle;
         for (var i = 0; i < markers.length; i++) {
@@ -315,7 +320,7 @@
 <div align="center">
     <select id="regionSelect" onchange="getRegions();getRegionComments();">
         <option >Select Neighbourhood</option>
-        <option onclick="showAllMarkers()">SHOW ALL</option>
+        <option >SHOW ALL</option>
 
         <%for(var i in regions){%>
 
