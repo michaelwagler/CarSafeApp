@@ -28,7 +28,8 @@
             var typeString<%=i%> = 'Type: <%=crimes[i].type%>';
             var monthString<%=i%> = 'Month: <%=crimes[i].month%>';
             var window<%=i%> = new google.maps.InfoWindow({
-                content:"<p>"+contentString<%=i%>+"<br />"+typeString<%=i%>+"<br />"+monthString<%=i%>+"</p>"
+                content:"<p>"+contentString<%=i%>+"<br />"+typeString<%=i%>+"<br />"+monthString<%=i%>+
+                    "<br />"+'<a href="/comment">'+"Submit a comment"+'</a>'+"</p>"
             });
             windows = window<%=i%>;
             var latLng = new google.maps.LatLng(<%=crimes[i].lat%>, <%=crimes[i].long%>);
