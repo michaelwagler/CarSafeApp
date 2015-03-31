@@ -16,9 +16,15 @@
     <span><a title="Main" href="/">home</a></span>
     <span><a title="Crime Data" href="/crimeTable">crime data</a></span>
     <span><a title="Crime Map" href="/map">crime map</a></span>
-    <span><a title="Admin Page" href="/admin">admin panel</a></span>
+
+
 
     <% if (user) { %>
+
+    <% if (user.type == 'admin') { %>
+        <span><a title="Admin Page" href="/admin">admin panel</a></span>
+    <% } %>
+
     <!-- <span><a title="Post" href="/post">post</a></span>-->
     <span><a title="Comment" href="/comment">comment</a></span>
     <span><a title="Log Out" href="/logout">logout</a></span>
