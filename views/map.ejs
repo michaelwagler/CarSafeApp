@@ -179,6 +179,7 @@
     }
 
 
+
     //initialize();
     google.maps.event.addDomListener(window, 'load', initialize);
 
@@ -228,27 +229,43 @@
             document.getElementById('info-box').textContent = "Geolocation is not supported by this browser.";
         }
     }
-
+    var cityCircle;
     function showPosition(position) {
-       // alert("Latitude: " + position.coords.latitude +
-       // "Longitude: " + position.coords.longitude);
-        var isWithin=false;
-        for( i =0; i< region.length;i++) {
-            isWithin = region[i].containsLatLng(position.coords.latitude, position.coords.longitude);
-            if( isWithin)
-            {
-                document.getElementById('info-box').textContent =
-                        'Your current Region:'+boundaryJSON.features[i].properties.name;
-
-                clearAllMarkers();
-                setRegionMarkersOnMap(map, boundaryJSON.features[i].properties.name);
-                changeCentre(map,boundaryJSON.features[i].properties.name);
-                break;
-            }
+        var radius = 0;
+        while (radius <= 0 || radius > 10) {
+            radius = prompt("Please enter the radius:(in km)", "");
         }
-        if(!isWithin)
-        {
-            document.getElementById('info-box').textContent =("You are not in a region of Vancouver!");
+        var isWithin = false;
+        var curLatLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+        var nearCrimeOptions = {
+            strokeColor: 'blue',
+            strokeOpacity: 0.8,
+            strokeWeight: 1,
+            fillColor: 'blue',
+            fillOpacity: 0.05,
+            map: map,
+            center: curLatLng,
+            radius: radius * 1000
+        };
+
+        cityCircle = new google.maps.Circle(nearCrimeOptions);
+        cityCircle.setMap(null);
+        var bounds = cityCircle.getBounds();
+
+        clearAllMarkers();
+        for (var i = 0; i < markers.length; i++) {
+            var markerLat = markers[i].position.k;
+            var markerLng = markers[i].position.D;
+            var markerLatLng = new google.maps.LatLng(markerLat, markerLng);
+//            if(bounds.contains(markerLatLng))
+            var pointIsInsideCircle = google.maps.geometry.spherical.computeDistanceBetween(cityCircle.getCenter(), markerLatLng) <= cityCircle.getRadius();
+            if (pointIsInsideCircle) {
+                markers[i].setMap(map);
+            }
+            else
+                document.getElementById('info-box').textContent = ("Your location + radius given does not return any crime!");
+
         }
     }
 
@@ -269,17 +286,26 @@
         }
     }
 
+    function searchCrime(){
+
+    }
+
 
 
 </script>
 
 
 
-<div id="panel" align="center">
-    <input onclick="scroll(0,600)" type=button class="btnExample2" width="25%" value="View Comments">
-    <input onclick="showAllMarkers();" type=button class="btnExample2" width="25%" value="Show Markers">
-    <input onclick="clearAllMarkers();" type=button class="btnExample2" width="25%" value="Hide Markers">
-    <input onclick="getLocation();" type=button class="btnExample2" width="25%" value="Crimes Nearby">
+<div id="panel" >
+    <input onclick="scroll(0,600)" type=button class="btnExample2" width="20%" value="View Comments">
+    <input onclick="showAllMarkers();" type=button class="btnExample2" width="20%" value="Show Markers">
+    <input onclick="clearAllMarkers();" type=button class="btnExample2" width="20%" value="Hide Markers">
+    <input onclick="getLocation();" type=button class="btnExample2" width="20%" value="Crimes Nearby">
+
+</div>
+
+<div id="panel">
+    <input onclick="searchCrime();" type=button width="50%" value="Search an address for a crime">
 </div>
 
 <div align="center">
@@ -313,12 +339,7 @@
     <%}%>
 
 </div>
-         </div>
 
-
-
-
-</div>
 <a href="javascript:scroll(0,0)">Back to top</a>
 <%- include footer %>
 
