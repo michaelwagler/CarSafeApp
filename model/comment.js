@@ -66,7 +66,9 @@ Comment.removeAll = function(callback){
     });
 };
 Comment.getAll = function( callback){
-    commentModel.find({}, 'title body creator region', function(err, docs) {
+    commentModel.find({})
+        .populate('creator')
+        .exec(function(err, docs) {
         if (!err){
             callback(null, docs);
         } else {

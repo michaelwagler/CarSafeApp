@@ -11,7 +11,7 @@ var mongoose = require('mongoose');
 
 var crimeSchema = new mongoose.Schema({
         type: String,
-        month: Number,
+        month: String,
         address: String,
         lat: Number,
         long: Number

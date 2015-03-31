@@ -34,6 +34,22 @@ function filtr(jArray){
     }
 }
 
+var months = [
+    "",
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+];
+
 function saveOneCrime(jArray, i) {
     var type = jArray[i].TYPE,
         month = parseInt(jArray[i].MONTH),
@@ -49,7 +65,7 @@ function saveOneCrime(jArray, i) {
         var long = result.results[0].geometry.location.lng;
         var newCrime = new Crime({
             type: type,
-            month: month,
+            month: months[month],
             address: address,
             lat: lat,
             long: long
