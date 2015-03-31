@@ -51,8 +51,11 @@ function post(req, res) {
                 //save user info to session
 
                 User.addComment(user.name, comment._id, function(err, comment) {
-                    req.flash('success', 'Your comment has been saved');
-                    res.redirect('/');
+                    User.get(user.name, function(err, updatedUser) {
+                        req.session.user = updatedUser;
+                        req.flash('success', 'Your comment has been saved');
+                        res.redirect('/comment');
+                    });
                 });
             });
         }

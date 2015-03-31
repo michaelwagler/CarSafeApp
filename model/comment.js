@@ -7,29 +7,22 @@
  * and database CRUD operations.
  *
  */
-
 var config = require('../config');
 var mongoose = require('mongoose');
-
 var CommentSchema = new mongoose.Schema({
         title: String,
         body: String,
         region: String,
         creator: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
-
     },
     { collection: 'Comments' });
-
 var commentModel = mongoose.model('Comment', CommentSchema);
-
-
 function Comment(Comment) {
     this.title = Comment.title;
     this.body = Comment.body;
     this.region = Comment.region;
     this.creator = Comment.creator;
 }
-
 Comment.prototype.save = function(callback) {
     var Comment = {
         title: this.title,
@@ -46,7 +39,6 @@ Comment.prototype.save = function(callback) {
         callback(null, Comment);
     });
 };
-
 Comment.get = function(title, callback) {
     commentModel.findOne({title: title},
         function (err, Comment) {
@@ -56,7 +48,6 @@ Comment.get = function(title, callback) {
             callback(null, Comment);
         });
 };
-
 Comment.getByRegion = function(region, callback) {
     commentModel.find({region: region},
         function (err, comments) {
@@ -66,9 +57,6 @@ Comment.getByRegion = function(region, callback) {
             callback(null, comments);
         });
 };
-
-
-
 Comment.removeAll = function(callback){
     commentModel.collection.drop(function(err){
         if (err){
@@ -77,7 +65,6 @@ Comment.removeAll = function(callback){
         callback(null);
     });
 };
-
 Comment.getAll = function( callback){
     commentModel.find({}, 'title, body creator region', function(err, docs) {
         if (!err){
@@ -85,9 +72,5 @@ Comment.getAll = function( callback){
         } else {
             return callback(err);}
     });
-
 };
-
-
-
 module.exports = Comment;
