@@ -75,7 +75,7 @@
                     paths: polygonPaths,
                     strokeColor: '#FF0000',
                     strokeOpacity: 0.8,
-                    strokeWeight: 2,
+                    strokeWeight: 1,
                     fillColor: '#FF0000',
                     fillOpacity: 0.05,
                     title: currentRegionName
@@ -191,7 +191,69 @@
 
 
 
+
+
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition, showError);
+        } else {
+            document.getElementById('info-box').textContent = "Geolocation is not supported by this browser.";
+        }
+    }
+
+    function showPosition(position) {
+       // alert("Latitude: " + position.coords.latitude +
+       // "Longitude: " + position.coords.longitude);
+        var isWithin=false;
+        for( i =0; i< region.length;i++) {
+            isWithin = region[i].containsLatLng(position.coords.latitude, position.coords.longitude);
+            if( isWithin)
+            {
+                document.getElementById('info-box').textContent =
+                        'Your current Region:'+boundaryJSON.features[i].properties.name;
+
+                clearAllMarkers();
+                setRegionMarkersOnMap(map, boundaryJSON.features[i].properties.name);
+                changeCentre(map,boundaryJSON.features[i].properties.name);
+                break;
+            }
+        }
+        if(!isWithin)
+        {
+            document.getElementById('info-box').textContent =("You are not in a region of Vancouver!");
+        }
+    }
+
+    function showError(error) {
+        switch(error.code) {
+            case error.PERMISSION_DENIED:
+                document.getElementById('info-box').textContent = "User denied the request for Geolocation."
+                break;
+            case error.POSITION_UNAVAILABLE:
+                document.getElementById('info-box').textContent = "Location information is unavailable."
+                break;
+            case error.TIMEOUT:
+                document.getElementById('info-box').textContent = "The request to get user location timed out."
+                break;
+            case error.UNKNOWN_ERROR:
+                document.getElementById('info-box').textContent  = "An unknown error occurred."
+                break;
+        }
+    }
+
+
+
 </script>
+
+
+
+<div id="panel" >
+    <input onclick="scroll(0,600)" type=button class="btnExample2" width="25%" value="View Comments">
+    <input onclick="showAllMarkers();" type=button class="btnExample2" width="25%" value="Show Markers">
+    <input onclick="clearAllMarkers();" type=button class="btnExample2" width="25%" value="Hide Markers">
+    <input onclick="getLocation();" type=button class="btnExample2" width="25%" value="Crimes Nearby">
+</div>
 
 <div align="center">
     <select id="regionSelect" onchange="getRegions()">
