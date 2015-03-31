@@ -18,6 +18,8 @@
             zoom: 12,
             center: new google.maps.LatLng(49.246292, -123.116226)
         };
+
+        geocoder = new google.maps.Geocoder();
         map = new google.maps.Map(document.getElementById('map-canvas'),
                 mapOptions);
 
@@ -237,36 +239,43 @@
         }
         var isWithin = false;
         var curLatLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        displayByRadius(curLatLng,radius);
+    }
+
+    function displayByRadius(latlng,radius){
 
         var nearCrimeOptions = {
             strokeColor: 'blue',
-            strokeOpacity: 0.8,
+            strokeOpacity: 0.02,
             strokeWeight: 1,
             fillColor: 'blue',
             fillOpacity: 0.05,
             map: map,
-            center: curLatLng,
+            center: latlng,
             radius: radius * 1000
         };
 
         cityCircle = new google.maps.Circle(nearCrimeOptions);
-        cityCircle.setMap(null);
-        var bounds = cityCircle.getBounds();
-
+        setTimeout(function () {
+            cityCircle.setMap(null);
+        }, 3500);
         clearAllMarkers();
+        var pointIsInsideCircle;
         for (var i = 0; i < markers.length; i++) {
             var markerLat = markers[i].position.k;
             var markerLng = markers[i].position.D;
             var markerLatLng = new google.maps.LatLng(markerLat, markerLng);
-//            if(bounds.contains(markerLatLng))
-            var pointIsInsideCircle = google.maps.geometry.spherical.computeDistanceBetween(cityCircle.getCenter(), markerLatLng) <= cityCircle.getRadius();
+            pointIsInsideCircle= google.maps.geometry.spherical.computeDistanceBetween(cityCircle.getCenter(), markerLatLng) <= cityCircle.getRadius();
             if (pointIsInsideCircle) {
                 markers[i].setMap(map);
             }
-            else
-                document.getElementById('info-box').textContent = ("Your location + radius given does not return any crime!");
-
         }
+        if(!pointIsInsideCircle)
+        {
+            document.getElementById('info-box').textContent = "No crime data in given radius!";
+        }
+        map.setCenter(cityCircle.getCenter());
+        map.setZoom(13);
     }
 
     function showError(error) {
@@ -287,6 +296,20 @@
     }
 
     function searchCrime(){
+
+        var address = prompt("Please enter an address in BC:","500 broadway ave, vancouver");
+        geocoder.geocode( { 'address': address+', BC'}, function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                map.setCenter(results[0].geometry.location);
+                var radius = 0;
+                while (radius <= 0 || radius > 10) {
+                    radius = prompt("Please enter the radius:(in km)", "");
+                }
+                displayByRadius(results[0].geometry.location,radius);
+            } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+        });
 
     }
 
@@ -329,9 +352,11 @@
          <div class="comment <%=comments[i].region%>" id = "comment-<%=comments[i].region%>">
 
              <div class="comment-title">
-                 <h3><%=comments[i].title%></h3>
+                 <h3><u><%=comments[i].title%></u></h3>
              </div>
-
+            <div class="comment-user">
+                <i>User: <%=comments[i].creator%></i>
+            </div>
              <div class="comment-body">
                  <%=comments[i].body%>
              </div><br>
