@@ -260,20 +260,22 @@
             cityCircle.setMap(null);
         }, 3500);
         clearAllMarkers();
+        var pointIsInsideCircle;
         for (var i = 0; i < markers.length; i++) {
             var markerLat = markers[i].position.k;
             var markerLng = markers[i].position.D;
             var markerLatLng = new google.maps.LatLng(markerLat, markerLng);
-            var pointIsInsideCircle = google.maps.geometry.spherical.computeDistanceBetween(cityCircle.getCenter(), markerLatLng) <= cityCircle.getRadius();
+            pointIsInsideCircle= google.maps.geometry.spherical.computeDistanceBetween(cityCircle.getCenter(), markerLatLng) <= cityCircle.getRadius();
             if (pointIsInsideCircle) {
                 markers[i].setMap(map);
             }
-            else
-                document.getElementById('info-box').textContent = ("Your location + radius given does not return any crime!");
-
+        }
+        if(!pointIsInsideCircle)
+        {
+            document.getElementById('info-box').textContent = "No crime data in given radius!";
         }
         map.setCenter(cityCircle.getCenter());
-        map.setZoom(14);
+        map.setZoom(13);
     }
 
     function showError(error) {
