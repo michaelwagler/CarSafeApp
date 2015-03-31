@@ -85,7 +85,7 @@
 
 
                 region[j].infowindow = new google.maps.InfoWindow({
-                    content: 'Region: ' + currentRegionName
+                    content: 'Neighbourhood: ' + currentRegionName
                 });
                 region[j].setMap(map);
 
@@ -97,7 +97,7 @@
                         if( isWithin)
                         {
                             document.getElementById('info-box').textContent =
-                                    'Region:'+boundaryJSON.features[i].properties.name;
+                                    'Neighbourhood: '+boundaryJSON.features[i].properties.name;
                             break;
                         }
                     }
@@ -111,7 +111,7 @@
                         if( isWithin)
                         {
                             document.getElementById('comments').textContent =
-                                    'Comments in Region:'+boundaryJSON.features[i].properties.name;
+                                    'Comments in Neighbourhood: '+boundaryJSON.features[i].properties.name;
                             break;
                         }
                     }
@@ -185,9 +185,8 @@
     function getRegions(){
         var regionList = document.getElementById("regionSelect");
         var selectedRegionName = regionList.options[regionList.selectedIndex].value;
-        if(selectedRegionName!="Select Region") {
+        if(selectedRegionName!="Select Neighbourhood") {
             clearAllMarkers();
-
             setRegionMarkersOnMap(map, selectedRegionName);
             changeCentre(map, selectedRegionName);
         }
@@ -197,27 +196,17 @@
 
 </script>
 
-
-
-<div id="panel" >
-    <input onclick="javascript:scroll(0,600)" type=button class="btnExample" value="View Comments">
-    <input onclick="showAllMarkers();" type=button class="btnExample" value="Show Markers">
-    <input onclick="clearAllMarkers();" type=button class="btnExample" value="Hide Markers">
-</div>
-
 <div align="center">
     <select id="regionSelect" onchange="getRegions()">
-        <option>Select Region</option>
+        <option>Select Neighbourhood</option>
         <%
-        console.log('in view: regions:', regions);
                 for(var i in regions){%>
         <option value="<%=regions[i].name%>"><%=regions[i].name%></option>
         <%}%>
 
     </select>
 </div>
-<br>
-<div id="info-box">Current Region</div>
+<div id="info-box">Current Neighbourhood</div>
 <div id="map-canvas"></div>
 <br>
 <div id="comments"><h3>Comments:</h3><div id="back-to-top" align="right"><a href="/comment">Submit a new comment</a></div>

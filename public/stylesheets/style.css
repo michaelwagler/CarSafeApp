@@ -89,8 +89,6 @@ th, td{
     width: 333px;
 }
 #panel {
-    left: 50%;
-    margin-left: 80px;
     z-index: 5;
     background-color: #fff;
     padding: 5px;
@@ -100,9 +98,10 @@ th, td{
     background-color: transparent;
     border: 1px solid black;
     height: 20px;
+    width: 280px;
     padding: 5px;
-    position: absolute;
-    top: 119px;
-    left: 710px;
->>>>>>> 422e2e45afccbe51912080a07d5e46fea4816699
+    position: relative;
+    left: 433px;
+    margin-bottom: 5px;
+
 }
