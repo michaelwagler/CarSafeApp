@@ -22,8 +22,10 @@
 
         <%for(var i in crimes) {%>
             var contentString<%=i%> = 'Address: <%=crimes[i].address%> ';
+            var typeString<%=i%> = 'Type: <%=crimes[i].type%>';
+            var monthString<%=i%> = 'Month: <%=crimes[i].month%>';
             var window<%=i%> = new google.maps.InfoWindow({
-                content:contentString<%=i%>
+                content:"<p>"+contentString<%=i%>+"<br />"+typeString<%=i%>+"<br />"+monthString<%=i%>+"</p>"
             });
             windows = window<%=i%>;
             var latLng = new google.maps.LatLng(<%=crimes[i].lat%>, <%=crimes[i].long%>);
@@ -41,7 +43,7 @@
 
                 setTimeout(function () {
                     window<%=i%>.close();
-                }, 2000);
+                }, 3500);
             });
 
         google.maps.event.addListener(map, "click", function (event) {
