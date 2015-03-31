@@ -40,7 +40,7 @@ var post = function (req, res) {
         name: name,
         password: password,
         email: req.body.email,
-        type: req.body['type']
+        type: 'user'
     });
     //check username is existed in database or not
     User.get(newUser.name, function (err, user) {

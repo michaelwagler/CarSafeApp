@@ -13,7 +13,6 @@ var User = require('../model/user');
 var admin = require('../routes/admin');
 
 
-
 describe("User Tests", function() {
     describe('User.getAll', function() {
         it('should show that there are no users', function (done) {
@@ -53,10 +52,13 @@ describe("User Tests", function() {
                 if (err) {
                     assert.fail('FAILED', err);
                 }
-                expect(hai.type).to.equal("admin");
-                done();
+                User.get('Hai', function(err, hai) {
+                    expect(hai.type).to.equal("admin");
+                    done();
+                });
             });
         });
+
         it('should remove Hai from the database', function(done) {
             User.remove("Hai", function(err) {
                 if (err) {

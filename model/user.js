@@ -81,6 +81,7 @@ User.setPrivilege= function(name, desiredPrivilege, callback){
         if (err) {
         return callback(err);
     }
+        console.log('successfully updated privilege: doc:', doc);
         callback(null, doc);});
 };
 
