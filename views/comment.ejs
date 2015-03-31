@@ -22,8 +22,9 @@
 <%
 for(var i in user.comments){%>
 <ul>
-    <li><h3>Title: <%=user.comments[i].title%></h3></li>
-    <li>Body: <%=user.comments[i].body%></li><br>
+    <li><h3><%=user.comments[i].title%></h3></li>
+    <li><i>Neighbourhood: <%=user.comments[i].region%></i></li>
+    <li><%=user.comments[i].body%></li><br>
 </ul>
 <%}%>
 
