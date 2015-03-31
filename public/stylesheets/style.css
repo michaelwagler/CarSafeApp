@@ -127,3 +127,7 @@ th, td{
 ul {
     list-style-type: none;
 }
+
+#submit-new-comment {
+    width:725px;
+}

@@ -159,6 +159,8 @@
     // Shows any markers currently in the array.
     function showAllMarkers() {
         setMarkersOnMap(map);
+        map.setZoom(12);
+        map.setCenter(new google.maps.LatLng(49.246292, -123.116226));
     }
 
     function changeCentre(map,regionName) {
@@ -176,7 +178,7 @@
     function getRegions(){
         var regionList = document.getElementById("regionSelect");
         var selectedRegionName = regionList.options[regionList.selectedIndex].value;
-        if(selectedRegionName!="Select Neighbourhood") {
+        if(selectedRegionName!="Select Neighbourhood" && selectedRegionName!="SHOW ALL") {
             clearAllMarkers();
             setRegionMarkersOnMap(map, selectedRegionName);
             changeCentre(map, selectedRegionName);
@@ -193,7 +195,7 @@
     function getRegionComments(){
         var regionList = document.getElementById("regionSelect");
         var selectedRegionName = regionList.options[regionList.selectedIndex].value;
-        if(selectedRegionName!="Select Region") {
+        if(selectedRegionName!="Select Neighbourhood" && selectedRegionName!="SHOW ALL") {
             jQuery('.comment').hide();
 
             // hack to deal with regions that have 2 words
@@ -206,9 +208,6 @@
             changeCentre(map, selectedRegionName);
         }
     }
-
-
-
 
 
 
@@ -317,6 +316,8 @@
 <div align="center">
     <select id="regionSelect" onchange="getRegions();getRegionComments();">
         <option >Select Neighbourhood</option>
+        <option onclick="showAllMarkers()">SHOW ALL</option>
+
         <%for(var i in regions){%>
 
         <option value="<%=regions[i].name%>"><%=regions[i].name%></option>
@@ -329,7 +330,7 @@
 <br>
 <div id="comments">
     <h3>Comments:</h3>
-    <div id="back-to-top" align="right"><a href="/comment">Submit a new comment</a></div>
+    <div id="submit-new-comment" align="right"><a href="/comment">Submit a new comment</a></div>
 
     <%for(var i in comments){%>
          <div class="comment <%=comments[i].region%>" id = "comment-<%=comments[i].region%>">
