@@ -24,8 +24,10 @@
 
         <%for(var i in crimes) {%>
             var contentString<%=i%> = 'Address: <%=crimes[i].address%> ';
+            var typeString<%=i%> = 'Type: <%=crimes[i].type%>';
+            var monthString<%=i%> = 'Month: <%=crimes[i].month%>';
             var window<%=i%> = new google.maps.InfoWindow({
-                content:contentString<%=i%>
+                content:"<p>"+contentString<%=i%>+"<br />"+typeString<%=i%>+"<br />"+monthString<%=i%>+"</p>"
             });
             windows = window<%=i%>;
             var latLng = new google.maps.LatLng(<%=crimes[i].lat%>, <%=crimes[i].long%>);
@@ -43,7 +45,7 @@
 
                 setTimeout(function () {
                     window<%=i%>.close();
-                }, 2000);
+                }, 3500);
             });
 
         google.maps.event.addListener(map, "click", function (event) {
@@ -77,7 +79,7 @@
                     paths: polygonPaths,
                     strokeColor: '#FF0000',
                     strokeOpacity: 0.8,
-                    strokeWeight: 2,
+                    strokeWeight: 1,
                     fillColor: '#FF0000',
                     fillOpacity: 0.05,
                     title: currentRegionName
@@ -85,7 +87,7 @@
 
 
                 region[j].infowindow = new google.maps.InfoWindow({
-                    content: 'Region: ' + currentRegionName
+                    content: 'Neighbourhood: ' + currentRegionName
                 });
                 region[j].setMap(map);
 
@@ -97,7 +99,7 @@
                         if( isWithin)
                         {
                             document.getElementById('info-box').textContent =
-                                    'Region:'+boundaryJSON.features[i].properties.name;
+                                    'Neighbourhood: '+boundaryJSON.features[i].properties.name;
                             break;
                         }
                     }
@@ -111,7 +113,7 @@
                         if( isWithin)
                         {
                             document.getElementById('comments').textContent =
-                                    'Comments in Region:'+boundaryJSON.features[i].properties.name;
+                                    'Comments in Neighbourhood: '+boundaryJSON.features[i].properties.name;
                             break;
                         }
                     }
@@ -183,9 +185,8 @@
     function getRegions(){
         var regionList = document.getElementById("regionSelect");
         var selectedRegionName = regionList.options[regionList.selectedIndex].value;
-        if(selectedRegionName!="Select Region") {
+        if(selectedRegionName!="Select Neighbourhood") {
             clearAllMarkers();
-
             setRegionMarkersOnMap(map, selectedRegionName);
             changeCentre(map, selectedRegionName);
         }
@@ -217,27 +218,81 @@
 
 
 
+
+
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition, showError);
+        } else {
+            document.getElementById('info-box').textContent = "Geolocation is not supported by this browser.";
+        }
+    }
+
+    function showPosition(position) {
+       // alert("Latitude: " + position.coords.latitude +
+       // "Longitude: " + position.coords.longitude);
+        var isWithin=false;
+        for( i =0; i< region.length;i++) {
+            isWithin = region[i].containsLatLng(position.coords.latitude, position.coords.longitude);
+            if( isWithin)
+            {
+                document.getElementById('info-box').textContent =
+                        'Your current Region:'+boundaryJSON.features[i].properties.name;
+
+                clearAllMarkers();
+                setRegionMarkersOnMap(map, boundaryJSON.features[i].properties.name);
+                changeCentre(map,boundaryJSON.features[i].properties.name);
+                break;
+            }
+        }
+        if(!isWithin)
+        {
+            document.getElementById('info-box').textContent =("You are not in a region of Vancouver!");
+        }
+    }
+
+    function showError(error) {
+        switch(error.code) {
+            case error.PERMISSION_DENIED:
+                document.getElementById('info-box').textContent = "User denied the request for Geolocation."
+                break;
+            case error.POSITION_UNAVAILABLE:
+                document.getElementById('info-box').textContent = "Location information is unavailable."
+                break;
+            case error.TIMEOUT:
+                document.getElementById('info-box').textContent = "The request to get user location timed out."
+                break;
+            case error.UNKNOWN_ERROR:
+                document.getElementById('info-box').textContent  = "An unknown error occurred."
+                break;
+        }
+    }
+
+
+
 </script>
 
 
 
-<div id="panel" >
-    <input onclick="javascript:scroll(0,600)" type=button class="btnExample" value="View Comments">
-    <input onclick="showAllMarkers();" type=button class="btnExample" value="Show Markers">
-    <input onclick="clearAllMarkers();" type=button class="btnExample" value="Hide Markers">
+<div id="panel" align="center">
+    <input onclick="scroll(0,600)" type=button class="btnExample2" width="25%" value="View Comments">
+    <input onclick="showAllMarkers();" type=button class="btnExample2" width="25%" value="Show Markers">
+    <input onclick="clearAllMarkers();" type=button class="btnExample2" width="25%" value="Hide Markers">
+    <input onclick="getLocation();" type=button class="btnExample2" width="25%" value="Crimes Nearby">
 </div>
 
 <div align="center">
     <select id="regionSelect" onchange="getRegions();getRegionComments();">
-        <option >Select Region</option>
+        <option >Select Neighbourhood</option>
         <%for(var i in regions){%>
+
         <option value="<%=regions[i].name%>"><%=regions[i].name%></option>
         <%}%>
 
     </select>
 </div>
-<br>
-<div id="info-box">Current Region</div>
+<div id="info-box">Current Neighbourhood</div>
 <div id="map-canvas"></div>
 <br>
 <div id="comments">
