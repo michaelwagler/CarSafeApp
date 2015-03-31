@@ -8,7 +8,6 @@ var Comment = require('../model/comment.js');
 function get(req, res) {
 
     Comment.getAll(function(err, comments) {
-        console.log('comments', comments);
         Region.getAll(function(regs) {
             Crime.getAll(function(err, crimes) {
 
