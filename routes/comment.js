@@ -32,7 +32,7 @@ function post(req, res) {
         return res.redirect('/comment');
     }
 
-    if (region = "Select Neighbourhood")
+    if (region == "Select Neighbourhood")
     {
         req.flash('error', 'Please select a neighbourhood');
         return res.redirect('/comment');
