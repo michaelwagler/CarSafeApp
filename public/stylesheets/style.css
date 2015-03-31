@@ -122,3 +122,7 @@ th, td{
     margin-bottom: 5px;
 
 }
+
+ul {
+    list-style-type: none;
+}

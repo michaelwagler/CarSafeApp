@@ -299,8 +299,9 @@
     <h3>Comments:</h3>
     <div id="back-to-top" align="right"><a href="/comment">Submit a new comment</a></div>
 
-    <%for(var i in comments){ %>
+    <%for(var i in comments){ console.log('title', comments[i].title);%>
          <div class="comment <%=comments[i].region%>" id = "comment-<%=comments[i].region%>">
+
              <div class="comment-title">
                  <%=comments[i].title%>
              </div>
