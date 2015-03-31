@@ -79,7 +79,7 @@ Comment.removeAll = function(callback){
 };
 
 Comment.getAll = function( callback){
-    commentModel.find({}, 'title, body creator', function(err, docs) {
+    commentModel.find({}, 'title, body creator region', function(err, docs) {
         if (!err){
             callback(null, docs);
         } else {
