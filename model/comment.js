@@ -75,4 +75,25 @@ Comment.getAll = function( callback){
             return callback(err);}
     });
 };
+
+Comment.remove = function(title, callback) {
+    commentModel.remove({title: title}, function(err) {
+        if (err) {
+            return callback(err);
+        }
+        callback(null);
+    });
+};
+
+Comment.removeAll = function(callback){
+    commentModel.collection.drop(function(err){
+        //console.log('called crime.removeAll()');
+        if (err){
+            return callback(err);
+        }
+        callback(null);
+    });
+};
+
+
 module.exports = Comment;

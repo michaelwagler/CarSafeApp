@@ -29,6 +29,12 @@ function post(req, res) {
     var region = req.body.region;
     var user = req.session.user;
 
+    if (body.length == 0 || title.length== 0)
+    {
+        req.flash('error', 'Title and body may not be empty');
+        return res.redirect('/comment');
+    }
+
     Comment.get(req.body.title, function (err, comment) {
         if (comment) {
             req.flash('error', 'There is a comment with this name already, use a different title.');
