@@ -108,18 +108,6 @@
 
 
                 });
-
-                google.maps.event.addListener(region[j], 'click', function (event) {
-                    for( i =0; i< region.length;i++) {
-                        var isWithin = region[i].containsLatLng(event.latLng.k, event.latLng.D);
-                        if( isWithin)
-                        {
-                            document.getElementById('comments').textContent =
-                                    'Comments in Neighbourhood: '+boundaryJSON.features[i].properties.name;
-                            break;
-                        }
-                    }
-                });
                 google.maps.event.addListener(map, 'mouseover', function (event) {
                     document.getElementById('info-box').textContent =
                             'Not in a region of Vancouver';
