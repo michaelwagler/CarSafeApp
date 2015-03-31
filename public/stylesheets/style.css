@@ -109,6 +109,7 @@ th, td{
     z-index: 5;
     background-color: #fff;
     padding: 5px;
+    width: 700px;
 }
 
 #info-box {

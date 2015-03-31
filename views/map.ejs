@@ -122,7 +122,7 @@
                 });
                 google.maps.event.addListener(map, 'mouseover', function (event) {
                     document.getElementById('info-box').textContent =
-                            'Region:'+ 'Not in a region of Vancouver';
+                            'Not in a region of Vancouver';
                 });
 
             }
@@ -319,16 +319,11 @@
 
 
 
-<div id="panel" >
+<div id="panel" align="center">
     <input onclick="scroll(0,600)" type=button class="btnExample2" width="20%" value="View Comments">
-    <input onclick="showAllMarkers();" type=button class="btnExample2" width="20%" value="Show Markers">
-    <input onclick="clearAllMarkers();" type=button class="btnExample2" width="20%" value="Hide Markers">
+    <input onclick="searchCrime();" type=button class="btnExample2" width="50%" value="Search Address">
     <input onclick="getLocation();" type=button class="btnExample2" width="20%" value="Crimes Nearby">
 
-</div>
-
-<div id="panel">
-    <input onclick="searchCrime();" type=button width="50%" value="Search an address for a crime">
 </div>
 
 <div align="center">
