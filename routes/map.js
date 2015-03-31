@@ -12,7 +12,7 @@ function get(req, res) {
             Crime.getAll(function(err, crimes) {
 
                 res.render('map', {
-                    title: 'Car Crime Map',
+                    title: 'Car Theft Map',
                     user: req.session.user,
                     crimes: crimes,
                     comments:comments,

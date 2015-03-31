@@ -8,11 +8,8 @@ var Region = require('../model/region.js');
 
 function get(req, res) {
 
-    console.log('user:', req.session.user);
-    console.log('user.comments:', req.session.user.comments);
     Region.getAll(function(regions) {
-        console.log('regions', regions);
-    res.render('comment', {
+    res.render('Submit a comment', {
         title: 'Comment',
         user: req.session.user,
         regions: regions,
@@ -32,6 +29,12 @@ function post(req, res) {
     if (body.length == 0 || title.length== 0)
     {
         req.flash('error', 'Title and body may not be empty');
+        return res.redirect('/comment');
+    }
+
+    if (region = "Select Neighbourhood")
+    {
+        req.flash('error', 'Please select a neighbourhood');
         return res.redirect('/comment');
     }
 

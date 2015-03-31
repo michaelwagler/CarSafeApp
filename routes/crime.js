@@ -13,7 +13,7 @@ function get (req, res){
         }
 
     res.render('crimeTable.ejs', {
-        title: 'Crime Data Page',
+        title: 'Crime Data',
         user: req.session.user,
         success: req.flash('success').toString(),
         error: req.flash('error').toString(),

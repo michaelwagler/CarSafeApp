@@ -22,7 +22,7 @@ function get(req, res) {
     {
 
         res.render('admin', {
-                title: 'Admin Panel Page',
+                title: 'Admin Panel',
                 user: req.session.user,
                 success: req.flash('success').toString(),
                 error: req.flash('error').toString(),
