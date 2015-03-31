@@ -86,6 +86,16 @@ Crime.getAll = function( callback){
 
 };
 
+Crime.getByRegion = function(region, callback){
+    crimeModel.find({region:region}, 'type month address lat long', function(err, docs) {
+        if (!err){
+            callback(null, docs);
+        } else {
+            return callback(err);}
+    });
+
+};
+
 
 
 module.exports = Crime;
