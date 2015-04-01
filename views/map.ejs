@@ -22,7 +22,7 @@
         map = new google.maps.Map(document.getElementById('map-canvas'),
                 mapOptions);
 
-
+        var openedWindow;
         <%for(var i in crimes) {%>
             var contentString<%=i%> = 'Address: <%=crimes[i].address%> ';
             var typeString<%=i%> = 'Type: <%=crimes[i].type%>';
@@ -42,12 +42,13 @@
             markers.push(marker<%=i%>);
 
             google.maps.event.addListener(marker<%=i%>, 'click', function() {
+                if(openedWindow!=null)
+                {
+                    openedWindow.close();
+                }
                 window<%=i%>.open(map,marker<%=i%>);
+                openedWindow=window<%=i%>;
 
-
-                setTimeout(function () {
-                    window<%=i%>.close();
-                }, 3500);
             });
 
         google.maps.event.addListener(marker<%=i%>, 'mouseover', function() {
