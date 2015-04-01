@@ -35,7 +35,6 @@ describe("Testing http requests", function() {
         });
     });
 
-    // TODO: test that admin CAN access the above page
     // can't figure out how to access the session object through
     // super-agent's request object
 
