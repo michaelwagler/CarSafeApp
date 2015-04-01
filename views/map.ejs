@@ -1,16 +1,13 @@
 <%- include header %>
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
-<script src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-<script type="text/javascript" src="http://yourjavascript.com/9435251235/togeojson.js"></script>
-<script type="text/javascript" src="http://yourjavascript.com/5525392134/maps-google-polygon-containslatlng.js"></script>
+<script src='/javascripts/lib/jquery.min.js'></script>
+<script src="/javascripts/module/map/togeojson.js"></script>
+<script src="/javascripts/module/map/maps-google-polygon-containslatlng.js"></script>
+
+
 <div id="fb-root"></div>
-<script>(function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=749797938471541&version=v2.3";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));</script>
+<script src="/javascripts/module/fb/fbInitialize.js"></script>
+<script src="javascripts/module/fb/fbDialog.js"></script>
 <script>
 
 
@@ -33,43 +30,41 @@
 
         var openedWindow;
         <%for(var i in crimes) {%>
-            var contentString<%=i%> = 'Address: <%=crimes[i].address%> ';
-            var typeString<%=i%> = 'Type: <%=crimes[i].type%>';
-            var monthString<%=i%> = 'Month: <%=crimes[i].month%>';
-            var window<%=i%> = new google.maps.InfoWindow({
-                content:"<p>"+contentString<%=i%>+"<br />"+typeString<%=i%>+"<br />"+monthString<%=i%>+
-                    "<br />"+'<a href="/comment">'+"Submit a comment"+'</a>'+"</p>"
-            });
-            windows = window<%=i%>;
-            var latLng = new google.maps.LatLng(<%=crimes[i].lat%>, <%=crimes[i].long%>);
-            var marker<%=i%> = new google.maps.Marker({
-                position: latLng,
-                title: "<%=crimes[i].address%>"
-            });
+        var contentString<%=i%> = 'Address: <%=crimes[i].address%> ';
+        var typeString<%=i%> = 'Type: <%=crimes[i].type%>';
+        var monthString<%=i%> = 'Month: <%=crimes[i].month%>';
+        var window<%=i%> = new google.maps.InfoWindow({
+            content: "<p>" + contentString<%=i%> + "<br />" + typeString<%=i%> + "<br />" + monthString<%=i%> +
+            "<br />" + '<a href="/comment">' + "Submit a comment" + '</a>' + "</p>"
+        });
+        windows = window<%=i%>;
+        var latLng = new google.maps.LatLng(<%=crimes[i].lat%>, <%=crimes[i].long%>);
+        var marker<%=i%> = new google.maps.Marker({
+            position: latLng,
+            title: "<%=crimes[i].address%>"
+        });
 
 
-            markers.push(marker<%=i%>);
+        markers.push(marker<%=i%>);
 
-            google.maps.event.addListener(marker<%=i%>, 'click', function() {
-                if(openedWindow!=null)
-                {
-                    openedWindow.close();
-                }
-                window<%=i%>.open(map,marker<%=i%>);
-                openedWindow=window<%=i%>;
+        google.maps.event.addListener(marker<%=i%>, 'click', function () {
+            if (openedWindow != null) {
+                openedWindow.close();
+            }
+            window<%=i%>.open(map, marker<%=i%>);
+            openedWindow = window<%=i%>;
 
-            });
+        });
 
-        google.maps.event.addListener(marker<%=i%>, 'mouseover', function() {
+        google.maps.event.addListener(marker<%=i%>, 'mouseover', function () {
             var markerLat = marker<%=i%>.position.k;
-            var markerLng =marker<%=i%>.position.D;
+            var markerLng = marker<%=i%>.position.D;
 
-            for( i =0; i< region.length;i++) {
+            for (i = 0; i < region.length; i++) {
                 var isWithin = region[i].containsLatLng(markerLat, markerLng);
-                if(isWithin)
-                {
+                if (isWithin) {
                     document.getElementById('info-box').textContent =
-                            'Neighbourhood: '+boundaryJSON.features[i].properties.name;
+                            'Neighbourhood: ' + boundaryJSON.features[i].properties.name;
                 }
             }
 
@@ -115,7 +110,7 @@
                 region[j].setMap(map);
 
 
-                google.maps.event.addListener(region[j], 'mouseover', function(event) {
+                google.maps.event.addListener(region[j], 'mouseover', function (event) {
                     isWithInVancouver(event.latLng.k, event.latLng.D);
                 });
                 google.maps.event.addListener(region[j], 'mouseout', function (event) {
@@ -129,7 +124,7 @@
         });
     }
 
-    function isWithInVancouver(lat,lng) {
+    function isWithInVancouver(lat, lng) {
 
         for (i = 0; i < region.length; i++) {
             var isWithin = region[i].containsLatLng(lat, lng);
@@ -142,10 +137,9 @@
         return false;
     }
 
-    function getARegionByName(name){
-        for( i =0; i< region.length;i++) {
-            if(name==boundaryJSON.features[i].properties.name)
-            {
+    function getARegionByName(name) {
+        for (i = 0; i < region.length; i++) {
+            if (name == boundaryJSON.features[i].properties.name) {
                 return region[i];
             }
         }
@@ -156,19 +150,18 @@
         for (var i = 0; i < markers.length; i++) {
             markers[i].setMap(map);
         }
-       // console.log(markers[0]);
+        // console.log(markers[0]);
     }
 
-    function setRegionMarkersOnMap(map,regionName){
-        for(var i = 0; i < markers.length; i++){
+    function setRegionMarkersOnMap(map, regionName) {
+        for (var i = 0; i < markers.length; i++) {
             var markerLat = markers[i].position.k;
-            var markerLng =markers[i].position.D;
+            var markerLng = markers[i].position.D;
 
             var region = getARegionByName(regionName);
 
-            var isWithin = region.containsLatLng(markerLat,  markerLng);
-            if( isWithin)
-            {
+            var isWithin = region.containsLatLng(markerLat, markerLng);
+            if (isWithin) {
                 markers[i].setMap(map);
             }
         }
@@ -186,7 +179,7 @@
         map.setCenter(new google.maps.LatLng(49.246292, -123.116226));
     }
 
-    function changeCentre(map,regionName) {
+    function changeCentre(map, regionName) {
         var region = getARegionByName(regionName);
         map.setZoom(14);
         map.setCenter(region.getBounds().getCenter());
@@ -194,21 +187,20 @@
     }
 
 
-
     //initialize();
     google.maps.event.addDomListener(window, 'load', initialize);
 
-    function getRegions(){
+    function getRegions() {
         var regionList = document.getElementById("regionSelect");
         var selectedRegionName = regionList.options[regionList.selectedIndex].value;
 
         clearCircle();
-        if(selectedRegionName!="Select Neighbourhood" && selectedRegionName!="SHOW ALL") {
+        if (selectedRegionName != "Select Neighbourhood" && selectedRegionName != "SHOW ALL") {
             clearAllMarkers();
             setRegionMarkersOnMap(map, selectedRegionName);
             changeCentre(map, selectedRegionName);
         }
-        else if(selectedRegionName=="SHOW ALL"){
+        else if (selectedRegionName == "SHOW ALL") {
             clearAllMarkers();
             showAllMarkers();
         }
@@ -216,20 +208,22 @@
 
 
     // Hide all comments initially
-    jQuery('document').ready(function() {
+    jQuery('document').ready(function () {
         jQuery('.comment').hide();
     });
 
     //Display the comments for the selected region on region selection click
-    function getRegionComments(){
+    function getRegionComments() {
         var regionList = document.getElementById("regionSelect");
         var selectedRegionName = regionList.options[regionList.selectedIndex].value;
-        if(selectedRegionName!="Select Neighbourhood" && selectedRegionName!="SHOW ALL") {
+        if (selectedRegionName != "Select Neighbourhood" && selectedRegionName != "SHOW ALL") {
             jQuery('.comment').hide();
 
             // hack to deal with regions that have 2 words
             var rname = selectedRegionName.substr(0, selectedRegionName.indexOf(' '));
-            if (rname.length==0) {rname=selectedRegionName;}
+            if (rname.length == 0) {
+                rname = selectedRegionName;
+            }
             var cname = '.comment.' + rname;
             jQuery(cname).show();
 
@@ -237,7 +231,6 @@
             changeCentre(map, selectedRegionName);
         }
     }
-
 
 
     function getLocation() {
@@ -249,19 +242,11 @@
     }
     var cityCircle;
     function showPosition(position) {
-        var radius = prompt("Please enter a metre radius, between 100 and 5000:", "100");
-
-        if(!radius){
-            document.getElementById('info-box').textContent = "CANCELLED!";
-        }
-        else if (radius < 100 || radius > 2000) {
-            document.getElementById('info-box').textContent = "INVALID RADIUS!Must be 100-2000m";
-        }
-        else {
-            var curLatLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-            displayCrimeByRadius(curLatLng, radius);
-        }
+        var radius = inputRadius();
+        if(radius)
+            displayCrimeInVancouver(position.coords.latitude, position.coords.longitude,radius);
     }
+
 
     function clearCircle() {
         if (cityCircle != null)
@@ -282,13 +267,12 @@
 
         cityCircle = new google.maps.Circle(nearCrimeOptions);
         clearAllMarkers();
+
         var markerIsInsideCircle;
-        var countMarkerInsideCircle=0;
+        var countMarkerInsideCircle = 0;
         for (var i = 0; i < markers.length; i++) {
-            var markerLat = markers[i].position.k;
-            var markerLng = markers[i].position.D;
-            var markerLatLng = new google.maps.LatLng(markerLat, markerLng);
-            markerIsInsideCircle= google.maps.geometry.spherical.computeDistanceBetween(cityCircle.getCenter(), markerLatLng) <= cityCircle.getRadius();
+            var markerLatLng = new google.maps.LatLng(markers[i].position.k, markers[i].position.D);
+            markerIsInsideCircle = google.maps.geometry.spherical.computeDistanceBetween(cityCircle.getCenter(), markerLatLng) <= cityCircle.getRadius();
             if (markerIsInsideCircle) {
                 countMarkerInsideCircle++;
                 markers[i].setMap(map);
@@ -298,9 +282,10 @@
         isSafeToPark(countMarkerInsideCircle);
 
         map.setCenter(cityCircle.getCenter());
-        if(radius < 500)
+
+        if (radius < 500)
             map.setZoom(16);
-        else if(radius < 1000)
+        else if (radius < 1000)
             map.setZoom(15);
         else
             map.setZoom(14);
@@ -309,7 +294,7 @@
     }
 
     function showError(error) {
-        switch(error.code) {
+        switch (error.code) {
             case error.PERMISSION_DENIED:
                 document.getElementById('info-box').textContent = "User denied the request for Geolocation.";
                 break;
@@ -320,71 +305,83 @@
                 document.getElementById('info-box').textContent = "The request to get user location timed out.";
                 break;
             case error.UNKNOWN_ERROR:
-                document.getElementById('info-box').textContent  = "An unknown error occurred.";
+                document.getElementById('info-box').textContent = "An unknown error occurred.";
                 break;
         }
     }
 
-    function searchCrime(){
-        var numCrime;
-        var address = prompt("What's your address in Vancouver, BC?","500 Broadway Avenue");
-        if(address) {
-            var radius = prompt("Please enter a metre radius, between 100 and 5000:", "100");
-
-
-                    if (!radius) {
-                        document.getElementById('info-box').textContent = "CANCELLED!";
-                    }
-                    else if(!isNumber(radius))
-                        document.getElementById('info-box').textContent = "CANCELLED! Radius must be a number.";
-                    else if (radius < 100 || radius > 2000) {
-                        document.getElementById('info-box').textContent = "INVALID RADIUS!Must be 100-2000m";
-                    }
-                    else {
-                        geocoder.geocode({'address': address + ', Vancouver, BC'}, function (results, status) {
-                            if (status == google.maps.GeocoderStatus.OK) {
-                                var isWithinVan=  isWithInVancouver(results[0].geometry.location.k,results[0].geometry.location.D);
-                                if(isWithinVan){
-                                     displayCrimeByRadius(results[0].geometry.location, radius);}
-                                else
-                                {
-                                    document.getElementById('info-box').textContent = "ADDRESS NOT IN VANCOUVER BC!";
-                                }
-                            } else {
-                                alert('Geocode was not successful for the following reason: ' + status);
-                            }
-                        });
-                    }
-
+    function searchCrime() {
+        var address = prompt("What's your address in Vancouver, BC?", "500 Broadway Avenue");
+        if (address) {
+            searchByAddress(address);
         }
-        else{
+        else {
             document.getElementById('info-box').textContent = "CANCELLED!";
+        }
+    }
+
+    function displayCrimeInVancouver(lat, lng, radius) {
+
+        var isWithinVan = isWithInVancouver(lat, lng);
+
+        if (isWithinVan) {
+            displayCrimeByRadius(new google.maps.LatLng(lat, lng), radius);
+        }
+        else {
+            document.getElementById('info-box').textContent = "ADDRESS NOT IN VANCOUVER BC!";
+        }
+    }
+    function inputRadius() {
+        var radius = prompt("Please enter a metre radius, between 100 and 5000:", "100");
+
+        if (!radius) {
+            document.getElementById('info-box').textContent = "CANCELLED!";
+        }
+        else if (!isNumber(radius))
+            document.getElementById('info-box').textContent = "CANCELLED! Radius must be a number.";
+        else if (radius < 100 || radius > 2000) {
+            document.getElementById('info-box').textContent = "INVALID RADIUS!Must be 100-2000m";
+        }
+        else {
+            return radius;
+        }
+
+        return null;
+    }
+    function searchByAddress(address) {
+        var radius = inputRadius();
+        if (radius) {
+            geocoder.geocode({'address': address + ', Vancouver, BC'}, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    displayCrimeInVancouver(results[0].geometry.location.k, results[0].geometry.location.D, radius);
+                } else {
+                    alert('Geocode was not successful for the following reason: ' + status);
+                }
+            });
+
         }
 
     }
 
-    function isSafeToPark(numCrime){
+    function isSafeToPark(numCrime) {
         var colour = 'Green';
 
-        if (numCrime>30){
+        if (numCrime > 30) {
             document.getElementById('info-box').textContent = "Don't park here!!";
             colour = 'Red';
-        } else if (numCrime>20){
+        } else if (numCrime > 20) {
             document.getElementById('info-box').textContent = "Be careful, crimes in given radius!";
             colour = 'Orange';
         }
-        else if (numCrime>5)
-        {
+        else if (numCrime > 5) {
             document.getElementById('info-box').textContent = "Okay, some crimes in given radius.";
             colour = 'Yellow';
         }
-        else if(numCrime>0)
-        {
+        else if (numCrime > 0) {
             document.getElementById('info-box').textContent = "Safe, few crimes in given radius.";
             colour = '#CCFF00';
         }
-        else
-        {
+        else {
             colour = 'Green';
             document.getElementById('info-box').textContent = "VERY safe, no crime at all in given radius!";
         }
@@ -396,16 +393,11 @@
     }
 
     function isNumber(input) {
-         return (input - 0) == input && (''+input).trim().length > 0;
+        return (input - 0) == input && ('' + input).trim().length > 0;
     }
 
 
-
-
-
-
 </script>
-
 
 
 <div id="panel" align="center">
@@ -417,13 +409,13 @@
 
 <div align="center">
     <select id="regionSelect" onchange="getRegions();getRegionComments();">
-        <option >Select Neighbourhood</option>
-        <option >SHOW ALL</option>
+        <option>Select Neighbourhood</option>
+        <option>SHOW ALL</option>
 
-        <%for(var i in regions){%>
+        <% for(var i in regions){ %>
 
-        <option value="<%=regions[i].name%>"><%=regions[i].name%></option>
-        <%}%>
+        <option value="<%= regions[i].name %>"><%= regions[i].name %></option>
+        <% } %>
 
     </select>
 </div>
@@ -432,70 +424,51 @@
 <br>
 <div id="comments">
     <h3>Comments:</h3>
+
     <div id="submit-new-comment" align="right"><a href="/comment">Submit a new comment</a></div>
 
-    <%for(var i in comments){%>
+    <% for(var i in comments){ %>
 
-             <div class="comment <%=comments[i].region%>" id = "comment-<%=comments[i].region%>">
+    <div class="comment <%= comments[i].region %>" id="comment-<%= comments[i].region %>">
 
-             <div class="comment-title">
-                 <script>
+        <div class="comment-title">
 
-                     function openFbPopUp(bodypos) {
-                         var body;
-                         console.log(bodypos);
-                         var mapRegion = getARegionByName('<%=comments[i].region%>').getBounds().getCenter();
+            <script>
 
-                         <%for(var j in comments){%>
-                         if(bodypos=='<%=j%>')
-                         {
-                             body = '<%=comments[j].body%>';
-                         }
+                function openFbPopUp(bodypos) {
+                    var body, region;
 
-                         <%}%>
+                    <%for(var j in comments){%>
+                    if (bodypos == '<%=j%>') {
+                        body = '<%=comments[j].body%>';
+                        region = '<%=comments[j].region%>'
+                    }
+                    <%}%>
+                    fbDialog(body, region);
+                }
 
-                         FB.ui(
-                                 {
-                                     method: 'feed',
-                                     name: 'CarSafeApp',
-                                     link: 'http://carsafeapp.heroku.com/',
-                                     picture: 'http://carsafeapp.heroku.com/img/CarSafe-SM.png',
-                                     caption: 'I just posted a comment in '+ '<%=comments[i].region%>' + ' neighbourhood!',
-                                     description: body
-                                 },
-                                 function(response) {
-                                     if (response && response.post_id) {
-                                         alert('Post was published.');
-                                     } else {
-                                         alert('Post was not published.');
-                                     }
-                                 }
-                         );
-                     }
-                 </script>
-                 <h3><u><%=comments[i].title%></u></h3>
-             </div>
-            <div class="comment-user">
-                <i>User: <%=comments[i].creator.name%></i>
-            </div>
-             <div class="comment-body">
-                 <%=comments[i].body%>
-             </div>
-             <img src="/img/facebook.png" onclick="openFbPopUp(<%=i%>);">
-             <a class="twitter-share-button"
-                data-text="<%=comments[i].body%>"
-                data-count="none"
-                data-hashtags="CarSafe, Vancouver"
-                href="https://twitter.com/share">
-                 Tweet
-             </a>
-             <script>
-                 window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return t;js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);t._e=[];t.ready=function(f){t._e.push(f);};return t;}(document,"script","twitter-wjs"));
-             </script>
-             <br>
+            </script>
+            <h3><u><%= comments[i].title %></u></h3>
+        </div>
+        <div class="comment-user">
+            <i>User: <%= comments[i].creator.name %></i>
+        </div>
+        <div class="comment-body">
+            <%= comments[i].body %>
+        </div>
+        <img src="/img/facebook.png" onclick="openFbPopUp(<%= i %>);">
+        <a class="twitter-share-button"
+           data-text="<%= comments[i].body %>"
+           data-count="none"
+           data-hashtags="CarSafe, Vancouver"
+           href="https://twitter.com/share">
+            Tweet
+        </a>
+        <script src="/javascripts/module/twitter/tweet.js"></script>
+        <br>
 
-         </div>
-    <%}%>
+    </div>
+    <% } %>
 
 </div>
 

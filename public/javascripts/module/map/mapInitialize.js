@@ -1,19 +1,16 @@
 /**
- * Created by Edward on 3/19/2015.
+ * Created by Edward on 4/1/2015.
  */
-var map;
 function mapInitialize() {
+
     var mapOptions = {
-        zoom: 11,
+        zoom: 12,
         center: new google.maps.LatLng(49.246292, -123.116226)
     };
 
-
-
+    geocoder = new google.maps.Geocoder();
     map = new google.maps.Map(document.getElementById('map-canvas'),
         mapOptions);
-
-    return map;
 }
 
-google.maps.event.addDomListener(window, 'load', initialize);
+google.maps.event.addDomListener(window, 'load', mapInitialize);
