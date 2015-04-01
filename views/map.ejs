@@ -15,7 +15,7 @@
 
         var mapOptions = {
             zoom: 12,
-            center: new google.maps.LatLng(49.246292, -123.116226)
+            center: new google.maps.LatLng(49.246292, -123.116226);
         };
 
         geocoder = new google.maps.Geocoder();
@@ -61,7 +61,7 @@
 
             boundaryJSON = toGeoJSON.kml(xml);
 
-            console.log(boundaryJSON);
+            //console.log(boundaryJSON);
 
             for (j = 0; j < boundaryJSON.features.length; j++) {
                 var polygonPaths = [];
@@ -133,7 +133,7 @@
         for (var i = 0; i < markers.length; i++) {
             markers[i].setMap(map);
         }
-        console.log(markers[0]);
+       // console.log(markers[0]);
     }
 
     function setRegionMarkersOnMap(map,regionName){
@@ -224,13 +224,18 @@
     }
     var cityCircle;
     function showPosition(position) {
-        var radius = 0;
-        while (radius <= 0 || radius > 10) {
-            radius = prompt("Please enter the radius:(in km)", "");
+        var radius = prompt("Please enter a radius:(in km)", "1");
+
+        if(!radius){
+            document.getElementById('info-box').textContent = "CANCELLED!";
         }
-        var isWithin = false;
-        var curLatLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-        displayByRadius(curLatLng,radius);
+        else if (radius < 0 || radius > 10) {
+            document.getElementById('info-box').textContent = "INVALID RADIUS!";
+        }
+        else {
+            var curLatLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+            displayByRadius(curLatLng, radius);
+        }
     }
 
     function displayByRadius(latlng,radius){
@@ -289,20 +294,29 @@
 
     function searchCrime(){
 
-        var address = prompt("Please enter an address in BC:","500 broadway ave, vancouver");
-        geocoder.geocode( { 'address': address+', BC'}, function(results, status) {
-            if (status == google.maps.GeocoderStatus.OK) {
-                map.setCenter(results[0].geometry.location);
-                var radius = 0;
-                while (radius <= 0 || radius > 10) {
-                    radius = prompt("Please enter the radius:(in km)", "");
-                }
-                displayByRadius(results[0].geometry.location,radius);
-            } else {
-                alert('Geocode was not successful for the following reason: ' + status);
-            }
-        });
 
+        var address = prompt("What's your address in Vancouver, BC?");
+        if(address) {
+            var radius = prompt("Please enter a radius:(in km)", "1");
+            if(!radius){
+                document.getElementById('info-box').textContent = "CANCELLED!";
+            }
+            else if (radius < 0 || radius > 10) {
+                document.getElementById('info-box').textContent = "INVALID RADIUS!";
+            }
+            else {
+                geocoder.geocode({'address': address + ', Vancouver, BC'}, function (results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        displayByRadius(results[0].geometry.location, radius);
+                    } else {
+                        alert('Geocode was not successful for the following reason: ' + status);
+                    }
+                });
+            }
+        }
+        else{
+            document.getElementById('info-box').textContent = "Cancelled.";
+        }
     }
 
 
