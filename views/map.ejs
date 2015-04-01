@@ -95,11 +95,11 @@
                 var currentRegionName = boundaryJSON.features[j].properties.name;
                 region[j] = new google.maps.Polygon({
                     paths: polygonPaths,
-                    strokeColor: '#FF0000',
+                    strokeColor: 'Blue',
                     strokeOpacity: 0.8,
                     strokeWeight: 1,
-                    fillColor: '#FF0000',
-                    fillOpacity: 0.05,
+                    fillColor: 'Blue',
+                    fillOpacity: 0.01,
                     title: currentRegionName
                 });
 
@@ -190,6 +190,8 @@
     function getRegions(){
         var regionList = document.getElementById("regionSelect");
         var selectedRegionName = regionList.options[regionList.selectedIndex].value;
+
+        clearCircle();
         if(selectedRegionName!="Select Neighbourhood" && selectedRegionName!="SHOW ALL") {
             clearAllMarkers();
             setRegionMarkersOnMap(map, selectedRegionName);
@@ -236,58 +238,63 @@
     }
     var cityCircle;
     function showPosition(position) {
-        var radius = prompt("Please enter a radius:(in km)", "1");
+        var radius = prompt("Please enter a radius:(in m)", "100");
 
         if(!radius){
             document.getElementById('info-box').textContent = "CANCELLED!";
         }
-        else if (radius < 0 || radius > 10) {
-            document.getElementById('info-box').textContent = "INVALID RADIUS!";
+        else if (radius < 100 || radius > 5000) {
+            document.getElementById('info-box').textContent = "INVALID RADIUS!Must be 100-5000m";
         }
         else {
             var curLatLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-            displayByRadius(curLatLng, radius);
+            displayCrimeByRadius(curLatLng, radius);
         }
     }
 
-    function displayByRadius(latlng,radius){
-        if(cityCircle!=null)
+    function clearCircle() {
+        if (cityCircle != null)
             cityCircle.setMap(null);
+    }
+    function displayCrimeByRadius(latlng, radius) {
+        clearCircle();
         var nearCrimeOptions = {
             strokeColor: 'blue',
-            strokeOpacity: 0.02,
+            strokeOpacity: 0.3,
             strokeWeight: 1,
             fillColor: 'blue',
-            fillOpacity: 0.05,
+            fillOpacity: 0.20,
             map: map,
             center: latlng,
-            radius: radius * 1000
+            radius: radius * 1
         };
 
         cityCircle = new google.maps.Circle(nearCrimeOptions);
-        setTimeout(function () {
-            this.cityCircle.setMap(null);
-        }, 5000);
         clearAllMarkers();
-        var pointIsInsideCircle;
-        var countPointIsInsideCircle=0;
+        var markerIsInsideCircle;
+        var countMarkerInsideCircle=0;
         for (var i = 0; i < markers.length; i++) {
             var markerLat = markers[i].position.k;
             var markerLng = markers[i].position.D;
             var markerLatLng = new google.maps.LatLng(markerLat, markerLng);
-            pointIsInsideCircle= google.maps.geometry.spherical.computeDistanceBetween(cityCircle.getCenter(), markerLatLng) <= cityCircle.getRadius();
-            if (pointIsInsideCircle) {
-                countPointIsInsideCircle++;
+            markerIsInsideCircle= google.maps.geometry.spherical.computeDistanceBetween(cityCircle.getCenter(), markerLatLng) <= cityCircle.getRadius();
+            if (markerIsInsideCircle) {
+                countMarkerInsideCircle++;
                 markers[i].setMap(map);
             }
         }
-        if(countPointIsInsideCircle==0)
-        {
-            document.getElementById('info-box').textContent = "No crime data in given radius!";
 
-        }
+        isSafeToPark(countMarkerInsideCircle);
+
         map.setCenter(cityCircle.getCenter());
-        map.setZoom(13);
+        if(radius < 500)
+            map.setZoom(16);
+        else if(radius < 1000)
+            map.setZoom(15);
+        else
+            map.setZoom(14);
+
+
     }
 
     function showError(error) {
@@ -308,30 +315,71 @@
     }
 
     function searchCrime(){
-
-
-        var address = prompt("What's your address in Vancouver, BC?");
+        var numCrime;
+        var address = prompt("What's your address in Vancouver, BC?","500 Broadway Avenue");
         if(address) {
-            var radius = prompt("Please enter a radius:(in km)", "1");
-            if(!radius){
-                document.getElementById('info-box').textContent = "CANCELLED!";
-            }
-            else if (radius < 0 || radius > 10) {
-                document.getElementById('info-box').textContent = "INVALID RADIUS!";
-            }
-            else {
-                geocoder.geocode({'address': address + ', Vancouver, BC'}, function (results, status) {
-                    if (status == google.maps.GeocoderStatus.OK) {
-                        displayByRadius(results[0].geometry.location, radius);
-                    } else {
-                        alert('Geocode was not successful for the following reason: ' + status);
+            var radius = prompt("Please enter a radius:(in m)", "100");
+
+
+                    if (!radius) {
+                        document.getElementById('info-box').textContent = "CANCELLED!";
                     }
-                });
-            }
+                    else if(!isNumber(radius))
+                        document.getElementById('info-box').textContent = "CANCELLED! Radius must be a number.";
+                    else if (radius < 100 || radius > 2000) {
+                        document.getElementById('info-box').textContent = "INVALID RADIUS!Must be 100-2000m";
+                    }
+                    else {
+                        geocoder.geocode({'address': address + ', Vancouver, BC'}, function (results, status) {
+                            if (status == google.maps.GeocoderStatus.OK) {
+                                displayCrimeByRadius(results[0].geometry.location, radius);
+                            } else {
+                                alert('Geocode was not successful for the following reason: ' + status);
+                            }
+                        });
+                    }
+
         }
         else{
-            document.getElementById('info-box').textContent = "Cancelled.";
+            document.getElementById('info-box').textContent = "CANCELLED!";
         }
+
+    }
+
+    function isSafeToPark(numCrime){
+        var colour = 'Green';
+
+        if (numCrime>30){
+            document.getElementById('info-box').textContent = "Don't park here!!";
+            colour = 'Red';
+        } else if (numCrime>20){
+            document.getElementById('info-box').textContent = "Be careful, crimes in given radius!";
+            colour = 'Orange';
+        }
+        else if (numCrime>5)
+        {
+            document.getElementById('info-box').textContent = "Okay, some crimes in given radius.";
+            colour = 'Yellow';
+        }
+        else if(numCrime>0)
+        {
+            document.getElementById('info-box').textContent = "Safe, few crimes in given radius.";
+            colour = '#CCFF00';
+        }
+        else
+        {
+            colour = 'Green';
+            document.getElementById('info-box').textContent = "VERY safe, no crime at all in given radius!";
+        }
+
+        cityCircle.setOptions({
+            strokeColor: colour,
+            fillColor: colour
+        });
+    }
+
+    function isNumber(input) {
+         return (input - 0) == input && (''+input).trim().length > 0;
     }
 
 
