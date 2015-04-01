@@ -3,9 +3,17 @@
 <script src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 <script type="text/javascript" src="http://yourjavascript.com/9435251235/togeojson.js"></script>
 <script type="text/javascript" src="http://yourjavascript.com/5525392134/maps-google-polygon-containslatlng.js"></script>
-
-
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=749797938471541&version=v2.3";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
 <script>
+
+
     var map;
     var markers = [];
     var windows = [];
@@ -393,6 +401,9 @@
 
 
 
+
+
+
 </script>
 
 
@@ -425,11 +436,43 @@
 
     <%for(var i in comments){%>
 
-
-         <div class="comment <%=comments[i].region%>" id = "comment-<%=comments[i].region%>">
-
+             <div class="comment <%=comments[i].region%>" id = "comment-<%=comments[i].region%>">
 
              <div class="comment-title">
+                 <script>
+
+                     function openFbPopUp(bodypos) {
+                         var body;
+                         console.log(bodypos);
+                         var mapRegion = getARegionByName('<%=comments[i].region%>').getBounds().getCenter();
+
+                         <%for(var j in comments){%>
+                         if(bodypos=='<%=j%>')
+                         {
+                             body = '<%=comments[j].body%>';
+                         }
+
+                         <%}%>
+
+                         FB.ui(
+                                 {
+                                     method: 'feed',
+                                     name: 'CarSafeApp',
+                                     link: 'http://carsafeapp.heroku.com/',
+                                     picture: 'http://carsafeapp.heroku.com/img/CarSafe-SM.png',
+                                     caption: 'I just posted a comment in '+ '<%=comments[i].region%>' + ' neighbourhood!',
+                                     description: body
+                                 },
+                                 function(response) {
+                                     if (response && response.post_id) {
+                                         alert('Post was published.');
+                                     } else {
+                                         alert('Post was not published.');
+                                     }
+                                 }
+                         );
+                     }
+                 </script>
                  <h3><u><%=comments[i].title%></u></h3>
              </div>
             <div class="comment-user">
@@ -438,6 +481,7 @@
              <div class="comment-body">
                  <%=comments[i].body%>
              </div>
+             <img src="/img/facebook.png" onclick="openFbPopUp(<%=i%>);">
              <a class="twitter-share-button"
                 data-text="<%=comments[i].body%>"
                 data-count="none"
