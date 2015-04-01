@@ -11,6 +11,7 @@
     var windows = [];
     var boundaryJSON;
     var region = [], opened_info;
+
     function initialize() {
 
         var mapOptions = {
@@ -107,18 +108,7 @@
 
 
                 google.maps.event.addListener(region[j], 'mouseover', function(event) {
-
-                    for( i =0; i< region.length;i++) {
-                        var isWithin = region[i].containsLatLng(event.latLng.k, event.latLng.D);
-                        if( isWithin)
-                        {
-                            document.getElementById('info-box').textContent =
-                                    'Neighbourhood: '+boundaryJSON.features[i].properties.name;
-                            break;
-                        }
-                    }
-
-
+                    isWithInVancouver(event.latLng.k, event.latLng.D);
                 });
                 google.maps.event.addListener(region[j], 'mouseout', function (event) {
                     document.getElementById('info-box').textContent =
@@ -129,6 +119,19 @@
 
 
         });
+    }
+
+    function isWithInVancouver(lat,lng) {
+
+        for (i = 0; i < region.length; i++) {
+            var isWithin = region[i].containsLatLng(lat, lng);
+            if (isWithin) {
+                document.getElementById('info-box').textContent =
+                        'Neighbourhood: ' + boundaryJSON.features[i].properties.name;
+                return true;
+            }
+        }
+        return false;
     }
 
     function getARegionByName(name){
@@ -243,8 +246,8 @@
         if(!radius){
             document.getElementById('info-box').textContent = "CANCELLED!";
         }
-        else if (radius < 100 || radius > 5000) {
-            document.getElementById('info-box').textContent = "INVALID RADIUS!Must be 100-5000m";
+        else if (radius < 100 || radius > 2000) {
+            document.getElementById('info-box').textContent = "INVALID RADIUS!Must be 100-2000m";
         }
         else {
             var curLatLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
@@ -332,7 +335,13 @@
                     else {
                         geocoder.geocode({'address': address + ', Vancouver, BC'}, function (results, status) {
                             if (status == google.maps.GeocoderStatus.OK) {
-                                displayCrimeByRadius(results[0].geometry.location, radius);
+                                var isWithinVan=  isWithInVancouver(results[0].geometry.location.k,results[0].geometry.location.D);
+                                if(isWithinVan){
+                                     displayCrimeByRadius(results[0].geometry.location, radius);}
+                                else
+                                {
+                                    document.getElementById('info-box').textContent = "ADDRESS NOT IN VANCOUVER BC!";
+                                }
                             } else {
                                 alert('Geocode was not successful for the following reason: ' + status);
                             }
