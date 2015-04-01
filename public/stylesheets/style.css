@@ -131,3 +131,7 @@ ul {
 #submit-new-comment {
     width:725px;
 }
+
+#comments .comment {
+    margin-bottom:15px;
+}

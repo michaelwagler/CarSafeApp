@@ -3,8 +3,9 @@
 <script src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 <script type="text/javascript" src="http://yourjavascript.com/9435251235/togeojson.js"></script>
 <script type="text/javascript" src="http://yourjavascript.com/5525392134/maps-google-polygon-containslatlng.js"></script>
-<script>
 
+
+<script>
 
     var map;
     var markers = [];
@@ -300,16 +301,16 @@
     function showError(error) {
         switch(error.code) {
             case error.PERMISSION_DENIED:
-                document.getElementById('info-box').textContent = "User denied the request for Geolocation."
+                document.getElementById('info-box').textContent = "User denied the request for Geolocation.";
                 break;
             case error.POSITION_UNAVAILABLE:
-                document.getElementById('info-box').textContent = "Location information is unavailable."
+                document.getElementById('info-box').textContent = "Location information is unavailable.";
                 break;
             case error.TIMEOUT:
-                document.getElementById('info-box').textContent = "The request to get user location timed out."
+                document.getElementById('info-box').textContent = "The request to get user location timed out.";
                 break;
             case error.UNKNOWN_ERROR:
-                document.getElementById('info-box').textContent  = "An unknown error occurred."
+                document.getElementById('info-box').textContent  = "An unknown error occurred.";
                 break;
         }
     }
@@ -318,7 +319,7 @@
         var numCrime;
         var address = prompt("What's your address in Vancouver, BC?","500 Broadway Avenue");
         if(address) {
-            var radius = prompt("Please enter a radius:(in m)", "100");
+            var radius = prompt("Please enter a metre radius:", "100");
 
 
                     if (!radius) {
@@ -417,6 +418,7 @@
     <%for(var i in comments){%>
          <div class="comment <%=comments[i].region%>" id = "comment-<%=comments[i].region%>">
 
+
              <div class="comment-title">
                  <h3><u><%=comments[i].title%></u></h3>
              </div>
@@ -425,7 +427,19 @@
             </div>
              <div class="comment-body">
                  <%=comments[i].body%>
-             </div><br>
+             </div>
+             <a class="twitter-share-button"
+                data-text="<%=comments[i].body%>"
+                data-count="none"
+                data-hashtags="CarSafe, Vancouver"
+                href="https://twitter.com/share">
+                 Tweet
+             </a>
+             <script>
+                 window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return t;js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);t._e=[];t.ready=function(f){t._e.push(f);};return t;}(document,"script","twitter-wjs"));
+             </script>
+             <br>
+
          </div>
     <%}%>
 
