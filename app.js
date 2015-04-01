@@ -10,7 +10,7 @@ var flash = require('connect-flash');
 var config = require('./config');
 var mongoose = require('mongoose');
 var app = express();
-
+var appRoot = require('app-root-path');
 
 
 //console.log(path.dirname(require.main.filename));
@@ -47,6 +47,9 @@ process.on('SIGINT', function() {
         process.exit(0);
     });
 });
+
+// set favicon
+app.use(favicon(appRoot+"/public/img/favicon.ico"));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
