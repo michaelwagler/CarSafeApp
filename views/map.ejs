@@ -50,6 +50,21 @@
                 }, 3500);
             });
 
+        google.maps.event.addListener(marker<%=i%>, 'mouseover', function() {
+            var markerLat = marker<%=i%>.position.k;
+            var markerLng =marker<%=i%>.position.D;
+
+            for( i =0; i< region.length;i++) {
+                var isWithin = region[i].containsLatLng(markerLat, markerLng);
+                if(isWithin)
+                {
+                    document.getElementById('info-box').textContent =
+                            'Neighbourhood: '+boundaryJSON.features[i].properties.name;
+                }
+            }
+
+        });
+
         google.maps.event.addListener(map, "click", function (event) {
             window<%=i%>.close();
         });
@@ -87,10 +102,6 @@
                     title: currentRegionName
                 });
 
-
-                region[j].infowindow = new google.maps.InfoWindow({
-                    content: 'Neighbourhood: ' + currentRegionName
-                });
                 region[j].setMap(map);
 
 
@@ -108,7 +119,7 @@
 
 
                 });
-                google.maps.event.addListener(map, 'mouseover', function (event) {
+                google.maps.event.addListener(region[j], 'mouseout', function (event) {
                     document.getElementById('info-box').textContent =
                             'Not in a region of Vancouver';
                 });
@@ -258,18 +269,21 @@
         }, 5000);
         clearAllMarkers();
         var pointIsInsideCircle;
+        var countPointIsInsideCircle=0;
         for (var i = 0; i < markers.length; i++) {
             var markerLat = markers[i].position.k;
             var markerLng = markers[i].position.D;
             var markerLatLng = new google.maps.LatLng(markerLat, markerLng);
             pointIsInsideCircle= google.maps.geometry.spherical.computeDistanceBetween(cityCircle.getCenter(), markerLatLng) <= cityCircle.getRadius();
             if (pointIsInsideCircle) {
+                countPointIsInsideCircle++;
                 markers[i].setMap(map);
             }
         }
-        if(!pointIsInsideCircle)
+        if(countPointIsInsideCircle==0)
         {
             document.getElementById('info-box').textContent = "No crime data in given radius!";
+
         }
         map.setCenter(cityCircle.getCenter());
         map.setZoom(13);
