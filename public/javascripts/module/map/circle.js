@@ -36,7 +36,7 @@ function markersInsideCircle(){
 }
 
 function inputRadius() {
-    var radius = prompt("Please enter a metre radius, between 100 and 5000:", "100");
+    var radius = prompt("Please enter a metre radius, between 100 and 2000:", "100");
 
     if (!radius) {
         document.getElementById('info-box').textContent = "CANCELLED!";

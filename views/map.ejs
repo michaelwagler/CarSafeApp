@@ -25,12 +25,16 @@
     var regions = [], opened_info;
     var cityCircle;
     var geocoder;
+
+    // Hide all comments initially
+    hideAllComments();
+
     //initialize();
     google.maps.event.addDomListener(window, 'load', initialize);
 
     function initialize() {
-        mapInit();
 
+        mapInit();
         <%for(var i in crimes) {%>
 
         var contentString<%=i%> = 'Address: <%=crimes[i].address%> ';
@@ -46,8 +50,6 @@
         setupMarkerListener(marker,window,regions);
         <%}%>
 
-        // Hide all comments initially
-        hideAllComments();
 
     }
 

@@ -8,7 +8,7 @@ function fbDialog(commentBody,commentRegion) {
             name: 'CarSafeApp',
             link: 'http://carsafeapp.heroku.com/',
             picture: 'http://carsafeapp.heroku.com/img/CarSafe-SM.png',
-            caption: 'I just posted a comment in ' +commentRegion + ' neighbourhood!',
+            caption: 'I just shared a comment in ' +commentRegion + ' neighbourhood!',
             description: commentBody
         },
         function (response) {
