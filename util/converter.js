@@ -105,14 +105,15 @@ function saveCrimes(jArray) {
 
 //read from file
 function parseData(){
+    parseDataHelper(csvFileName);
+}
+
+function parseDataHelper(fileName){
 
 //new Converter instance
     var param={};
-
-    csvConverter=new Converter(param);
-
-    var fileStream=fs.createReadStream(csvFileName);
-    fileStream.pipe(csvConverter);
+    var csvConverter=new Converter(param);
+    var fileStream=fs.createReadStream(fileName);
 
     //end_parsed will be emitted once parsing finished
 
@@ -121,11 +122,14 @@ function parseData(){
             return (item.TYPE == "Theft Of Auto Under $5000" || item.TYPE == "Theft Of Auto Over $5000");
         });
         filtr(filtered);
-        //console.log(filtered);
         saveCrimes(filtered);
         csvConverter.end();
     });
+    fileStream.pipe(csvConverter);
+
 
 }
 
-module.exports = {parseData: parseData};
+
+
+module.exports = {parseData: parseData, parseDataHelper: parseDataHelper};

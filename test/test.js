@@ -30,7 +30,7 @@ describe("Testing http requests", function() {
                 assert.fail('error in http request', err);
             }
             expect(res.status).to.equal(200);
-            expect(res.text).to.contain("Welcome");
+            expect(res.text).to.contain("CarSafe");
             done();
         });
     });
