@@ -37,7 +37,8 @@ function searchByAddress(address) {
     if (radius) {
         geocoder.geocode({'address': address + ', Vancouver, BC'}, function (results, status) {
             if (status == google.maps.GeocoderStatus.OK) {
-                displayCrimeInVancouverBySomeRadius(results[0].geometry.location.k, results[0].geometry.location.D, radius);
+                console.log(results[0].geometry.location);
+                displayCrimeInVancouverBySomeRadius(results[0].geometry.location.A, results[0].geometry.location.F, radius);
             } else {
                 alert('Geocode was not successful for the following reason: ' + status);
             }
