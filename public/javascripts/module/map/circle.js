@@ -25,7 +25,7 @@ function markersInsideCircle(){
     var markerIsInsideCircle;
     var countMarkerInsideCircle = 0;
     for (var i = 0; i < markers.length; i++) {
-        var markerLatLng = new google.maps.LatLng(markers[i].position.k, markers[i].position.D);
+        var markerLatLng = new google.maps.LatLng(markers[i].position.lat(), markers[i].position.lng());
         markerIsInsideCircle = google.maps.geometry.spherical.computeDistanceBetween(cityCircle.getCenter(), markerLatLng) <= cityCircle.getRadius();
         if (markerIsInsideCircle) {
             countMarkerInsideCircle++;
