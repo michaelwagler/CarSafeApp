@@ -58,7 +58,7 @@ function isSafeToPark(numCrime) {
 
 function displayCrimeInVancouverBySomeRadius(lat, lng, radius) {
 
-    var isWithinVan = isWithInVancouver(lat, lng);
+    var isWithinVan = isWithInVancouver(new google.maps.LatLng(lat, lng));
 
     if (isWithinVan) {
         displayCrimeByRadius(new google.maps.LatLng(lat, lng), radius);

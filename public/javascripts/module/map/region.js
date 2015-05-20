@@ -53,22 +53,24 @@ function getJSON(){
 
 function setUpRegionEvent(region){
     google.maps.event.addListener(region, 'mouseover', function (event) {
-        isWithInVancouver(event.latLng.k, event.latLng.D);
+
+        isWithInVancouver(event.latLng);
     });
     google.maps.event.addListener(region, 'mouseout', function (event) {
         document.getElementById('info-box').textContent =
-            'Not in a regions of Vancouver';
+            'Not in a region of Vancouver';
     });
 }
 
 
-function isWithInVancouver(lat, lng) {
+function isWithInVancouver(latLng) {
 
     for (i = 0; i < regions.length; i++) {
-        var isWithin = regions[i].containsLatLng(lat, lng);
+        var isWithin = google.maps.geometry.poly.containsLocation(latLng, regions[i]);
         if (isWithin) {
             document.getElementById('info-box').textContent =
                 'Neighbourhood: ' + boundaryJSON.features[i].properties.name;
+
             return true;
         }
     }
