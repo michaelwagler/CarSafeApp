@@ -33,8 +33,12 @@ function setupMarkerListener(marker,window,region){
     });
 
     google.maps.event.addListener(marker, 'mouseover', function () {
-        var markerLat = marker.position.k;
-        var markerLng = marker.position.D;
+        //var markerLat =marker.position.k;
+        //var markerLng = marker.position.D;
+
+        var markerLat =marker.position.lat();
+        var markerLng = marker.position.lng();
+        //console.log('mousing over a marker with coords lat:' + markerLat + ", lng: " + markerLng);
 
         for (i = 0; i < region.length; i++) {
             var isWithin = region[i].containsLatLng(markerLat, markerLng);
@@ -63,8 +67,10 @@ function setMarkersOnMap(map) {
 
 function setRegionMarkersOnMap(map, regionName) {
     for (var i = 0; i < markers.length; i++) {
-        var markerLat = markers[i].position.k;
-        var markerLng = markers[i].position.D;
+        //var markerLat = markers[i].position.k;
+        //var markerLng = markers[i].position.D;
+        var markerLat = markers[i].position.lat();
+        var markerLng = markers[i].position.lng();
 
         var region = getARegionByName(regionName);
 

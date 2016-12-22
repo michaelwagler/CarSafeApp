@@ -12,7 +12,7 @@ function getLocation() {
 function showPosition(position) {
     var radius = inputRadius();
     if(radius)
-        displayCrimeInVancouverBySomeRadius(position.coords.latitude, position.coords.longitude,radius);
+        displayCrimeInVancouverBySomeRadius(position.lat(), position.lng() ,radius);
 }
 
 function showError(error) {
@@ -37,8 +37,8 @@ function searchByAddress(address) {
     if (radius) {
         geocoder.geocode({'address': address + ', Vancouver, BC'}, function (results, status) {
             if (status == google.maps.GeocoderStatus.OK) {
-                console.log(results[0].geometry.location);
-                displayCrimeInVancouverBySomeRadius(results[0].geometry.location.A, results[0].geometry.location.F, radius);
+                displayCrimeInVancouverBySomeRadius(results[0].geometry.location.lat(), results[0].geometry.location.lng(), radius);
+
             } else {
                 alert('Geocode was not successful for the following reason: ' + status);
             }

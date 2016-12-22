@@ -42,6 +42,7 @@
         var monthString<%=i%> = 'Month: <%=crimes[i].month%>';
 
         var latLng = new google.maps.LatLng(<%=crimes[i].lat%>, <%=crimes[i].long%>);
+        //console.log("google maps latlng: " + latLng);
         var window = setUpInfoWindow(contentString<%=i%>,typeString<%=i%>,monthString<%=i%>);
         var marker=  setUpAMarker( 'Address: <%=crimes[i].address%> ', latLng);
         markers.push(marker);
