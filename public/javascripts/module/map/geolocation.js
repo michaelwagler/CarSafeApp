@@ -12,7 +12,7 @@ function getLocation() {
 function showPosition(position) {
     var radius = inputRadius();
     if(radius)
-        displayCrimeInVancouverBySomeRadius(position.lat(), position.lng() ,radius);
+        displayCrimeInVancouverBySomeRadius(position.coords.latitude, position.coords.longitude, radius);
 }
 
 function showError(error) {
